@@ -10,14 +10,14 @@
     <string name="start_button">START</string>
     
     <string-array name="spinner_choices">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Computer Science</item>
+        <item>Engineering</item>
+        <item>Mathematics</item>
+        <item>Languages</item>
+        <item>Biology</item>
+        <item>Medicine</item>
+        <item>Phylosophy</item>
+        <item>Other</item>
     </string-array>
         
         <string name="Hard">Hard</string>
