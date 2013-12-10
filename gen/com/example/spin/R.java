@@ -44,14 +44,15 @@ public final class R {
     }
     public static final class string {
         public static final int Difficulty=0x7f050003;
-        public static final int Easy=0x7f050008;
-        public static final int Hard=0x7f050006;
-        public static final int Medium=0x7f050007;
+        public static final int Easy=0x7f050009;
+        public static final int Hard=0x7f050007;
+        public static final int Medium=0x7f050008;
         public static final int MediumText=0x7f050002;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int spinner_text=0x7f050004;
         public static final int start_button=0x7f050005;
+        public static final int toast_text=0x7f050006;
     }
     public static final class style {
         /** 
