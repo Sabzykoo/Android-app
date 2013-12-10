@@ -3,19 +3,19 @@ package com.example.spin;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.RadioGroup;
 
 
 public class MainActivity extends Activity {
 	
 	private Button mStartButton;
-	private 
-	
+	private RadioGroup mRadioGroup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-			
 	}
 
 	@Override
