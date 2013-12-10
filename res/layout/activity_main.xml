@@ -14,26 +14,28 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <RadioGroup
+        android:id="@+id/radioDifficulty"
         android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:orientation="vertical" >
         
         <RadioButton
-            android:id="@+id/radioButton1"
+            android:id="@+id/buttonHard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/Hard" />
 
     	<RadioButton
-       		android:id="@+id/radioButton2"
+       		android:id="@+id/buttonMedium"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:text="@string/Medium" />
+        	android:text="@string/Medium"
+        	android:checked="true" />
 
     	<RadioButton
-        	android:id="@+id/radioButton3"
+        	android:id="@+id/buttonEasy"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="@string/Easy" />
@@ -59,7 +61,7 @@
         android:layout_marginTop="26dp" />
     
     <Button 
-        android:id="@+id/button1"
+        android:id="@+id/buttonStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_button" />
