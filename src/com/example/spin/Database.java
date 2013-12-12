@@ -1,5 +1,6 @@
 package com.example.spin;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,14 +21,35 @@ public class Database {
 		public static final String KEY_REPEAT_COLUMN = "ITEM_COLUMN_COLUMN";
 
 		private MyDBOpenHelper myDBOpenHelper;
+		private static String DATABASE_TABLE;
 		
 		// constructor to instantiate open helper
-		public Database(Context context) {
+		public Database(Context context, String table) {
 			
+			DATABASE_TABLE = table;
+			
+			myDBOpenHelper = new MyDBOpenHelper(context,
+					MyDBOpenHelper.DATABASE_NAME, null,
+					MyDBOpenHelper.DATABASE_VERSION);
+			
+		}
+		
+		public void closeDatabase() {
+			myDBOpenHelper.close();
 		}
 		
 		private class MyDBOpenHelper extends SQLiteOpenHelper{
 
+			private static final String DATABASE_NAME = "flashcards.db";
+			private static final int DATABASE_VERSION = 1;
+			
+			// SQL Statement to create a new database.
+			private final String DATABASE_CREATE = "create table "
+					+ DATABASE_TABLE + " (" + KEY_ID
+					+ " integer primary key autoincrement, " + KEY_QUESTION_COLUMN
+					+ " integer, " + KEY_ANSWER_COLUMN + " text not null, "
+					+ KEY_REPEAT_COLUMN + " integer);";
+			
 			public MyDBOpenHelper(Context context, String name,
 					CursorFactory factory, int version) {
 				super(context, name, factory, version);
@@ -35,15 +57,19 @@ public class Database {
 
 			@Override
 			public void onCreate(SQLiteDatabase db) {
-				// TODO Auto-generated method stub
-				
+				db.execSQL(DATABASE_CREATE);
 			}
 
 			@Override
 			public void onUpgrade(SQLiteDatabase db, int oldVersion,
 					int newVersion) {
-				// TODO Auto-generated method stub
-				
+				clear(db);
+			}
+			public void clear(SQLiteDatabase db) {
+				// drop the old table and create a new one
+				db.execSQL("DROP TABLE " + DATABASE_TABLE);
+				// create a new one
+				onCreate(db);
 			}
 			
 		}
