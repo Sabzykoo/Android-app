@@ -43,7 +43,7 @@ public class Database {
 		}
 		
 		public Cursor showAllTables(){
-			SQLiteDatabase DB = myDBOpenHelper.getWritableDatabase();
+			SQLiteDatabase DB = myDBOpenHelper.getReadableDatabase();
 			Cursor c = DB.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 	        c.moveToFirst();
 			return c;
