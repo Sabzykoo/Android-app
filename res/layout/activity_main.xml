@@ -6,7 +6,7 @@
     android:orientation="vertical" >
     
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textDiff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -15,6 +15,7 @@
     
     <RadioGroup
         android:layout_width="183dp"
+        android:id="@+id/radioDifficulty"
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:orientation="vertical" >
@@ -41,7 +42,7 @@
     </RadioGroup>
         
    <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textCat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/MediumText"
@@ -51,17 +52,17 @@
 
 
     <Spinner
-        android:id="@+id/spinner1"
+        android:id="@+id/spinnerCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/spinner_choices" 
         android:prompt="@string/spinner_text"
         android:layout_marginTop="26dp" />
     
     <Button 
-        android:id="@+id/button1"
+        android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_button" />
    
 </LinearLayout>
+

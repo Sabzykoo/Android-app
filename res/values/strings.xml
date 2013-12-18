@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">spin</string>
+    <string name="app_name">Flashcards</string>
     <string name="action_settings">Settings</string>
-    
     <string name="MediumText">Choose a category</string>
     <string name="Difficulty">Choose difficulty</string>
     <string name="spinner_text">Select a category</string>
     <string name="start_button">START</string>
     <string name="toast_text">You have to choose a category or difficulty</string>
-    
+
     <string-array name="spinner_choices">
         <item>Computer science</item>
         <item>Engineering</item>
@@ -20,9 +19,12 @@
         <item>Phylosophy</item>
         <item>Other</item>
     </string-array>
-        
-        <string name="Hard">Hard</string>
-        <string name="Medium">Medium</string>
-        <string name="Easy">Easy</string>
+
+    <string name="Hard">Hard</string>
+    <string name="Medium">Medium</string>
+    <string name="Easy">Easy</string>
+    <string name="title_activity_flashcard">Flashcard</string>
+    <string name="frontText">Proba1</string>
+    <string name="backText">Proba2</string>
 
 </resources>

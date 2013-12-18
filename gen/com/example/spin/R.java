@@ -27,20 +27,28 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090007;
-        public static final int button1=0x7f090006;
-        public static final int radioButton1=0x7f090001;
-        public static final int radioButton2=0x7f090002;
-        public static final int radioButton3=0x7f090003;
-        public static final int spinner1=0x7f090005;
-        public static final int textView1=0x7f090004;
-        public static final int textView2=0x7f090000;
+        public static final int action_settings=0x7f09000d;
+        public static final int main_activity_card_back=0x7f090003;
+        public static final int main_activity_card_face=0x7f090001;
+        public static final int main_activity_root=0x7f090000;
+        public static final int radioButton1=0x7f090007;
+        public static final int radioButton2=0x7f090008;
+        public static final int radioButton3=0x7f090009;
+        public static final int radioDifficulty=0x7f090006;
+        public static final int spinnerCategory=0x7f09000b;
+        public static final int startButton=0x7f09000c;
+        public static final int textBack=0x7f090004;
+        public static final int textCat=0x7f09000a;
+        public static final int textDiff=0x7f090005;
+        public static final int textFront=0x7f090002;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int activity_flashcard=0x7f030000;
+        public static final int activity_main=0x7f030001;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int flashcard=0x7f080000;
+        public static final int main=0x7f080001;
     }
     public static final class string {
         public static final int Difficulty=0x7f050003;
@@ -50,8 +58,11 @@ public final class R {
         public static final int MediumText=0x7f050002;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int backText=0x7f05000c;
+        public static final int frontText=0x7f05000b;
         public static final int spinner_text=0x7f050004;
         public static final int start_button=0x7f050005;
+        public static final int title_activity_flashcard=0x7f05000a;
         public static final int toast_text=0x7f050006;
     }
     public static final class style {
