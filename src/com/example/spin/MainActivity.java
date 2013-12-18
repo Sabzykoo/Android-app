@@ -18,11 +18,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private Button mStartButton;
-	private RadioButton mRadioB;
-	private RadioGroup mRadioDiffGroup;
+	private boolean mChoosen;
 	private String tableName;
 	private Database myDatabase;
-//	private int mDifficulty, mCategory;
 	private boolean mPressedRB = true, mChoosenSpin = true;
 	
 
@@ -46,16 +44,12 @@ public class MainActivity extends Activity {
 		            todoItems.add("No flashcards");
 		
 		        }*/
-		    
-		    Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
-		    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		            R.array.spinner_choices, android.R.layout.simple_spinner_item);
-		    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		    spinner.setAdapter(adapter);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
 		
-		mRadioDiffGroup = (RadioGroup) findViewById(R.id.radioDifficulty);
-		int selectedId = mRadioDiffGroup.getCheckedRadioButtonId();
-		mRadioB = (RadioButton) findViewById(selectedId);
 		
 		mStartButton = (Button)findViewById(R.id.startButton); //setting reference for the "START" button
 		mStartButton.setOnClickListener(new View.OnClickListener(){ //creating a listener object

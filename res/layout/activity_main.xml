@@ -2,67 +2,92 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical" >
     
-    <TextView
-        android:id="@+id/textDiff"
-        android:layout_width="match_parent"
+    <Button 
+        android:id="@+id/downloadButton"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
-        android:text="@string/Difficulty"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="@string/download_button" />
     
-    <RadioGroup
-        android:layout_width="183dp"
-        android:id="@+id/radioDifficulty"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:orientation="vertical" >
-        
-        <RadioButton
-            android:id="@+id/radioButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/Hard" />
-
-    	<RadioButton
-       		android:id="@+id/radioButton2"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/Medium" />
-
-    	<RadioButton
-        	android:id="@+id/radioButton3"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/Easy" />
-    
-    </RadioGroup>
-        
    <TextView
-        android:id="@+id/textCat"
+        android:id="@+id/textSelect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/MediumText"
+        android:text="@string/select_text"
         android:layout_marginTop="26dp"
         android:layout_marginLeft="24dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
 
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:prompt="@string/spinner_text"
+        android:layout_gravity="center_horizontal"
+        android:entries="@array/spinner_choices" 
         android:layout_marginTop="26dp" />
+    
+    <TextView 
+        android:id="@+id/config_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/config"/>
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <TextView 
+            android:id="@+id/min_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/min"/>
+        
+        <EditText 
+        	android:id="@+id/minNumber"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:inputType="numberSigned"
+        	android:hint="@string/min_numb_hint"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <TextView 
+            android:id="@+id/max_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/max"/>
+        
+        <EditText 
+        	android:id="@+id/maxNumber"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:inputType="numberSigned"
+        	android:hint="@string/max_numb_hint" />
+        
+    </LinearLayout>
+    
+    <Button 
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|right"
+        android:text="@string/delete_button" />
+    
     
     <Button 
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
         android:text="@string/start_button" />
    
 </LinearLayout>
-
