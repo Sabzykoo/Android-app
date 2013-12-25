@@ -3,29 +3,18 @@
 
     <string name="app_name">Flashcards</string>
     <string name="action_settings">Settings</string>
-    <string name="delete_button">Delete deck</string>
-    <string name="download_button">Download decks</string>
+    <string name="delete_button">Delete sets</string>
+    <string name="download_button">Download sets</string>
     <string name="start_button">START</string>
-    <string name="config">Configure your decks starting and ending point</string>
-    <string name="min">Starting deck point: </string>
-    <string name="max">Ending deck point: </string>
-    <string name="select_text">\.\.\.or select a downloaded deck</string>
+    <string name="config">Configure your set starting and ending point</string>
+    <string name="min">Starting set point: </string>
+    <string name="max">Ending set point: </string>
+    <string name="select_text">\.\.\.or select a downloaded set</string>
     <string name="min_numb_hint">start number</string>
     <string name="max_numb_hint">end number</string>
     
     
-    <string name="toast_text">You have to choose a deck</string>
-
-    <string-array name="spinner_choices">
-        <item>Computer science</item>
-        <item>Engineering</item>
-        <item>Mathematics</item>
-        <item>Languages</item>
-        <item>Biology</item>
-        <item>Medicine</item>
-        <item>Phylosophy</item>
-        <item>Other</item>
-    </string-array>
+    <string name="toast_text">You have to choose a set</string>
 
     <string name="title_activity_flashcard">Flashcard</string>
     <string name="frontText">Krijesnice (Lampyridae) jedna su od porodica u razredu kukaca u koju širom svijeta spada oko 2.000 vrsta.</string>

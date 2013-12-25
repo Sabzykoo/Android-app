@@ -6,9 +6,11 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.widget.Toast;
 
 public class Database {
 
@@ -22,6 +24,7 @@ public class Database {
 		private String DATABASE_CREATE;
 		private MyDBOpenHelper myDBOpenHelper;
 		private static String DATABASE_TABLE;
+		private SQLiteDatabase DB = null;
 		
 		// constructor to instantiate open helper
 		public Database(Context context) {
@@ -29,9 +32,25 @@ public class Database {
 			myDBOpenHelper = new MyDBOpenHelper(context,
 					MyDBOpenHelper.DATABASE_NAME, null,
 					MyDBOpenHelper.DATABASE_VERSION);
+			
+			try{
+				open();
+			}
+			catch(SQLException e)
+			{
+				Toast.makeText(context, "Error opening the database",
+						   Toast.LENGTH_LONG).show();
+			}
 		}
 		
-		public void defineDatabase(String table){
+		private void open() throws SQLException {
+		    //If connection to db is not open then will open connection
+		    if ((DB == null) || (!DB.isOpen())) {
+		        DB = myDBOpenHelper.getReadableDatabase();
+		    }
+		}
+		
+		public void defineTable(String table){
 			
 			DATABASE_TABLE = table;
 			DATABASE_CREATE = "create table "
@@ -39,13 +58,14 @@ public class Database {
 					+ " integer primary key autoincrement, " + KEY_QUESTION_COLUMN
 					+ " text not null, " + KEY_ANSWER_COLUMN + " text not null, "
 					+ KEY_REPEAT_COLUMN + " integer);";
-			
+		}
+		
+		public void createTable(){
+			DB.execSQL(DATABASE_CREATE);
 		}
 		
 		public Cursor showAllTables(){
-			SQLiteDatabase DB = myDBOpenHelper.getReadableDatabase();
-			Cursor c = DB.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-	        c.moveToFirst();
+			Cursor c = DB.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence'", null);
 			return c;
 	    }
 		
@@ -131,8 +151,6 @@ public class Database {
 
 			private static final String DATABASE_NAME = "flashcards.db";
 			private static final int DATABASE_VERSION = 1;
-
-			// SQL Statement to create a new database.
 			
 			public MyDBOpenHelper(Context context, String name,
 					CursorFactory factory, int version) {
@@ -140,7 +158,7 @@ public class Database {
 			}
 			@Override
 			public void onCreate(SQLiteDatabase db) {
-				db.execSQL(DATABASE_CREATE);
+				//db.execSQL(DATABASE_CREATE);
 			}
 
 			@Override

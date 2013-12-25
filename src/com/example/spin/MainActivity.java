@@ -1,8 +1,10 @@
 package com.example.spin;
 
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
 	private String tableName;
 	private Database myDatabase;
 	private boolean mPressedRB = true, mChoosenSpin = true;
+	ArrayList<String> tables = new ArrayList<String>();
 	
 
 	@Override
@@ -30,23 +33,28 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		myDatabase = new Database(MainActivity.this);
-				
-				/*Cursor c = myDatabase.showAllTables();
+		/*myDatabase.defineTable("Test"); //here you can see how to define table
+		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
+		MainActivity.this.myDatabase.addItem(item);*/ //here you can see how to insert a row into defined table
+				Cursor c = myDatabase.showAllTables();
 				if (c.moveToFirst())
 		        {
-		        do{
-		           todoItems.add(c.getString(0));
-		
-		           }while (c.moveToNext());
+					c.moveToNext();
+					while(!c.isAfterLast()){
+			           tables.add(c.getString(0));
+			           c.moveToNext();
+			        }
 		        }
-		        if (todoItems.size() == 0)
+		        if (tables.size() == 0)
 		        {
-		            todoItems.add("No flashcards");
+		            tables.add("Download sets");
 		
-		        }*/
+		        }
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		            R.array.spinner_choices, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, 
+                android.R.layout.simple_spinner_item,
+                tables );
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		
