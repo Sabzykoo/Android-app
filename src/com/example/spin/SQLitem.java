@@ -13,7 +13,6 @@ public class SQLitem {
 		this.Repeat = Repeat;
 	}
 
-
 	public String getQuestion() {
 		return Question;
 	}
@@ -25,7 +24,5 @@ public class SQLitem {
 	public int getRepeat() {
 		return Repeat;
 	}
-	
 
-	
 }
