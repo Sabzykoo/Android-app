@@ -24,47 +24,54 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000f;
-        public static final int config_text=0x7f080008;
-        public static final int deleteButton=0x7f08000d;
-        public static final int downloadButton=0x7f080005;
-        public static final int main_activity_card_back=0x7f080003;
-        public static final int main_activity_card_face=0x7f080001;
-        public static final int main_activity_root=0x7f080000;
-        public static final int maxNumber=0x7f08000c;
-        public static final int max_text=0x7f08000b;
-        public static final int minNumber=0x7f08000a;
-        public static final int min_text=0x7f080009;
-        public static final int spinnerCategory=0x7f080007;
-        public static final int startButton=0x7f08000e;
-        public static final int textBack=0x7f080004;
-        public static final int textFront=0x7f080002;
-        public static final int textSelect=0x7f080006;
+        public static final int action_next=0x7f050000;
+        public static final int action_previous=0x7f050001;
+        public static final int action_settings=0x7f050012;
+        public static final int config_text=0x7f05000b;
+        public static final int deleteButton=0x7f050010;
+        public static final int downloadButton=0x7f050008;
+        public static final int main_activity_card_back=0x7f050006;
+        public static final int main_activity_card_face=0x7f050004;
+        public static final int main_activity_root=0x7f050002;
+        public static final int maxNumber=0x7f05000f;
+        public static final int max_text=0x7f05000e;
+        public static final int minNumber=0x7f05000d;
+        public static final int min_text=0x7f05000c;
+        public static final int pager=0x7f050003;
+        public static final int spinnerCategory=0x7f05000a;
+        public static final int startButton=0x7f050011;
+        public static final int textBack=0x7f050007;
+        public static final int textFront=0x7f050005;
+        public static final int textSelect=0x7f050009;
     }
     public static final class layout {
         public static final int activity_flashcard=0x7f030000;
         public static final int activity_main=0x7f030001;
     }
     public static final class menu {
-        public static final int flashcard=0x7f070000;
-        public static final int main=0x7f070001;
+        public static final int flashcard=0x7f080000;
+        public static final int main=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int backText=0x7f05000e;
-        public static final int config=0x7f050005;
-        public static final int delete_button=0x7f050002;
-        public static final int download_button=0x7f050003;
-        public static final int frontText=0x7f05000d;
-        public static final int max=0x7f050007;
-        public static final int max_numb_hint=0x7f05000a;
-        public static final int min=0x7f050006;
-        public static final int min_numb_hint=0x7f050009;
-        public static final int select_text=0x7f050008;
-        public static final int start_button=0x7f050004;
-        public static final int title_activity_flashcard=0x7f05000c;
-        public static final int toast_text=0x7f05000b;
+        public static final int action_finish=0x7f060004;
+        public static final int action_next=0x7f060003;
+        public static final int action_previous=0x7f060002;
+        public static final int action_settings=0x7f060001;
+        public static final int app_name=0x7f060000;
+        public static final int backText=0x7f060011;
+        public static final int config=0x7f060008;
+        public static final int delete_button=0x7f060005;
+        public static final int download_button=0x7f060006;
+        public static final int frontText=0x7f060010;
+        public static final int max=0x7f06000a;
+        public static final int max_numb_hint=0x7f06000d;
+        public static final int min=0x7f060009;
+        public static final int min_numb_hint=0x7f06000c;
+        public static final int select_text=0x7f06000b;
+        public static final int start_button=0x7f060007;
+        public static final int title_activity_flashcard=0x7f06000f;
+        public static final int title_activity_flashcard_categories=0x7f060012;
+        public static final int toast_text=0x7f06000e;
     }
     public static final class style {
         /** 
@@ -88,10 +95,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f070001;
     }
 }

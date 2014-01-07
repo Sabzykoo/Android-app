@@ -2,19 +2,21 @@ package com.example.spin;
 
 import java.util.ArrayList;
 
+import com.example.spin.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
-//import android.widget.Spinner;
 import android.widget.Toast;
+//import android.widget.Spinner;
 
 
 public class MainActivity extends Activity {
@@ -58,7 +60,6 @@ public class MainActivity extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		
-		
 		mStartButton = (Button)findViewById(R.id.startButton); //setting reference for the "START" button
 		mStartButton.setOnClickListener(new View.OnClickListener(){ //creating a listener object
 			
@@ -81,6 +82,5 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
 
 }
