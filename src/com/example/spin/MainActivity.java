@@ -20,8 +20,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
-	
-	private Button mStartButton;
+	private Button mStartButton,downloadButton;
 	private boolean mChoosen;
 	private String tableName;
 	private Database myDatabase;
@@ -59,7 +58,16 @@ public class MainActivity extends Activity {
                 tables );
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
-		
+		downloadButton=(Button)findViewById(R.id.downloadButton);
+		downloadButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent= new Intent(MainActivity.this, CramFetcher.class);
+				startActivity(intent);
+				
+			}
+		});
 		mStartButton = (Button)findViewById(R.id.startButton); //setting reference for the "START" button
 		mStartButton.setOnClickListener(new View.OnClickListener(){ //creating a listener object
 			
