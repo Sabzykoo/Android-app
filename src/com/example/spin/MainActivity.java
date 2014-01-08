@@ -46,17 +46,16 @@ public class MainActivity extends Activity {
 			           c.moveToNext();
 			        }
 		        }
-		       // if (tables.size() == 0)
-		        //{
-		       //     tables.add("Download sets");
-		
-		        //}
+		       if (tables.size() == 0)
+		        {
+		            tables.add("Download sets");
+		        }
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, 
                 android.R.layout.simple_spinner_item,
                 tables );
-		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		downloadButton=(Button)findViewById(R.id.downloadButton);
 		downloadButton.setOnClickListener(new View.OnClickListener() {
