@@ -21,5 +21,7 @@
     <string name="backText">Pojava da živa bića "proizvode" svjetlost naziva se bioluminiscencija. Kod krijesnica se svjetlosni organ nalazi gotovo uvijek u zatku životinje. </string>
     <string name="title_activity_flashcard_categories">FlashcardCategories</string>
     <string name="mainCram"><u>Download sets from server</u></string>
+    <string name="title_activity_cram">CramFetcher</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

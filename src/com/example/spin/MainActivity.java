@@ -65,7 +65,6 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent= new Intent(MainActivity.this, CramFetcher.class);
 				startActivity(intent);
-				
 			}
 		});
 		mStartButton = (Button)findViewById(R.id.startButton); //setting reference for the "START" button
