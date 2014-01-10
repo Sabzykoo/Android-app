@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		myDatabase = new Database(MainActivity.this);
+<<<<<<< HEAD
 		
 		/*	myDatabase.defineTable("Test");	here you can see how to define table
 			SQLitem item = new SQLitem("What is the biggest land by region",
@@ -54,12 +55,30 @@ public class MainActivity extends Activity {
 		if (tables.size() == 0) {
 			tables.add("Download sets");
 		}
+=======
+		/*myDatabase.defineTable("Test"); //here you can see how to define table
+		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
+		MainActivity.this.myDatabase.addItem(item);*/ //here you can see how to insert a row into defined table
+				Cursor c = myDatabase.showAllTables();
+				if (c.moveToFirst())
+		        {
+					c.moveToNext();
+					while(!c.isAfterLast()){
+			           tables.add(c.getString(0));
+			           c.moveToNext();
+			        }
+		        }
+		       if (tables.size() == 0)
+		        {
+		            tables.add("Download sets");
+		        }
+>>>>>>> 281252cd16d2abe74d71567f661cb51daec18e88
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, 
                 android.R.layout.simple_spinner_item,
                 tables );
-		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		downloadButton=(Button)findViewById(R.id.downloadButton);
 		downloadButton.setOnClickListener(new View.OnClickListener() {
