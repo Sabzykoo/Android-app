@@ -48,7 +48,7 @@ public class Flashcard extends Activity {
 	    mPagerAdapter = new ViewPagerAdapter(this, CardArray);
 	    mPager = (ViewPager) findViewById(R.id.pager);
 	    mPager.setAdapter(mPagerAdapter);
-	    mPager.setCurrentItem(0);
+	 //   mPager.setCurrentItem(0);
 	    
 	    mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
 	    	

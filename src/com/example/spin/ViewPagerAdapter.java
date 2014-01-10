@@ -5,6 +5,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TextView;
 import android.os.Parcelable;
 
 public class ViewPagerAdapter extends PagerAdapter {
@@ -19,9 +20,15 @@ public class ViewPagerAdapter extends PagerAdapter {
 	 
 	 public Object instantiateItem(View collection, int position) {
 		 View view = new View(activity);
-		 view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-				 LayoutParams.FILL_PARENT));
-		 view.setBackgroundResource(textArray[position]);
+		// Evaluation evaluation = evaluations.get(position);
+		 
+		// View layout = Inflater.inflate(R.layout.activity_flashcard);
+		 
+		 TextView frontText = (TextView) view.findViewById(R.id.textFront);
+		 frontText.setText(R.string.frontText);
+		 TextView backText = (TextView) view.findViewById(R.id.textBack);
+		 backText.setText(R.string.backText);
+		 
 		 ((ViewPager) collection).addView(view, 0);
 		 return view;
 	 }
