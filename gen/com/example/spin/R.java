@@ -26,10 +26,11 @@ public final class R {
     public static final class id {
         public static final int action_next=0x7f050000;
         public static final int action_previous=0x7f050001;
-        public static final int action_settings=0x7f050013;
+        public static final int action_settings=0x7f050016;
         public static final int config_text=0x7f05000c;
         public static final int deleteButton=0x7f050011;
         public static final int downloadButton=0x7f050009;
+        public static final int email=0x7f050014;
         public static final int mainCram=0x7f050002;
         public static final int main_activity_card_back=0x7f050007;
         public static final int main_activity_card_face=0x7f050005;
@@ -38,6 +39,8 @@ public final class R {
         public static final int max_text=0x7f05000f;
         public static final int minNumber=0x7f05000e;
         public static final int min_text=0x7f05000d;
+        public static final int mobile=0x7f050015;
+        public static final int name=0x7f050013;
         public static final int pager=0x7f050004;
         public static final int spinnerCategory=0x7f05000b;
         public static final int startButton=0x7f050012;
@@ -49,6 +52,7 @@ public final class R {
         public static final int activity_cram=0x7f030000;
         public static final int activity_flashcard=0x7f030001;
         public static final int activity_main=0x7f030002;
+        public static final int list_item=0x7f030003;
     }
     public static final class menu {
         public static final int cram=0x7f080000;
