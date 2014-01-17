@@ -1,6 +1,8 @@
 package com.example.spin;
 
 
+import java.util.List;
+
 import com.example.spin.R;
 
 import android.app.Activity;
@@ -19,7 +21,10 @@ public class Flashcard extends Activity {
 	private ViewPagerAdapter mPagerAdapter;
 	private int mPageNumber;
 	
-	private int CardArray[] = {  };
+	private List<String> data;
+	
+	private int BackArray[] = {R.string.backText };
+	private int FrontArray[] = {R.string.frontText };
 	
 	private void flipCard() {
 	    View rootLayout = (View) findViewById(R.id.main_activity_root);
@@ -43,22 +48,34 @@ public class Flashcard extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flashcard);
+		updateViewPager();
 		
 		// Set the ViewPager adapter
-	    mPagerAdapter = new ViewPagerAdapter(this, CardArray);
+	    mPagerAdapter = new ViewPagerAdapter(this, BackArray);
 	    mPager = (ViewPager) findViewById(R.id.pager);
 	    mPager.setAdapter(mPagerAdapter);
 	 //   mPager.setCurrentItem(0);
+	    
+	    
 	    
 	    mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
 	    	
 	    	@Override
 	    	public void onPageSelected(int position){
 	    		invalidateOptionsMenu();
+	    		
 	    	}
 	    });
 		
 	}
+	
+	private void updateViewPager() {
+		data.clear();
+		data.add("X");
+		data.add("Y");
+		data.add("Z"); 
+		mPager.getAdapter().notifyDataSetChanged();
+	    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

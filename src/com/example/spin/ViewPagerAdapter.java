@@ -1,15 +1,18 @@
 package com.example.spin;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 import android.os.Parcelable;
+import com.example.spin.Database;
 
 public class ViewPagerAdapter extends PagerAdapter {
-	
+
 	Activity activity;
 	int textArray[];
 
@@ -20,14 +23,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 	 
 	 public Object instantiateItem(View collection, int position) {
 		 View view = new View(activity);
-		// Evaluation evaluation = evaluations.get(position);
-		 
-		// View layout = Inflater.inflate(R.layout.activity_flashcard);
-		 
-		 TextView frontText = (TextView) view.findViewById(R.id.textFront);
-		 frontText.setText(R.string.frontText);
-		 TextView backText = (TextView) view.findViewById(R.id.textBack);
-		 backText.setText(R.string.backText);
 		 
 		 ((ViewPager) collection).addView(view, 0);
 		 return view;
