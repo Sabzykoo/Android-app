@@ -21,7 +21,6 @@ public class Flashcard extends Activity {
 	private ViewPagerAdapter mPagerAdapter;
 	private int mPageNumber;
 	
-	private List<String> data;
 	
 	private int BackArray[] = {R.string.backText };
 	private int FrontArray[] = {R.string.frontText };
@@ -48,7 +47,6 @@ public class Flashcard extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flashcard);
-		updateViewPager();
 		
 		// Set the ViewPager adapter
 	    mPagerAdapter = new ViewPagerAdapter(this, BackArray);
@@ -69,13 +67,6 @@ public class Flashcard extends Activity {
 		
 	}
 	
-	private void updateViewPager() {
-		data.clear();
-		data.add("X");
-		data.add("Y");
-		data.add("Z"); 
-		mPager.getAdapter().notifyDataSetChanged();
-	    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
