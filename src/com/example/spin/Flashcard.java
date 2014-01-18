@@ -5,6 +5,7 @@ package com.example.spin;
 //import com.example.spin.R;
 import com.example.spin.SQLitem;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 /*import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;*/
@@ -20,10 +21,9 @@ public class Flashcard extends Activity {
 	private static final String KEY_INDEX = "index";
 	
 	public static final String ARG_PAGE = "page";
-	
-
+	boolean flag;
 	private TextView mQuestionTextView, mAnswerTextView;
-/*	private ViewPager mPager;
+	/*private ViewPager mPager;
 	private ViewPagerAdapter mPagerAdapter; */
 	
 	
@@ -41,7 +41,23 @@ public class Flashcard extends Activity {
 		String answer = mItemBank[mCurrentIndex].getAnswer();
 		mAnswerTextView.setText(answer);
 	}
-
+@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+	if(mCurrentIndex == mItemBank.length-1){
+		Intent intent = new Intent(Flashcard.this, MainActivity.class);
+		menu.findItem(R.id.action_next).setTitle(R.string.action_finish).setIntent(intent);
+		startActivity(intent);
+	}
+	
+	if(mCurrentIndex>0){
+		flag=true;
+	}
+	else {
+		flag=false;
+	}
+	menu.findItem(R.id.action_previous).setEnabled(flag);
+	return super.onPrepareOptionsMenu(menu);
+	}
 
 	private void flipCard() {
 		View rootLayout = (View) findViewById(R.id.main_activity_root);
@@ -73,27 +89,11 @@ public class Flashcard extends Activity {
 		updateCard();
 		
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		getMenuInflater().inflate(R.menu.flashcard, menu); // Inflate the menu; this adds items to the action bar if it is present.
-		if(mCurrentIndex == mItemBank.length){
-    		MenuItem item = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, R.string.action_finish);
-    		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		}
-		return super.onCreateOptionsMenu(menu);
-		
-
-	/*	menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
-		
-		//Add either a "next" of "finish" button to the action bar, depending on which page is currently selected.
-		MenuItem item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
-				(mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
-				? R.string.action_finish
-				: R.string.action_next);
-		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		return true;*/
+		return true;
 	}
 	
 	@Override
@@ -102,10 +102,12 @@ public class Flashcard extends Activity {
 	    switch (item.getItemId()) {
 	        case R.id.action_previous:
 	        	mCurrentIndex--;
+	        	invalidateOptionsMenu();
 	        	updateCard();
 	            return true;
 	        case R.id.action_next:
 	        	mCurrentIndex++;
+	        	invalidateOptionsMenu();
 	        	updateCard();
 	            return true;
 	        default:
