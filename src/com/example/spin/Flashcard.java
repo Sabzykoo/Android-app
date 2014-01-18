@@ -4,6 +4,7 @@ package com.example.spin;
 
 //import com.example.spin.R;
 import com.example.spin.SQLitem;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,9 +45,10 @@ public class Flashcard extends Activity {
 @Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 	if(mCurrentIndex == mItemBank.length-1){
-		Intent intent = new Intent(Flashcard.this, MainActivity.class);
-		menu.findItem(R.id.action_next).setTitle(R.string.action_finish).setIntent(intent);
-		startActivity(intent);
+		menu.removeItem(R.id.action_next);
+		MenuItem item = menu.add(Menu.NONE, R.id.action_finish, Menu.NONE, R.string.action_finish);
+		
+		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 	
 	if(mCurrentIndex>0){
@@ -110,6 +112,9 @@ public class Flashcard extends Activity {
 	        	invalidateOptionsMenu();
 	        	updateCard();
 	            return true;
+	        case R.id.action_finish:
+	        	startActivity(new Intent(Flashcard.this, MainActivity.class));
+	        	return false;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
