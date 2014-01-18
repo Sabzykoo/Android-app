@@ -22,7 +22,7 @@ public class Flashcard extends Activity {
 	private static final String KEY_INDEX = "index";
 	
 	public static final String ARG_PAGE = "page";
-	boolean flag;
+	//boolean flag;
 	private TextView mQuestionTextView, mAnswerTextView;
 	/*private ViewPager mPager;
 	private ViewPagerAdapter mPagerAdapter; */
@@ -44,21 +44,19 @@ public class Flashcard extends Activity {
 	}
 @Override
 	public boolean onPrepareOptionsMenu(Menu menu){
-	if(mCurrentIndex == mItemBank.length-1){
-		menu.removeItem(R.id.action_next);
-		MenuItem item = menu.add(Menu.NONE, R.id.action_finish, Menu.NONE, R.string.action_finish);
+		if(mCurrentIndex == mItemBank.length-1){
+			menu.removeItem(R.id.action_next);
+			MenuItem item = menu.add(Menu.NONE, R.id.action_finish, Menu.NONE, R.string.action_finish);
 		
-		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-	}
+			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		}
 	
-	if(mCurrentIndex>0){
-		flag=true;
-	}
-	else {
-		flag=false;
-	}
-	menu.findItem(R.id.action_previous).setEnabled(flag);
-	return super.onPrepareOptionsMenu(menu);
+		if(mCurrentIndex==0){
+			menu.findItem(R.id.action_previous).setEnabled(false);
+		}
+	
+		return super.onPrepareOptionsMenu(menu);
+		
 	}
 
 	private void flipCard() {

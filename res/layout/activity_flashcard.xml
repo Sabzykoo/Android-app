@@ -30,7 +30,7 @@
 	           android:id="@+id/textFront"
 	           android:layout_width="fill_parent"
 	           android:layout_height="fill_parent"
-	           android:layout_centerInParent="true" />
+	           android:gravity="center" />
 	       
 		</RelativeLayout>
 	
@@ -46,9 +46,9 @@
 	       
 		    <TextView 
 	           android:id="@+id/textBack"
+	           android:gravity="center"
 	           android:layout_width="fill_parent"
-	           android:layout_height="fill_parent"
-	           android:layout_centerInParent="true" />
+	           android:layout_height="fill_parent" />
 		</RelativeLayout>
 
 	 <!--			
