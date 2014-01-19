@@ -118,8 +118,6 @@ public class Flashcard extends Activity {
 					mPrevButton.setEnabled(false);
 					mPrevButton.setEnabled(true);
 			}else{
-				mPrevButton.setEnabled(true);
-			//	mPrevButton.setClickable(true);
 				mCurrentIndex--;
 				invalidateOptionsMenu();
 				updateCard();}
