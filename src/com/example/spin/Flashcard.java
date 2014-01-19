@@ -116,10 +116,10 @@ public class Flashcard extends Activity {
 			public void onClick(View v) {
 				if(mCurrentIndex==0){
 					mPrevButton.setEnabled(false);
-					mPrevButton.setClickable(true);
+					mPrevButton.setEnabled(true);
 			}else{
 				mPrevButton.setEnabled(true);
-				mPrevButton.setClickable(true);
+			//	mPrevButton.setClickable(true);
 				mCurrentIndex--;
 				invalidateOptionsMenu();
 				updateCard();}
