@@ -1,8 +1,6 @@
 package com.example.spin;
 
 
-
-//import com.example.spin.R;
 import com.example.spin.SQLitem;
 
 import android.app.Activity;
@@ -41,23 +39,11 @@ public class Flashcard extends Activity {
 		
 		String answer = mItemBank[mCurrentIndex].getAnswer();
 		mAnswerTextView.setText(answer);
-	}
-@Override
-	public boolean onPrepareOptionsMenu(Menu menu){
-		if(mCurrentIndex == mItemBank.length-1){
-			menu.removeItem(R.id.action_next);
-			MenuItem item = menu.add(Menu.NONE, R.id.action_finish, Menu.NONE, R.string.action_finish);
 		
-			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		}
-	
-		if(mCurrentIndex==0){
-			menu.findItem(R.id.action_previous).setEnabled(false);
-		}
-	
-		return super.onPrepareOptionsMenu(menu);
+		
 		
 	}
+
 
 	private void flipCard() {
 		View rootLayout = (View) findViewById(R.id.main_activity_root);
@@ -118,6 +104,20 @@ public class Flashcard extends Activity {
 	    }
 	}
 	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		if(mCurrentIndex == mItemBank.length-1){
+			menu.removeItem(R.id.action_next);
+			MenuItem item = menu.add(Menu.NONE, R.id.action_finish, Menu.NONE, R.string.action_finish);
+			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		}
+	
+		if(mCurrentIndex==0){
+			menu.findItem(R.id.action_previous).setEnabled(false);
+		}
+	
+		return super.onPrepareOptionsMenu(menu);	
+	}
 
 }
 
