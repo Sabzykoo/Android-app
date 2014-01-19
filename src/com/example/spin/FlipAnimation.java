@@ -60,6 +60,7 @@ public class FlipAnimation extends Animation {
         // source view and show the destination view. We also need to change
         // the angle by 180 degrees so that the destination does not come in
         // flipped around
+        
         if (interpolatedTime >= 0.5f) {
             degrees -= 180.f;
             fromView.setVisibility(View.GONE);

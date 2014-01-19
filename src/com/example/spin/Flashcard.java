@@ -21,11 +21,13 @@ public class Flashcard extends Activity {
 	
 	public static final String ARG_PAGE = "page";
 	//boolean flag;
-	private TextView mQuestionTextView, mAnswerTextView;
+	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
 	/*private ViewPager mPager;
 	private ViewPagerAdapter mPagerAdapter; */
 	
-	
+/*	private View rootLayout = (View) findViewById(R.id.main_activity_root);
+	private View cardFace = (View) findViewById(R.id.main_activity_card_face);
+	private View cardBack = (View) findViewById(R.id.main_activity_card_back);*/
 	private int mCurrentIndex = 0;
 	
 	private SQLitem[] mItemBank = new SQLitem[] {
@@ -40,7 +42,8 @@ public class Flashcard extends Activity {
 		String answer = mItemBank[mCurrentIndex].getAnswer();
 		mAnswerTextView.setText(answer);
 		
-		
+		String pageNumber = ((Integer)(mCurrentIndex+1)).toString() + " of " + ((Integer)mItemBank.length).toString();
+		mPageNumTextView.setText(pageNumber);
 		
 	}
 
@@ -68,9 +71,9 @@ public class Flashcard extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flashcard);
 		
-		
 		mQuestionTextView = (TextView)findViewById(R.id.textFront);
 		mAnswerTextView = (TextView)findViewById(R.id.textBack);
+		mPageNumTextView = (TextView)findViewById(R.id.pageNumber);
 		
 		updateCard();
 		

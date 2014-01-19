@@ -2,57 +2,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/main_activity_root"
+    android:id="@+id/main_activity_flashcard"
     android:background="@android:color/transparent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"  >
     
-  <!--   
-    <android.support.v4.view.ViewPager
-    	android:id="@+id/pager"
-    	android:layout_width="match_parent"
-    	android:layout_height="match_parent" > -->
-    	
+    <RelativeLayout 
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerInParent="true"
+         android:background="@android:color/transparent"
+         android:id="@+id/main_activity_root">
     
-	    <RelativeLayout
-			android:id="@+id/main_activity_card_face"
-			android:layout_width="300dp"
-			android:layout_height="150dp"
-			android:layout_centerHorizontal="true"
-			android:layout_centerVertical="true"
-			android:clickable="true"
-			android:onClick="onCardClick"
-			android:padding="5dp" >
-	        
-	       <TextView 
-	           android:id="@+id/textFront"
-	           android:layout_width="fill_parent"
-	           android:layout_height="fill_parent"
-	           android:gravity="center" />
-	       
-		</RelativeLayout>
-	
-		<RelativeLayout
-			android:id="@+id/main_activity_card_back"
-			android:layout_width="300dp"
-			android:layout_height="150dp"
-			android:layout_centerHorizontal="true"
-			android:layout_centerVertical="true"
-			android:clickable="true"
-			android:onClick="onCardClick"
-			android:visibility="gone" >
-	       
-		    <TextView 
-	           android:id="@+id/textBack"
-	           android:gravity="center"
-	           android:layout_width="fill_parent"
-	           android:layout_height="fill_parent" />
-		</RelativeLayout>
+	  <!--   
+	    <android.support.v4.view.ViewPager
+	    	android:id="@+id/pager"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent" > -->
+	    	
+	    
+		    <RelativeLayout
+				android:id="@+id/main_activity_card_face"
+				android:layout_width="300dp"
+				android:layout_height="150dp"
+				android:background="@android:color/darker_gray"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:clickable="true"
+				android:onClick="onCardClick" >
+		<!--		android:padding="5dp"--> 
+		        
+		       <TextView 
+		           android:id="@+id/textFront"
+		           android:layout_width="fill_parent"
+		           android:layout_height="fill_parent"
+		           android:gravity="center" />
+		       
+			</RelativeLayout>
+		
+			<RelativeLayout
+				android:id="@+id/main_activity_card_back"
+				android:layout_width="300dp"
+				android:layout_height="150dp"
+				android:background="@android:color/darker_gray"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:clickable="true"
+				android:onClick="onCardClick"
+				android:visibility="gone" >
+		       
+			    <TextView 
+		           android:id="@+id/textBack"
+		           android:gravity="center"
+		           android:layout_width="fill_parent"
+		           android:layout_height="fill_parent" />
+			</RelativeLayout>
+			
+	</RelativeLayout>
+		 <!--			
+		</android.support.v4.view.ViewPager> -->
 
-	 <!--			
-	</android.support.v4.view.ViewPager> -->
-	
+	 <TextView
+	     android:id="@+id/pageNumber"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_alignParentBottom="true"
+	     android:layout_centerHorizontal="true"
+	     android:textSize="20sp" />
 	
 </RelativeLayout>	
