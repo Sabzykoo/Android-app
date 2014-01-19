@@ -99,13 +99,20 @@ public class Flashcard extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				if(mCurrentIndex == (mItemBank.length-1)){
+					startActivity(new Intent(Flashcard.this, MainActivity.class));
+				}
+				else{
 				mCurrentIndex++;
 				invalidateOptionsMenu();
-				updateCard();
+				updateCard(); }
 			}
 		});
 		
 		mPrevButton = (ImageButton)findViewById(R.id.prev_button);
+		if(mCurrentIndex == 0){ 
+			mPrevButton.setEnabled(false);
+		} else {
 		mPrevButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -115,6 +122,7 @@ public class Flashcard extends Activity {
 				updateCard();
 			}
 		});
+		}
 		
 		updateCard();
 	}
