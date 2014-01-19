@@ -11,16 +11,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 
 public class CramFetcher extends ListActivity {
 
@@ -47,6 +45,10 @@ public class CramFetcher extends ListActivity {
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
 	
+    private boolean isTaskCancelled = false;
+    
+    private String json;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,12 +60,20 @@ public class CramFetcher extends ListActivity {
 		
      // Calling async task to get json
         new GetContacts().execute();
-        
+       
 	}
 
+	protected void noData() throws InterruptedException{
+		
+    	Toast.makeText(CramFetcher.this,
+          	     "Coudn't access data!",
+          	     Toast.LENGTH_LONG).show();
+    	Thread.currentThread();
+		Thread.sleep(1500);
+		startActivity(new Intent(CramFetcher.this,MainActivity.class));
+	}
+	
 	private class GetContacts extends AsyncTask<Void, Void, Void> {
-		 
-		private boolean isTaskCancelled = false;
 
         public void cancelTask(){
              isTaskCancelled = true;
@@ -87,7 +97,7 @@ public class CramFetcher extends ListActivity {
             	   // TODO Auto-generated method stub
             		  cancelTask();
             	   Toast.makeText(CramFetcher.this,
-            	     "ProgressDialog Cancelled!",
+            	     "Download cancelled!",
             	     Toast.LENGTH_SHORT).show();
             	  }});
         }
@@ -99,6 +109,7 @@ public class CramFetcher extends ListActivity {
  
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+            json=jsonStr;
             if (isTaskCancelled()){
                 return null;
              }
@@ -142,10 +153,10 @@ public class CramFetcher extends ListActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
+            } 
+            else {
                 Log.e("ServiceHandler", "Couldn't get any data from the url");
             }
- 
             return null;
         }
  
@@ -153,16 +164,24 @@ public class CramFetcher extends ListActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
-            if (pDialog.isShowing())
+            if (pDialog.isShowing()){
                 pDialog.dismiss();
+            }
+            if(json==null){
+            	try{
+            		noData();
+            	}
+            	catch(InterruptedException e){
+            		Log.e("No dara", "Couldn't get any data from the url");
+            	}
+            }
             /**
              * Updating parsed JSON data into ListView
              * */
             ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
-                    R.layout.list_item, new String[] { TAG_NAME, TAG_EMAIL,
-                            TAG_PHONE_MOBILE }, new int[] { R.id.name,
-                            R.id.email, R.id.mobile });
+                    R.layout.list_item, new String[] { TAG_NAME,
+                            TAG_PHONE_MOBILE }, new int[] { R.id.name, R.id.mobile });
  
             setListAdapter(adapter);
         }

@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
     android:orientation="vertical"
     android:padding="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
+    
+    <TextView android:id="@+id/name" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_alignParentLeft="true" 
+        android:layout_alignParentTop="true" 
+        android:textColor="#43bd00"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+    <TextView android:id="@+id/mobile" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_alignLeft="@+id/name" 
+        android:layout_alignParentBottom="true" 
+        android:text="Mobile: "
+        android:textColor="#5d5d5d"
+        android:textStyle="bold"/>
+    <CheckBox android:id="@+id/checkbox" android:layout_width="60sp" android:layout_height="50sp" android:layout_alignBottom="@+id/mobile" android:layout_alignParentRight="true" android:gravity="center"/>
  
-    <!-- Name Label -->
+    
  
-    <TextView
+    
+ 
+</RelativeLayout>
+<!-- <TextView
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -17,24 +38,22 @@
         android:paddingTop="6dip"
         android:textColor="#43bd00"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" /> -->
  
     <!-- Email label -->
-    <TextView
+  <!--   <TextView
         android:id="@+id/email"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
-        android:textColor="#acacac" />
+        android:textColor="#acacac" /> -->
  
     <!-- Mobile number label -->
-    <TextView
+  <!--   <TextView
         android:id="@+id/mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Mobile: "
         android:textColor="#5d5d5d"
-        android:textStyle="bold" />
- 
-</LinearLayout>
+        android:textStyle="bold" /> -->
