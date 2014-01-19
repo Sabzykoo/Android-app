@@ -17,6 +17,8 @@ import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
 
@@ -53,7 +55,10 @@ public class CramFetcher extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
-		
+		String str_cram= "Download sets from server";
+		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
+		str_cram="Download";
+		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
 		contactList = new ArrayList<HashMap<String, String>>();
 		 
         ListView lv = getListView();
@@ -178,6 +183,7 @@ public class CramFetcher extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
+            
             ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME,

@@ -23,37 +23,10 @@
         android:text="Mobile: "
         android:textColor="#5d5d5d"
         android:textStyle="bold"/>
-    <CheckBox android:id="@+id/checkbox" android:layout_width="60sp" android:layout_height="50sp" android:layout_alignBottom="@+id/mobile" android:layout_alignParentRight="true" android:gravity="center"/>
- 
-    
- 
-    
- 
+    <CheckBox android:id="@+id/checkbox" 
+        android:layout_width="60sp" 
+        android:layout_height="50sp" 
+        android:layout_alignBottom="@+id/mobile" 
+        android:layout_alignParentRight="true" 
+        android:gravity="center"/>
 </RelativeLayout>
-<!-- <TextView
-        android:id="@+id/name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textColor="#43bd00"
-        android:textSize="16sp"
-        android:textStyle="bold" /> -->
- 
-    <!-- Email label -->
-  <!--   <TextView
-        android:id="@+id/email"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:textColor="#acacac" /> -->
- 
-    <!-- Mobile number label -->
-  <!--   <TextView
-        android:id="@+id/mobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Mobile: "
-        android:textColor="#5d5d5d"
-        android:textStyle="bold" /> -->
