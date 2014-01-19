@@ -51,15 +51,18 @@ public class FlipAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        // Angle around the y-axis of the rotation at the given time
-        // calculated both in radians and degrees.
+        /** 
+         * Angle around the y-axis of the rotation at the given time
+         * calculated both in radians and degrees.
+         * */
         final double radians = Math.PI * interpolatedTime;
         float degrees = (float) (180.0 * radians / Math.PI);
 
-        // Once we reach the midpoint in the animation, we need to hide the
-        // source view and show the destination view. We also need to change
-        // the angle by 180 degrees so that the destination does not come in
-        // flipped around
+        /** 
+         * Once reached the midpoint in the animation, we need to hide the
+         * source view and show the destination view. We also need to change
+         * the angle by 180 degrees so that the destination does not come in
+         * flipped around */
         
         if (interpolatedTime >= 0.5f) {
             degrees -= 180.f;

@@ -26,6 +26,9 @@
     <string name="title_activity_cram">Download Flashcards</string>
     <string name="DDeck">Download set</string>
     
+    <string name="next_button">Next</string>
+    <string name="prev_button">Previous</string>
+    
     <string name="question_oceans">Croatia is not in Europe</string>
 	<string name="question_mideast">Now you\'re making a WTF face</string>
 	<string name="question_africa">light years</string>

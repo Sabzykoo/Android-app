@@ -11,9 +11,15 @@ import android.support.v4.view.ViewPager;*/
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+
 public class Flashcard extends Activity {
+	
+	/**
+	 * Creates a Flashcard activty
+	 * */
 	
 	
 	private static final String TAG = "FlashcardActivty";
@@ -22,6 +28,7 @@ public class Flashcard extends Activity {
 	public static final String ARG_PAGE = "page";
 	//boolean flag;
 	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
+	private ImageButton mNextButton, mPrevButton;
 	/*private ViewPager mPager;
 	private ViewPagerAdapter mPagerAdapter; */
 	
@@ -36,6 +43,11 @@ public class Flashcard extends Activity {
 	};
 	
 	private void updateCard(){
+		/**
+		 * Updates a SQL item from a specified Database table and its
+		 * sequence number
+		 *  */
+		
 		String question = mItemBank[mCurrentIndex].getQuestion();
 		mQuestionTextView.setText(question);
 		
@@ -45,10 +57,17 @@ public class Flashcard extends Activity {
 		String pageNumber = ((Integer)(mCurrentIndex+1)).toString() + " of " + ((Integer)mItemBank.length).toString();
 		mPageNumTextView.setText(pageNumber);
 		
+	//	((View)findViewById(R.id.main_activity_card_face)).setVisibility(View.VISIBLE);
+		
 	}
 
 
 	private void flipCard() {
+		
+		/**
+		 * @see FlipAnimation
+		 * */
+		
 		View rootLayout = (View) findViewById(R.id.main_activity_root);
 		View cardFace = (View) findViewById(R.id.main_activity_card_face);
 		View cardBack = (View) findViewById(R.id.main_activity_card_back);
@@ -75,8 +94,27 @@ public class Flashcard extends Activity {
 		mAnswerTextView = (TextView)findViewById(R.id.textBack);
 		mPageNumTextView = (TextView)findViewById(R.id.pageNumber);
 		
-		updateCard();
+		mNextButton = (ImageButton)findViewById(R.id.next_button);
+		mNextButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mCurrentIndex++;
+				updateCard();
+			}
+		});
 		
+		mPrevButton = (ImageButton)findViewById(R.id.prev_button);
+		mPrevButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mCurrentIndex--;
+				updateCard();
+			}
+		});
+		
+		updateCard();
 	}
 	
 	@Override
