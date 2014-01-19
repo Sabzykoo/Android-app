@@ -101,29 +101,30 @@ public class Flashcard extends Activity {
 			public void onClick(View v) {
 				if(mCurrentIndex == (mItemBank.length-1)){
 					startActivity(new Intent(Flashcard.this, MainActivity.class));
+				} else {
+					mCurrentIndex++;
+					invalidateOptionsMenu();
+					updateCard(); 
 				}
-				else{
-				mCurrentIndex++;
-				invalidateOptionsMenu();
-				updateCard(); }
 			}
 		});
 		
 		mPrevButton = (ImageButton)findViewById(R.id.prev_button);
-		if(mCurrentIndex == 0){ 
-			mPrevButton.setEnabled(false);
-		} else {
 		mPrevButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				if(mCurrentIndex==0){
+					mPrevButton.setEnabled(false);
+					mPrevButton.setClickable(true);
+			}else{
+				mPrevButton.setEnabled(true);
+				mPrevButton.setClickable(true);
 				mCurrentIndex--;
 				invalidateOptionsMenu();
-				updateCard();
+				updateCard();}
 			}
 		});
-		}
-		
 		updateCard();
 	}
 	

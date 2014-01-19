@@ -31,8 +31,7 @@
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
 				android:clickable="true"
-				android:onClick="onCardClick" >
-		<!--		android:padding="5dp"--> 
+				android:onClick="onCardClick" > 
 		        
 		       <TextView 
 		           android:id="@+id/textFront"
