@@ -7,10 +7,7 @@ import com.example.spin.R;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +24,6 @@ public class MainActivity extends Activity {
 	private EditText mMinEditText, mMaxEditText;
 	private Button mStartButton,downloadButton, deleteButton;
 
-	private String tableName;
 	private Database myDatabase;
 	private boolean mChoosenSpin = true;
 	ArrayList<String> tables = new ArrayList<String>();
@@ -75,14 +71,14 @@ public class MainActivity extends Activity {
 		
 
 		myDatabase = new Database(MainActivity.this);
-		
-		/*myDatabase.defineTable("Test"); //here you can see how to define table
+		/*
+		myDatabase.defineTable("Test"); //here you can see how to define table
 		myDatabase.createTable(); //First create table then insert into it
 		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
 		MainActivity.this.myDatabase.addItem(item); //here you can see how to insert a row into defined table
 		SQLitem item2 = new SQLitem("What is the biggest land by people", "China", 1); //here you can see how to define a row
-		MainActivity.this.myDatabase.addItem(item2); //here you can see how to insert a row into defined table*/
-		
+		MainActivity.this.myDatabase.addItem(item2); //here you can see how to insert a row into defined table
+		*/
 				Cursor c = myDatabase.showAllTables();
 				if (c.moveToFirst())
 		        {
