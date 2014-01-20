@@ -2,16 +2,29 @@ package com.example.spin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.os.Bundle;
-import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.app.ListActivity;
 
-public class Delete_sets extends Activity {
+public class Delete_sets extends ListActivity {
 
 	ArrayList<HashMap<String, String>> contactList;
+	private Database myDatabase;
+	private Button delete;
+	
+	private static final String TAG_ID = "id";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_QUESTIONS = "mobile";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +38,54 @@ public class Delete_sets extends Activity {
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
 		
 		contactList = new ArrayList<HashMap<String, String>>();
+		
+		myDatabase = new Database(Delete_sets.this);
+		Cursor c = myDatabase.showAllTables();
+		HashMap<String, String> contact = new HashMap<String, String>();
+		int br=0;
+		if (c.moveToFirst())
+        {
+			c.moveToNext();
+			while(!c.isAfterLast()){
+			String id= String.valueOf(br);
+	           contact.put(TAG_ID, id);
+               contact.put(TAG_NAME, c.getString(0));
+               myDatabase.defineTable(c.getString(0));
+               List<SQLitem> query = myDatabase.getAllItems();
+               String number = String.valueOf(query.size());
+               String questions= "Number of questions in set: "+number; 
+               contact.put(TAG_QUESTIONS, questions);
+               contactList.add(contact);
+               br++;
+               c.moveToNext();
+	        }
+        }
+       if (br == 0)
+        {
+    	   Toast.makeText(Delete_sets.this,
+	          	     "You need to download sets!",
+	          	     Toast.LENGTH_LONG).show();
+			Delete_sets.this.finish();
+			Intent back = new Intent(Delete_sets.this,MainActivity.class);
+			startActivity(back);
+        }
+       ListAdapter adapter = new SimpleAdapter(
+               Delete_sets.this, contactList,
+               R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
+                       }, new int[] { R.id.name , R.id.mobile});
+
+       setListAdapter(adapter);
+       
+       delete = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
+       delete.setOnClickListener(new View.OnClickListener(){ //creating a listener object
+			
+			@Override
+			public void onClick(View v){
+				Intent finished = new Intent(Delete_sets.this, MainActivity.class);
+				startActivity(finished);
+			}
+		});
+       
 	}
 
 	@Override

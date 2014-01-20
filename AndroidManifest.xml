@@ -49,7 +49,7 @@
         </activity>
         <activity
             android:name="com.example.spin.Delete_sets"
-            android:label="@string/title_activity_delete_sets" >
+            android:label="@string/title_activity_flashcard" >
         </activity>
     </application>
 

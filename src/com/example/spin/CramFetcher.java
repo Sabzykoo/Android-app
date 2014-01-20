@@ -3,9 +3,6 @@ package com.example.spin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,7 +31,7 @@ public class CramFetcher extends ListActivity {
 	/**
 	 * @link URL*/
 
-	private ProgressDialog pDialog,aDialog;
+	private ProgressDialog pDialog;
 	 
     // URL to get contacts JSON
     private static String url = "http://api.androidhive.info/contacts/";
@@ -43,12 +41,8 @@ public class CramFetcher extends ListActivity {
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
-    private static final String TAG_ADDRESS = "address";
-    private static final String TAG_GENDER = "gender";
     private static final String TAG_PHONE = "phone";
     private static final String TAG_PHONE_MOBILE = "mobile";
-    private static final String TAG_PHONE_HOME = "home";
-    private static final String TAG_PHONE_OFFICE = "office";
  
     // contacts JSONArray
     JSONArray contacts = null;
@@ -57,6 +51,7 @@ public class CramFetcher extends ListActivity {
     ArrayList<HashMap<String, String>> contactList;
 	
     private boolean isTaskCancelled = false;
+    private Button download;
     
     private String json;
     
@@ -79,10 +74,9 @@ public class CramFetcher extends ListActivity {
 	    //date
 	    Date date = new Date(System.currentTimeMillis());
 	    
-	    ListView lv = getListView();
-	    
 		long token_date=pref.getLong("expiry", 0);
 		String token = null;
+		ListView lv = getListView();
 		if(token_date==0){
 			Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorize));
 			startActivity(viewIntent);
@@ -209,14 +203,10 @@ public class CramFetcher extends ListActivity {
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String email = c.getString(TAG_EMAIL);
-                        String address = c.getString(TAG_ADDRESS);
-                        String gender = c.getString(TAG_GENDER);
  
                         // Phone node is JSON Object
                         JSONObject phone = c.getJSONObject(TAG_PHONE);
                         String mobile = phone.getString(TAG_PHONE_MOBILE);
-                        String home = phone.getString(TAG_PHONE_HOME);
-                        String office = phone.getString(TAG_PHONE_OFFICE);
  
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -265,6 +255,16 @@ public class CramFetcher extends ListActivity {
                             TAG_PHONE_MOBILE }, new int[] { R.id.name, R.id.mobile });
  
             setListAdapter(adapter);
+            
+            download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
+            download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
+     			
+     			@Override
+     			public void onClick(View v){
+     				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
+     				startActivity(finished);
+     			}
+     		});
         }
  
     }

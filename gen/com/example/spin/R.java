@@ -61,10 +61,9 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_cram=0x7f030000;
-        public static final int activity_delete_sets=0x7f030001;
-        public static final int activity_flashcard=0x7f030002;
-        public static final int activity_main=0x7f030003;
-        public static final int list_item=0x7f030004;
+        public static final int activity_flashcard=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int list_item=0x7f030003;
     }
     public static final class menu {
         public static final int authorization=0x7f080000;
