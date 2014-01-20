@@ -54,6 +54,7 @@ public class CramFetcher extends ListActivity {
     private Button download;
     
     private String json;
+    static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +126,8 @@ public class CramFetcher extends ListActivity {
 	    Editor editor = pref.edit();
 	    Date date = new Date(System.currentTimeMillis());
 		editor.putString("token", code); // Storing string
-		editor.putLong("expiry", date.getTime()+60000); // Storing long
+		long t=date.getTime();
+		editor.putLong("expiry", t+1*ONE_MINUTE_IN_MILLIS); // Storing long
 		editor.commit(); // commit changes
 		Toast.makeText(CramFetcher.this,
          	     code,
