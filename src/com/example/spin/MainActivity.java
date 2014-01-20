@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -119,17 +120,17 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		//saved token
-	    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-	    Editor editor = pref.edit();
-		super.onDestroy();
-		editor.remove("token"); // will delete key name
-		editor.remove("expiry"); // will delete key email
-		editor.commit(); // commit changes
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	    	case R.id.action_poweroff:
+	    		android.os.Process.killProcess(android.os.Process.myPid());
+	    		return true;
+	    	default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 }

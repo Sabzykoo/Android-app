@@ -26,12 +26,14 @@ public final class R {
         public static final int gstart=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int next_button=0x7f020002;
-        public static final int prev_button=0x7f020003;
-        public static final int start=0x7f020004;
+        public static final int power_off=0x7f020003;
+        public static final int prev_button=0x7f020004;
+        public static final int start=0x7f020005;
     }
     public static final class id {
         public static final int action_finish=0x7f050002;
         public static final int action_next=0x7f050000;
+        public static final int action_poweroff=0x7f05001c;
         public static final int action_previous=0x7f050001;
         public static final int action_settings=0x7f05001b;
         public static final int buttonCram=0x7f050004;
@@ -76,6 +78,7 @@ public final class R {
         public static final int DDeck=0x7f060015;
         public static final int action_finish=0x7f060004;
         public static final int action_next=0x7f060003;
+        public static final int action_poweroff=0x7f060020;
         public static final int action_previous=0x7f060002;
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
