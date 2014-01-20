@@ -48,11 +48,11 @@ public final class R {
         public static final int max_text=0x7f050014;
         public static final int minNumber=0x7f050013;
         public static final int min_text=0x7f050012;
-        public static final int mobile=0x7f050019;
         public static final int name=0x7f050018;
         public static final int next_button=0x7f05000c;
         public static final int pageNumber=0x7f05000d;
         public static final int prev_button=0x7f05000b;
+        public static final int questions=0x7f050019;
         public static final int spinnerCategory=0x7f050010;
         public static final int startButton=0x7f050017;
         public static final int textBack=0x7f05000a;

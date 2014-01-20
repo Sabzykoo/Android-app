@@ -42,7 +42,7 @@ public class CramFetcher extends ListActivity {
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
     private static final String TAG_PHONE = "phone";
-    private static final String TAG_PHONE_MOBILE = "mobile";
+    private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
     JSONArray contacts = null;
@@ -206,7 +206,7 @@ public class CramFetcher extends ListActivity {
  
                         // Phone node is JSON Object
                         JSONObject phone = c.getJSONObject(TAG_PHONE);
-                        String mobile = phone.getString(TAG_PHONE_MOBILE);
+                        String mobile = phone.getString(TAG_QUESTIONS);
  
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -215,7 +215,7 @@ public class CramFetcher extends ListActivity {
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
                         contact.put(TAG_EMAIL, email);
-                        contact.put(TAG_PHONE_MOBILE, mobile);
+                        contact.put(TAG_QUESTIONS, mobile);
  
                         // adding contact to contact list
                         contactList.add(contact);
@@ -252,7 +252,7 @@ public class CramFetcher extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME,
-                            TAG_PHONE_MOBILE }, new int[] { R.id.name, R.id.mobile });
+                            TAG_QUESTIONS }, new int[] { R.id.name, R.id.questions });
  
             setListAdapter(adapter);
             

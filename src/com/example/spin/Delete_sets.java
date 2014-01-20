@@ -72,7 +72,7 @@ public class Delete_sets extends ListActivity {
        ListAdapter adapter = new SimpleAdapter(
                Delete_sets.this, contactList,
                R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
-                       }, new int[] { R.id.name , R.id.mobile});
+                       }, new int[] { R.id.name , R.id.questions});
 
        setListAdapter(adapter);
        
