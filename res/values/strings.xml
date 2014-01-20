@@ -32,5 +32,6 @@
     <string name="question_asia">el gringo</string>
     <string name="title_activity_authorization">Authorization</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_delete_sets">Delete_sets</string>
 
 </resources>

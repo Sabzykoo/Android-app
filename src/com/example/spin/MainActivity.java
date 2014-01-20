@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 
-	private Button mStartButton,downloadButton;
+	private Button mStartButton,downloadButton,deleteButton;
 	private boolean mChoosen;
 	private String tableName;
 	private Database myDatabase;
@@ -96,6 +96,15 @@ public class MainActivity extends Activity {
 				else
 					Toast.makeText(MainActivity.this, R.string.toast_text, Toast.LENGTH_LONG).show();
 				}
+		});
+		deleteButton=(Button)findViewById(R.id.deleteButton);
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, Delete_sets.class);
+				startActivity(intent);
+			}
 		});
 		
 	}

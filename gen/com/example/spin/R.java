@@ -61,15 +61,17 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_cram=0x7f030000;
-        public static final int activity_flashcard=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int list_item=0x7f030003;
+        public static final int activity_delete_sets=0x7f030001;
+        public static final int activity_flashcard=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int list_item=0x7f030004;
     }
     public static final class menu {
         public static final int authorization=0x7f080000;
         public static final int cram=0x7f080001;
-        public static final int flashcard=0x7f080002;
-        public static final int main=0x7f080003;
+        public static final int delete_sets=0x7f080002;
+        public static final int flashcard=0x7f080003;
+        public static final int main=0x7f080004;
     }
     public static final class string {
         public static final int DDeck=0x7f060015;
@@ -100,6 +102,7 @@ public final class R {
         public static final int start_button=0x7f060007;
         public static final int title_activity_authorization=0x7f06001d;
         public static final int title_activity_cram=0x7f060014;
+        public static final int title_activity_delete_sets=0x7f06001f;
         public static final int title_activity_flashcard=0x7f06000f;
         public static final int title_activity_flashcard_categories=0x7f060012;
         public static final int toast_text=0x7f06000e;

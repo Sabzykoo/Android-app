@@ -71,8 +71,9 @@ public class CramFetcher extends ListActivity {
 		str_cram="Download";
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
 		
-		//token
 		contactList = new ArrayList<HashMap<String, String>>();
+		
+		//token
 		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
 	    
 	    //date
