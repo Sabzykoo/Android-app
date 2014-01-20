@@ -76,6 +76,8 @@ public class CramFetcher extends ListActivity {
 	    //date
 	    Date date = new Date(System.currentTimeMillis());
 	    
+	    ListView lv = getListView();
+	    
 		long token_date=pref.getLong("expiry", 0);
 		String token = null;
 		if(token_date==0){
@@ -88,14 +90,9 @@ public class CramFetcher extends ListActivity {
 		}
 		else{
 			token = pref.getString("token", null);
-		}
-		
-        ListView lv = getListView();
-        
-     // Calling async task to get json
-        
-        new GetContacts().execute();
-       
+			// Calling async task to get json
+			new GetContacts().execute();
+		}  
 	}
 	 
 	@Override
@@ -112,25 +109,20 @@ public class CramFetcher extends ListActivity {
 		          	     Toast.LENGTH_LONG).show();
 				CramFetcher.this.finish();
 			}
-			String state = uri.getQueryParameter("state");
-			if(!state.equalsIgnoreCase("oAth2spin")){
-				Toast.makeText(CramFetcher.this,
-		          	     "Problem with server authentification!",
-		          	     Toast.LENGTH_LONG).show();
-			}
 			else{
-				String code = uri.getQueryParameter("code");
-				token(code);
+				String state = uri.getQueryParameter("state");
+				if(!state.equalsIgnoreCase("oAth2spin")){
+					Toast.makeText(CramFetcher.this,
+							"Problem with server authentification!",
+							Toast.LENGTH_LONG).show();
+				}
+				else{
+					String code = uri.getQueryParameter("code");
+					token(code);
+				}
 			}
 		}
-		else{
-			Toast.makeText(CramFetcher.this,
-	          	     "No response from server!",
-	          	     Toast.LENGTH_LONG).show();
-	    	
-		}
-		CramFetcher.this.finish();
-		
+		CramFetcher.this.finish();		
 	}
 	
 	private void token(String code){
@@ -138,14 +130,15 @@ public class CramFetcher extends ListActivity {
 	    Editor editor = pref.edit();
 	    Date date = new Date(System.currentTimeMillis());
 		editor.putString("token", code); // Storing string
-		editor.putLong("expiry", date.getTime()+600); // Storing long
+		editor.putLong("expiry", date.getTime()+60000); // Storing long
 		editor.commit(); // commit changes
 		Toast.makeText(CramFetcher.this,
          	     code,
          	     Toast.LENGTH_LONG).show();
-   	Thread.currentThread();
-   	Intent back = new Intent(CramFetcher.this,CramFetcher.class);
-   	startActivity(back);
+		CramFetcher.this.finish();
+		Intent back = new Intent(CramFetcher.this,CramFetcher.class);
+		startActivity(back);
+		CramFetcher.this.onDestroy();
 	}
 	
 	protected void noData() throws InterruptedException{
