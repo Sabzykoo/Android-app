@@ -38,8 +38,8 @@ public class Flashcard extends Activity {
 	private int mCurrentIndex = 0;
 	
 	private SQLitem[] mItemBank = new SQLitem[] {
-			new SQLitem("el gringo", "grrrrr", 0),
-			new SQLitem("el nino come naranjas", "desde mi balcom lo siento", 0),
+			new SQLitem("QUESTION_1", "ANSWER_1", 0),
+			new SQLitem("QUESTION_2", "ANSWER_2", 0),
 	};
 	
 	private void updateCard(){
@@ -57,7 +57,8 @@ public class Flashcard extends Activity {
 		String pageNumber = ((Integer)(mCurrentIndex+1)).toString() + " of " + ((Integer)mItemBank.length).toString();
 		mPageNumTextView.setText(pageNumber);
 		
-	//	((View)findViewById(R.id.main_activity_card_face)).setVisibility(View.VISIBLE);
+		((View)findViewById(R.id.main_activity_card_face)).setVisibility(View.VISIBLE);
+		((View)findViewById(R.id.main_activity_card_back)).setVisibility(View.GONE);
 		
 	}
 
