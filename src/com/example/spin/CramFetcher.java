@@ -64,8 +64,10 @@ public class CramFetcher extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
+		
 		String str_cram= "Download sets from server";
 		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
+		
 		str_cram="Download";
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
 		
@@ -81,8 +83,7 @@ public class CramFetcher extends ListActivity {
 		long token_date=pref.getLong("expiry", 0);
 		String token = null;
 		if(token_date==0){
-			Intent viewIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse(authorize));
+			Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorize));
 			startActivity(viewIntent);
 		}
 		else if(token_date<=date.getTime()){
