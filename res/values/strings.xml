@@ -15,22 +15,22 @@
     <string name="select_text">\.\.\.or select a downloaded set</string>
     <string name="min_numb_hint">first page number</string>
     <string name="max_numb_hint">last page number</string>
+    
     <string name="toast_text">You have to choose a set</string>
+    <string name="toast_num_start">Invalid starting point</string>
+    <string name="toast_num_end">Invalid ending point</string>
+    <string name="toast_both">Invalid starting and ending point</string>
+    
     <string name="title_activity_flashcard">Flashcard</string>
-    <string name="frontText">Krijesnice (Lampyridae) jedna su od porodica u razredu kukaca u koju širom svijeta spada oko 2.000 vrsta.</string>
-    <string name="backText">Pojava da živa bića "proizvode" svjetlost naziva se bioluminiscencija. Kod krijesnica se svjetlosni organ nalazi gotovo uvijek u zatku životinje. </string>
     <string name="title_activity_flashcard_categories">FlashcardCategories</string>
+    
     <string name="mainCram">Download sets from server</string>
     <string name="title_activity_cram">Download Flashcards</string>
     <string name="DDeck">Download set</string>
+    
     <string name="next_button">Next</string>
     <string name="prev_button">Previous</string>
-    <string name="question_oceans">Croatia is not in Europe</string>
-    <string name="question_mideast">Now you\'re making a WTF face</string>
-    <string name="question_africa">light years</string>
-    <string name="question_americas">Facepalm</string>
-    <string name="question_asia">el gringo</string>
+ 
     <string name="title_activity_authorization">Authorization</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>
