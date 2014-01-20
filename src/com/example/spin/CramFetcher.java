@@ -1,18 +1,25 @@
 package com.example.spin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -26,11 +33,11 @@ public class CramFetcher extends ListActivity {
 	/**
 	 * @link URL*/
 
-	private ProgressDialog pDialog;
+	private ProgressDialog pDialog,aDialog;
 	 
     // URL to get contacts JSON
     private static String url = "http://api.androidhive.info/contacts/";
- 
+    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=5ca79e5c66d941d2a8b9586274c70a2e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
     private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
@@ -61,15 +68,86 @@ public class CramFetcher extends ListActivity {
 		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
 		str_cram="Download";
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
-		contactList = new ArrayList<HashMap<String, String>>();
-		 
-        ListView lv = getListView();
 		
+		//token
+		contactList = new ArrayList<HashMap<String, String>>();
+		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+	    
+	    //date
+	    Date date = new Date(System.currentTimeMillis());
+	    
+		long token_date=pref.getLong("expiry", 0);
+		String token = null;
+		if(token_date==0){
+			Intent viewIntent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse(authorize));
+			startActivity(viewIntent);
+		}
+		else if(token_date<=date.getTime()){
+			//TODO request refresh token
+		}
+		else{
+			token = pref.getString("token", null);
+		}
+		
+        ListView lv = getListView();
+        
      // Calling async task to get json
+        
         new GetContacts().execute();
        
 	}
-
+	 
+	@Override
+	protected void onNewIntent(Intent intent){
+		super.onNewIntent(intent);
+		Uri uri = intent.getData();
+		
+		if(uri != null && uri.toString().startsWith("spin://oauthresponse")){
+			String error = null;
+			error = uri.getQueryParameter("error");
+			if(!(error==null)){
+				Toast.makeText(CramFetcher.this,
+		          	     "You didn't authorize application!",
+		          	     Toast.LENGTH_LONG).show();
+				CramFetcher.this.finish();
+			}
+			String state = uri.getQueryParameter("state");
+			if(!state.equalsIgnoreCase("oAth2spin")){
+				Toast.makeText(CramFetcher.this,
+		          	     "Problem with server authentification!",
+		          	     Toast.LENGTH_LONG).show();
+			}
+			else{
+				String code = uri.getQueryParameter("code");
+				token(code);
+			}
+		}
+		else{
+			Toast.makeText(CramFetcher.this,
+	          	     "No response from server!",
+	          	     Toast.LENGTH_LONG).show();
+	    	
+		}
+		CramFetcher.this.finish();
+		
+	}
+	
+	private void token(String code){
+		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+	    Editor editor = pref.edit();
+	    Date date = new Date(System.currentTimeMillis());
+		editor.putString("token", code); // Storing string
+		editor.putLong("expiry", date.getTime()+600); // Storing long
+		editor.commit(); // commit changes
+		Toast.makeText(CramFetcher.this,
+         	     code,
+         	     Toast.LENGTH_LONG).show();
+   	Thread.currentThread();
+   	Intent back = new Intent(CramFetcher.this,CramFetcher.class);
+   	startActivity(back);
+	}
+	
 	protected void noData() throws InterruptedException{
 		
     	Toast.makeText(CramFetcher.this,

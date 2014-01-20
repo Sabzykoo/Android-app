@@ -1,12 +1,16 @@
 package com.example.spin;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.example.spin.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -18,6 +22,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	
+
 	private Button mStartButton,downloadButton;
 	private boolean mChoosen;
 	private String tableName;
@@ -31,8 +37,21 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		File f = new File(
+				"/data/data/com/example/spin/shared_prefs/MyPref.xml");
+				if (f.exists()){
+					//do nothing
+				}
+				else{
+					SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+				    Editor editor = pref.edit();
+				    editor.putString("token", null); // Storing string
+					editor.putLong("expiry", 0); // Storing long
+					editor.commit(); // commit changes
+				}
+		
 		myDatabase = new Database(MainActivity.this);
-
+		
 		/*myDatabase.defineTable("Test"); //here you can see how to define table
 		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
 		MainActivity.this.myDatabase.addItem(item);*/ //here you can see how to insert a row into defined table
@@ -61,7 +80,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent= new Intent(MainActivity.this, CramFetcher.class);
+				Intent intent = new Intent(MainActivity.this, CramFetcher.class);
 				startActivity(intent);
 			}
 		});
@@ -88,4 +107,16 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		//saved token
+	    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+	    Editor editor = pref.edit();
+		super.onDestroy();
+		editor.remove("token"); // will delete key name
+		editor.remove("expiry"); // will delete key email
+		editor.commit(); // commit changes
+	}
+	
 }
