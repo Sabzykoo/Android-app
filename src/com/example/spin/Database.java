@@ -52,6 +52,10 @@ public class Database {
 		
 		public void defineTable(String table){
 			
+			/**
+			 * defines table
+			 * */
+			
 			DATABASE_TABLE = table;
 			DATABASE_CREATE = "create table "
 					+ DATABASE_TABLE + " (" + KEY_ID
@@ -74,8 +78,19 @@ public class Database {
 			DATABASE_TABLE="";
 		}
 		
-		// add a new item
 		public void addItem(SQLitem item) {
+			
+			/**
+			 * adds a new SQL item
+			 * creates a new row of values to insert
+			 * assigns values for each row
+			 * Inserts the row into table
+			 * 
+			 * @param SQLitem	SQL item
+			 * 
+			 * 
+			 * */
+			
 			// create a new row of values to insert
 			ContentValues newValues = new ContentValues();
 
@@ -89,8 +104,15 @@ public class Database {
 			db.insert(DATABASE_TABLE, null, newValues);
 		}
 
-		// get a single item
+		
 		public SQLitem getItem(int id) {
+			/**
+			 * gets a single SQL item
+			 * @param id
+			 * @return item 
+			 * 
+			 * */
+			
 			SQLiteDatabase db = myDBOpenHelper.getReadableDatabase();
 
 			// defined arguments
@@ -112,12 +134,18 @@ public class Database {
 			SQLitem item = new SQLitem(cursor.getString(0), cursor.getString(1),
 					cursor.getInt(2));
 
-			// return item
 			return item;
 		}
 
-		// get all accessible items
+		
 		public List<SQLitem> getAllItems() {
+			/**
+			 * gets all accessible items by selecting them as looping
+			 * through all rows and adding to list
+			 * 
+			 * @return List<SQLitem>	returns a list of SQL items from a specific table
+			 *  */
+			
 			List<SQLitem> itemList = new LinkedList<SQLitem>();
 
 			// select all items

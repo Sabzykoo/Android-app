@@ -36,7 +36,7 @@
         android:text="@string/config"/>
     
     <LinearLayout 
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:orientation="horizontal" >
         
@@ -49,15 +49,15 @@
         
         <EditText 
         	android:id="@+id/minNumber"
+        	android:layout_marginRight="24dp"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:inputType="numberSigned"
-        	android:hint="@string/min_numb_hint"/>
+        	android:inputType="numberSigned"/>
         
     </LinearLayout>
     
     <LinearLayout 
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:orientation="horizontal" >
         
@@ -70,10 +70,10 @@
         
         <EditText 
         	android:id="@+id/maxNumber"
+        	android:layout_marginRight="24dp"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:inputType="numberSigned"
-        	android:hint="@string/max_numb_hint" />
+        	android:inputType="numberSigned"/>
         
     </LinearLayout>
     
@@ -81,6 +81,7 @@
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
         android:layout_gravity="center_horizontal|right"
         android:text="@string/delete_button" />

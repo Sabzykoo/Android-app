@@ -32,6 +32,13 @@
 				android:layout_centerVertical="true"
 				android:clickable="true"
 				android:onClick="onCardClick" > 
+				
+		        <ImageButton 
+		           android:id="@+id/repeatButton"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:gravity="top|right" />
+				
 		        
 		       <TextView 
 		           android:id="@+id/textFront"
