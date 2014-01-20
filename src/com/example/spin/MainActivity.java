@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +25,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private EditText mMinEditText, mMaxEditText;
-	private Button mStartButton,downloadButton;
+	private Button mStartButton,downloadButton, deleteButton;
+
 	private String tableName;
 	private Database myDatabase;
 	private boolean mChoosenSpin = true;
@@ -85,28 +87,27 @@ public class MainActivity extends Activity {
 		
 		myDatabase = new Database(MainActivity.this);
 		
+		/*myDatabase.defineTable("Test"); //here you can see how to define table
+		myDatabase.createTable(); //First create table then insert into it
+		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
+		MainActivity.this.myDatabase.addItem(item); //here you can see how to insert a row into defined table
+		SQLitem item2 = new SQLitem("What is the biggest land by people", "China", 1); //here you can see how to define a row
+		MainActivity.this.myDatabase.addItem(item2); //here you can see how to insert a row into defined table*/
 		
-		
-		/* 	// here you can see how to define table
-		 	myDatabase.defineTable("Test");
-		  	// here you can see how to define a row
-		  	SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1);
-		  	// here you can see how to insert a row into defined table
-			MainActivity.this.myDatabase.addItem(item); */
-		
-		Cursor c = myDatabase.showAllTables();
-		if (c.moveToFirst()) {
-			c.moveToNext();
-			while(!c.isAfterLast()) {
-				tables.add(c.getString(0));
-				c.moveToNext();
-			}
-		}
-				
-		if (tables.size() == 0) {
-			tables.add("Download sets");
-		}
-		
+				Cursor c = myDatabase.showAllTables();
+				if (c.moveToFirst())
+		        {
+					c.moveToNext();
+					while(!c.isAfterLast()){
+			           tables.add(c.getString(0));
+			           c.moveToNext();
+			        }
+		        }
+		       if (tables.size() == 0)
+		        {
+		            tables.add("Download sets");
+		        }
+
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
                 android.R.layout.simple_spinner_item, tables);
@@ -146,6 +147,15 @@ public class MainActivity extends Activity {
 						Toast.makeText(MainActivity.this, R.string.toast_text, Toast.LENGTH_LONG).show(); }
 				}
 		});
+		deleteButton=(Button)findViewById(R.id.deleteButton);
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, Delete_sets.class);
+				startActivity(intent);
+			}
+		});
 		
 	}
 
@@ -155,17 +165,17 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		//saved token
-	    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-	    Editor editor = pref.edit();
-		super.onDestroy();
-		editor.remove("token"); // will delete key name
-		editor.remove("expiry"); // will delete key email
-		editor.commit(); // commit changes
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	    	case R.id.action_poweroff:
+	    		android.os.Process.killProcess(android.os.Process.myPid());
+	    		return true;
+	    	default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 }

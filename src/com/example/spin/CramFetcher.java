@@ -3,9 +3,6 @@ package com.example.spin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,22 +31,18 @@ public class CramFetcher extends ListActivity {
 	/**
 	 * @link URL*/
 
-	private ProgressDialog pDialog,aDialog;
+	private ProgressDialog pDialog;
 	 
     // URL to get contacts JSON
     private static String url = "http://api.androidhive.info/contacts/";
-    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=5ca79e5c66d941d2a8b9586274c70a2e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
+    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=59a3f0dd38650fe6b9043d9d0084360e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
     private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
-    private static final String TAG_ADDRESS = "address";
-    private static final String TAG_GENDER = "gender";
     private static final String TAG_PHONE = "phone";
-    private static final String TAG_PHONE_MOBILE = "mobile";
-    private static final String TAG_PHONE_HOME = "home";
-    private static final String TAG_PHONE_OFFICE = "office";
+    private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
     JSONArray contacts = null;
@@ -57,8 +51,10 @@ public class CramFetcher extends ListActivity {
     ArrayList<HashMap<String, String>> contactList;
 	
     private boolean isTaskCancelled = false;
+    private Button download;
     
     private String json;
+    static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +67,16 @@ public class CramFetcher extends ListActivity {
 		str_cram="Download";
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
 		
-		//token
 		contactList = new ArrayList<HashMap<String, String>>();
+		
+		//token
 		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
 	    
 	    //date
 	    Date date = new Date(System.currentTimeMillis());
-	    
-	    ListView lv = getListView();
-	    
 		long token_date=pref.getLong("expiry", 0);
 		String token = null;
+		ListView lv = getListView();
 		if(token_date==0){
 			Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorize));
 			startActivity(viewIntent);
@@ -108,7 +103,7 @@ public class CramFetcher extends ListActivity {
 				Toast.makeText(CramFetcher.this,
 		          	     "You didn't authorize application!",
 		          	     Toast.LENGTH_LONG).show();
-				CramFetcher.this.finish();
+				CramFetcher.this.onDestroy();
 			}
 			else{
 				String state = uri.getQueryParameter("state");
@@ -131,7 +126,8 @@ public class CramFetcher extends ListActivity {
 	    Editor editor = pref.edit();
 	    Date date = new Date(System.currentTimeMillis());
 		editor.putString("token", code); // Storing string
-		editor.putLong("expiry", date.getTime()+60000); // Storing long
+		long t=date.getTime();
+		editor.putLong("expiry", t+1*ONE_MINUTE_IN_MILLIS); // Storing long
 		editor.commit(); // commit changes
 		Toast.makeText(CramFetcher.this,
          	     code,
@@ -208,14 +204,6 @@ public class CramFetcher extends ListActivity {
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String email = c.getString(TAG_EMAIL);
-                        String address = c.getString(TAG_ADDRESS);
-                        String gender = c.getString(TAG_GENDER);
- 
-                        // Phone node is JSON Object
-                        JSONObject phone = c.getJSONObject(TAG_PHONE);
-                        String mobile = phone.getString(TAG_PHONE_MOBILE);
-                        String home = phone.getString(TAG_PHONE_HOME);
-                        String office = phone.getString(TAG_PHONE_OFFICE);
  
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -223,8 +211,7 @@ public class CramFetcher extends ListActivity {
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
-                        contact.put(TAG_EMAIL, email);
-                        contact.put(TAG_PHONE_MOBILE, mobile);
+                        contact.put(TAG_QUESTIONS, email);
  
                         // adding contact to contact list
                         contactList.add(contact);
@@ -261,9 +248,19 @@ public class CramFetcher extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME,
-                            TAG_PHONE_MOBILE }, new int[] { R.id.name, R.id.mobile });
+                            TAG_QUESTIONS }, new int[] { R.id.name, R.id.questions });
  
             setListAdapter(adapter);
+            
+            download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
+            download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
+     			
+     			@Override
+     			public void onClick(View v){
+     				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
+     				startActivity(finished);
+     			}
+     		});
         }
  
     }

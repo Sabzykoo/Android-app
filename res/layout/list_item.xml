@@ -15,7 +15,7 @@
         android:textColor="#43bd00"
         android:textSize="16sp"
         android:textStyle="bold"/>
-    <TextView android:id="@+id/mobile" 
+    <TextView android:id="@+id/questions" 
         android:layout_width="wrap_content" 
         android:layout_height="wrap_content" 
         android:layout_alignLeft="@+id/name" 
@@ -25,7 +25,7 @@
     <CheckBox android:id="@+id/checkbox" 
         android:layout_width="60sp" 
         android:layout_height="50sp" 
-        android:layout_alignBottom="@+id/mobile" 
+        android:layout_alignBottom="@+id/questions" 
         android:layout_alignParentRight="true" 
         android:gravity="center"/>
 </RelativeLayout>

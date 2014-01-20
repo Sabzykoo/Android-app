@@ -36,12 +36,20 @@
             android:name="com.example.spin.CramFetcher"
             android:label="@string/title_activity_cram"
             android:launchMode="singleTask" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="spin" android:host="oauthresponse" />
+
+                <data
+                    android:host="oauthresponse"
+                    android:scheme="spin" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.spin.Delete_sets"
+            android:label="@string/title_activity_flashcard" >
         </activity>
     </application>
 
