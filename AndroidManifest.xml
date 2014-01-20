@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.spin.Delete_sets"
+            android:name="com.example.spin.DeleteSets"
             android:label="@string/title_activity_flashcard" >
         </activity>
     </application>

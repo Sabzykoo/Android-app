@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ListActivity;
 
-public class Delete_sets extends ListActivity {
+public class DeleteSets extends ListActivity {
 
 	ArrayList<HashMap<String, String>> contactList;
 	private Database myDatabase;
@@ -39,7 +39,7 @@ public class Delete_sets extends ListActivity {
 		
 		contactList = new ArrayList<HashMap<String, String>>();
 		
-		myDatabase = new Database(Delete_sets.this);
+		myDatabase = new Database(DeleteSets.this);
 		Cursor c = myDatabase.showAllTables();
 		HashMap<String, String> contact = new HashMap<String, String>();
 		int br=0;
@@ -62,15 +62,15 @@ public class Delete_sets extends ListActivity {
         }
        if (br == 0)
         {
-    	   Toast.makeText(Delete_sets.this,
+    	   Toast.makeText(DeleteSets.this,
 	          	     "You need to download sets!",
 	          	     Toast.LENGTH_LONG).show();
-			Delete_sets.this.finish();
-			Intent back = new Intent(Delete_sets.this,MainActivity.class);
+			DeleteSets.this.finish();
+			Intent back = new Intent(DeleteSets.this,MainActivity.class);
 			startActivity(back);
         }
        ListAdapter adapter = new SimpleAdapter(
-               Delete_sets.this, contactList,
+               DeleteSets.this, contactList,
                R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
                        }, new int[] { R.id.name , R.id.questions});
 
@@ -81,7 +81,7 @@ public class Delete_sets extends ListActivity {
 			
 			@Override
 			public void onClick(View v){
-				Intent finished = new Intent(Delete_sets.this, MainActivity.class);
+				Intent finished = new Intent(DeleteSets.this, MainActivity.class);
 				startActivity(finished);
 			}
 		});

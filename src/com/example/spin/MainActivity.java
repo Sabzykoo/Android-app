@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, Delete_sets.class);
+				Intent intent = new Intent(MainActivity.this, DeleteSets.class);
 				startActivity(intent);
 			}
 		});
