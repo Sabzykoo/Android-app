@@ -35,7 +35,7 @@ public class CramFetcher extends ListActivity {
 	 
     // URL to get contacts JSON
     private static String url = "http://api.androidhive.info/contacts/";
-    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=5ca79e5c66d941d2a8b9586274c70a2e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
+    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=59a3f0dd38650fe6b9043d9d0084360e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
     private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
@@ -73,7 +73,6 @@ public class CramFetcher extends ListActivity {
 	    
 	    //date
 	    Date date = new Date(System.currentTimeMillis());
-	    
 		long token_date=pref.getLong("expiry", 0);
 		String token = null;
 		ListView lv = getListView();
@@ -103,7 +102,7 @@ public class CramFetcher extends ListActivity {
 				Toast.makeText(CramFetcher.this,
 		          	     "You didn't authorize application!",
 		          	     Toast.LENGTH_LONG).show();
-				CramFetcher.this.finish();
+				CramFetcher.this.onDestroy();
 			}
 			else{
 				String state = uri.getQueryParameter("state");
@@ -204,18 +203,13 @@ public class CramFetcher extends ListActivity {
                         String name = c.getString(TAG_NAME);
                         String email = c.getString(TAG_EMAIL);
  
-                        // Phone node is JSON Object
-                        JSONObject phone = c.getJSONObject(TAG_PHONE);
-                        String mobile = phone.getString(TAG_QUESTIONS);
- 
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
  
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
-                        contact.put(TAG_EMAIL, email);
-                        contact.put(TAG_QUESTIONS, mobile);
+                        contact.put(TAG_QUESTIONS, email);
  
                         // adding contact to contact list
                         contactList.add(contact);
