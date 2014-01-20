@@ -73,21 +73,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-<<<<<<< HEAD
-=======
-		File f = new File("/data/data/com/example/spin/shared_prefs/MyPref.xml");
-		
-		if (f.exists()) {
-			//do nothing
-			} else {
-				SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-				Editor editor = pref.edit();
-				editor.putString("token", null); // Storing string
-				editor.putLong("expiry", 0); // Storing long
-				editor.commit(); // commit changes
-			}
-		
->>>>>>> f175149e9810c13fc7580a1ed1e49c66ecc41d17
+
 		myDatabase = new Database(MainActivity.this);
 		
 		/*myDatabase.defineTable("Test"); //here you can see how to define table
