@@ -25,4 +25,10 @@ public class SQLitem {
 		return Repeat;
 	}
 
+	public void setRepeat(int repeat) {
+		Repeat = repeat;
+	}
+
+	
+	
 }

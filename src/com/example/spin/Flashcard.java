@@ -68,8 +68,13 @@ public class Flashcard extends Activity {
 		 *  */
 		
 		mRepeatable = false;
-		mFavButton.setImageResource(R.drawable.favourite);
-		
+		int repeat=mItemBank[mCurrentIndex].getRepeat();
+		if(repeat==0){
+			mFavButton.setImageResource(R.drawable.favourite);
+		}
+		else{
+			mFavButton.setImageResource(R.drawable.fav);
+		}
 		String question = mItemBank[mCurrentIndex].getQuestion();
 		mQuestionTextView.setText(question);
 		
@@ -132,9 +137,14 @@ public class Flashcard extends Activity {
 				if(!mRepeatable){
 					mFavButton.setImageResource(R.drawable.fav);
 					mRepeatable = !mRepeatable;
+					
 				}else{
-				mFavButton.setImageResource(R.drawable.favourite);
-				mRepeatable = !mRepeatable; }	
+					mFavButton.setImageResource(R.drawable.favourite);
+					mRepeatable = !mRepeatable; 
+				}
+				int repeat=mItemBank[mCurrentIndex].getRepeat();
+				repeat=1-repeat;
+				mItemBank[mCurrentIndex].setRepeat(repeat);
 			}
 		});
 		
