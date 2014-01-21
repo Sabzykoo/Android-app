@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
+	private static final int RESULT_CLOSE_ALL = 0;
 	private EditText mMinEditText, mMaxEditText;
 	private Button mStartButton,downloadButton, deleteButton;
 
@@ -157,13 +158,24 @@ public class MainActivity extends Activity {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	    	case R.id.action_poweroff:
-	    		android.os.Process.killProcess(android.os.Process.myPid());
+	    		setResult(RESULT_CLOSE_ALL);
+	    		MainActivity.this.finish();
 	    		return true;
 	    	default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    
+		switch(resultCode)
+	    {
+	    case RESULT_CLOSE_ALL:
+	        setResult(RESULT_CLOSE_ALL);
+	        finish();
+	    }
+	    super.onActivityResult(requestCode, resultCode, data);
+	}
 }
 
 /*

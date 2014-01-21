@@ -31,6 +31,7 @@ public class Flashcard extends Activity {
 	public static final String TAG = "FlashcardActivity";
 	
 	public static final int IMAGE_TAG = 1;
+	private static final int RESULT_CLOSE_ALL = 0;
 	
 	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
 	private ImageButton mNextButton, mPrevButton, mFavButton;
@@ -60,16 +61,25 @@ public class Flashcard extends Activity {
 	};
 	
 	private int mEndingIndex;
+	private boolean[] mRepeatableStar = new boolean[mItemBank.length];
+	
 	
 	private void updateCard(){
+		
 		/**
 		 * Updates a SQL item from a specified Database table and its
 		 * sequence number
 		 *  */
 		
+
 		mRepeatable = false;
-		mFavButton.setImageResource(R.drawable.favourite);
-		
+		int repeat=mItemBank[mCurrentIndex].getRepeat();
+		if(repeat==0){
+			mFavButton.setImageResource(R.drawable.favourite);
+		}
+		else{
+			mFavButton.setImageResource(R.drawable.fav);
+		}
 		String question = mItemBank[mCurrentIndex].getQuestion();
 		mQuestionTextView.setText(question);
 		
@@ -132,9 +142,14 @@ public class Flashcard extends Activity {
 				if(!mRepeatable){
 					mFavButton.setImageResource(R.drawable.fav);
 					mRepeatable = !mRepeatable;
+					
 				}else{
-				mFavButton.setImageResource(R.drawable.favourite);
-				mRepeatable = !mRepeatable; }	
+					mFavButton.setImageResource(R.drawable.favourite);
+					mRepeatable = !mRepeatable; 
+				}
+				int repeat=mItemBank[mCurrentIndex].getRepeat();
+				repeat=1-repeat;
+				mItemBank[mCurrentIndex].setRepeat(repeat);
 			}
 		});
 		
@@ -204,8 +219,8 @@ public class Flashcard extends Activity {
 	        	updateCard();
 	            return true;
 	        case R.id.action_finish:
-	        	startActivity(new Intent(Flashcard.this, MainActivity.class));
-	        	return false;
+	        	Flashcard.this.finish();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -225,6 +240,18 @@ public class Flashcard extends Activity {
 		}
 	
 		return super.onPrepareOptionsMenu(menu);	
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    
+		switch(resultCode)
+	    {
+	    case RESULT_CLOSE_ALL:
+	        setResult(RESULT_CLOSE_ALL);
+	        finish();
+	    }
+	    super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }
