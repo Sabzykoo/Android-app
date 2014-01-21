@@ -31,7 +31,7 @@ public class Flashcard extends Activity {
 	public static final String TAG = "FlashcardActivity";
 	
 	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
-	private ImageButton mNextButton, mPrevButton;
+	private ImageButton mNextButton, mPrevButton, mFavButton;
 	
 	/*
 	 * private ViewPager mPager;
@@ -118,6 +118,16 @@ public class Flashcard extends Activity {
 		mQuestionTextView = (TextView)findViewById(R.id.textFront);
 		mAnswerTextView = (TextView)findViewById(R.id.textBack);
 		mPageNumTextView = (TextView)findViewById(R.id.pageNumber);
+		
+		mFavButton = (ImageButton)findViewById(R.id.repeatButton);
+	/*	mFavButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+			}
+		}); */
 		
 		mNextButton = (ImageButton)findViewById(R.id.next_button);
 		mNextButton.setOnClickListener(new View.OnClickListener() {

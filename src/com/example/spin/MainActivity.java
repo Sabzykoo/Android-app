@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 	
 	private EditText mMinEditText, mMaxEditText;
 	private Button mStartButton,downloadButton, deleteButton;
+	private boolean mRepeatable;
 
 	private Database myDatabase;
 	private boolean mChoosenSpin = true;

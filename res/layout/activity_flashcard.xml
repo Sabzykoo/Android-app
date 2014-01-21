@@ -31,13 +31,7 @@
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
 				android:clickable="true"
-				android:onClick="onCardClick" > 
-				
-		        <ImageButton 
-		           android:id="@+id/repeatButton"
-		           android:layout_width="wrap_content"
-		           android:layout_height="wrap_content"
-		           android:gravity="top|right" />
+				android:onClick="onCardClick" >
 				
 		        
 		       <TextView 
@@ -45,6 +39,17 @@
 		           android:layout_width="fill_parent"
 		           android:layout_height="fill_parent"
 		           android:gravity="center" />
+
+		       <ImageButton
+		           android:id="@+id/repeatButton"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:layout_alignParentRight="true"
+		           android:layout_alignParentTop="true"
+		           android:clickable="true"
+		           android:background="@android:color/transparent"
+		           android:contentDescription="@string/favourite"
+		           android:src="@drawable/star" />
 		       
 			</RelativeLayout>
 		
@@ -73,7 +78,8 @@
 	 <LinearLayout
 	     android:layout_width="fill_parent"
 	     android:layout_height="wrap_content"
-	     android:gravity="bottom"
+	     android:layout_below="@id/main_activity_root"
+	     android:layout_marginTop="64dp"
 	     android:orientation="horizontal" >
 
 	     <ImageButton

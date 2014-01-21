@@ -23,13 +23,15 @@ public final class R {
         public static final int width=0x7f040002;
     }
     public static final class drawable {
-        public static final int favourite=0x7f020000;
-        public static final int gstart=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int next_button=0x7f020003;
-        public static final int power_off=0x7f020004;
-        public static final int prev_button=0x7f020005;
-        public static final int start=0x7f020006;
+        public static final int fav=0x7f020000;
+        public static final int favourite=0x7f020001;
+        public static final int gstart=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int next_button=0x7f020004;
+        public static final int power_off=0x7f020005;
+        public static final int prev_button=0x7f020006;
+        public static final int star=0x7f020007;
+        public static final int start=0x7f020008;
     }
     public static final class id {
         public static final int action_finish=0x7f050002;
@@ -56,11 +58,11 @@ public final class R {
         public static final int pageNumber=0x7f05000e;
         public static final int prev_button=0x7f05000c;
         public static final int questions=0x7f05001a;
-        public static final int repeatButton=0x7f050008;
+        public static final int repeatButton=0x7f050009;
         public static final int spinnerCategory=0x7f050011;
         public static final int startButton=0x7f050018;
         public static final int textBack=0x7f05000b;
-        public static final int textFront=0x7f050009;
+        public static final int textFront=0x7f050008;
         public static final int textSelect=0x7f050010;
     }
     public static final class layout {
@@ -87,6 +89,7 @@ public final class R {
         public static final int config=0x7f060008;
         public static final int delete_button=0x7f060005;
         public static final int download_button=0x7f060006;
+        public static final int favourite=0x7f06001d;
         public static final int hello_world=0x7f06001a;
         public static final int mainCram=0x7f060014;
         public static final int max=0x7f06000a;
