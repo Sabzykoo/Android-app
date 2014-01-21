@@ -3,7 +3,11 @@ package com.example.spin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,14 +38,14 @@ public class CramFetcher extends ListActivity {
 	private ProgressDialog pDialog;
 	 
     // URL to get contacts JSON
+	private static String tokens = "https://api.cram.com/oauth2/token/";
     private static String url = "http://api.androidhive.info/contacts/";
-    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=59a3f0dd38650fe6b9043d9d0084360e&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
+    private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
     private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
-    private static final String TAG_PHONE = "phone";
     private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
@@ -54,7 +58,6 @@ public class CramFetcher extends ListActivity {
     private Button download;
     
     private String json;
-    static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +78,17 @@ public class CramFetcher extends ListActivity {
 	    //date
 	    Date date = new Date(System.currentTimeMillis());
 		long token_date=pref.getLong("expiry", 0);
-		String token = null;
-		ListView lv = getListView();
 		if(token_date==0){
 			Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorize));
 			startActivity(viewIntent);
 		}
 		else if(token_date<=date.getTime()){
 			//TODO request refresh token
+			String refresh = pref.getString("refresh", null);
+			
 		}
 		else{
-			token = pref.getString("token", null);
+			String token = pref.getString("token", null);
 			// Calling async task to get json
 			new GetContacts().execute();
 		}  
@@ -122,20 +125,27 @@ public class CramFetcher extends ListActivity {
 	}
 	
 	private void token(String code){
-		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-	    Editor editor = pref.edit();
-	    Date date = new Date(System.currentTimeMillis());
-		editor.putString("token", code); // Storing string
-		long t=date.getTime();
-		editor.putLong("expiry", t+1*ONE_MINUTE_IN_MILLIS); // Storing long
-		editor.commit(); // commit changes
+		String access_t=null;
+		try {
+			access_t = new GetToken().execute(code).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Toast.makeText(CramFetcher.this,
-         	     code,
+         	     access_t,
          	     Toast.LENGTH_LONG).show();
 		CramFetcher.this.finish();
 		Intent back = new Intent(CramFetcher.this,CramFetcher.class);
 		startActivity(back);
 		CramFetcher.this.onDestroy();
+	}
+	
+	private void refresh(String token){
+		
 	}
 	
 	protected void noData() throws InterruptedException{
@@ -147,6 +157,56 @@ public class CramFetcher extends ListActivity {
 		Thread.sleep(1500);
 		startActivity(new Intent(CramFetcher.this,MainActivity.class));
 	}
+	
+	private class GetToken extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... code) {
+            // Creating service handler class instance
+        	String access_t=null,refresh_t=null,time_t=null;
+        	int expiry_t=0;
+            ServiceHandler sh = new ServiceHandler();
+            List<NameValuePair>parametres = new ArrayList<NameValuePair>(2);
+    		parametres.add(new BasicNameValuePair("code",code[0]));
+    		parametres.add(new BasicNameValuePair("grant_type","authorization_code"));
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(tokens, ServiceHandler.POST,parametres);
+            json=jsonStr;
+            Log.d("Response: ", "> " + jsonStr);
+ 
+            if (jsonStr != null) {
+                try {
+                	JSONObject token_obj = new JSONObject(jsonStr);
+    				if(token_obj.has("error")){
+    					Toast.makeText(CramFetcher.this,
+    			          	     "Error while authenticating token, try again!",
+    			          	     Toast.LENGTH_LONG).show();
+    					CramFetcher.this.onDestroy();
+                    }
+    				else{
+    					access_t=token_obj.getString("access_token");
+        				refresh_t=token_obj.getString("refresh_token");
+        				time_t=token_obj.getString("expires_in");
+        				expiry_t = Integer.valueOf(time_t);
+        				SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        			    Editor editor = pref.edit();
+        			    Date date = new Date(System.currentTimeMillis());
+        				editor.putString("token", access_t); // Storing string
+        				long t=date.getTime();
+        				editor.putLong("expiry", t+expiry_t); // Storing long
+        				editor.putString("refresh", refresh_t);
+        				editor.commit(); // commit changes
+    				}
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } 
+            else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+			return access_t;
+        }
+    }
 	
 	private class GetContacts extends AsyncTask<Void, Void, Void> {
 
