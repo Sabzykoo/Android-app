@@ -2,6 +2,7 @@ package com.example.spin;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.spin.R;
 
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +52,15 @@ public class MainActivity extends Activity {
 		}
 		
 	}
+	
+	
+/*	private String getTableLength(){
+		List<SQLitem> query = myDatabase.getAllItems();
+		String number = String.valueOf(query.size());
+		String questions= "Number of questions in set: " + number; 
+		return questions;
+	} */ 
+	
 	
 	private boolean CheckEndingPoint(Intent intent){
 		if(mMaxEditText.getText().toString().equals("")){
@@ -96,9 +108,24 @@ public class MainActivity extends Activity {
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerCategory);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-                android.R.layout.simple_spinner_item, tables);
+                android.R.layout.simple_spinner_item, tables); 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+	        
+			@Override
+	        public void onItemSelected(AdapterView<?> parent, View view, 
+	                int pos, long id) {
+				parent.getItemAtPosition(pos);
+	        }
+
+	        @Override
+	        public void onNothingSelected(AdapterView<?> arg0){
+	        	
+	        }
+
+	    });
 		
 		mMinEditText = (EditText) findViewById(R.id.minNumber);
 		mMinEditText.setHint("1");

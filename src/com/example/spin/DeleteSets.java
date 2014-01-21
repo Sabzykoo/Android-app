@@ -67,7 +67,7 @@ public class DeleteSets extends ListActivity {
 				br++;
 				c.moveToNext();
 			}
-		}
+		} 
 		
 		if (br == 0) {
     	   Toast.makeText(DeleteSets.this, "You need to download sets!",
