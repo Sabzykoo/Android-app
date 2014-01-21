@@ -41,10 +41,8 @@ public class CramFetcher extends ListActivity {
     private static String url = "https://api.Cram.com/v2/search/sets";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
-    private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
-    private static final String TAG_EMAIL = "email";
     private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
@@ -82,7 +80,6 @@ public class CramFetcher extends ListActivity {
 			startActivity(viewIntent);
 		}
 		else if(token_date<=date.getTime()){
-			//TODO request refresh token
 			String refresh_t = pref.getString("refresh", null);
 			refresh(refresh_t);
 		}
@@ -119,10 +116,8 @@ public class CramFetcher extends ListActivity {
 					try {
 						new GetToken().execute("access",code).get();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					CramFetcher.this.finish();
@@ -139,10 +134,8 @@ public class CramFetcher extends ListActivity {
 		try {
 			new GetToken().execute("refresh",token).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		CramFetcher.this.finish();
@@ -240,7 +233,6 @@ public class CramFetcher extends ListActivity {
             pDialog.setOnCancelListener(new OnCancelListener(){
 
             	  public void onCancel(DialogInterface dialog) {
-            	   // TODO Auto-generated method stub
             		  cancelTask();
             	   Toast.makeText(CramFetcher.this,
             	     "Download cancelled!",
@@ -254,8 +246,10 @@ public class CramFetcher extends ListActivity {
             ServiceHandler sh = new ServiceHandler();
  
             List<NameValuePair>parametres = new ArrayList<NameValuePair>(1);
-            parametres.add(new BasicNameValuePair("qstr","sabzy"));
+            parametres.add(new BasicNameValuePair("qstr","war"));
             parametres.add(new BasicNameValuePair("image_filter","0"));
+            parametres.add(new BasicNameValuePair("limit","50"));
+            parametres.add(new BasicNameValuePair("sortby","best_match"));
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET,parametres,arg0[0]);
             json=jsonStr;
@@ -281,6 +275,7 @@ public class CramFetcher extends ListActivity {
                         String id = c.getString("set_id");
                         String name = c.getString("title");
                         String cards = c.getString("card_count");
+                        String questions= "Number of questions in set: "+cards; 
  
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -288,7 +283,7 @@ public class CramFetcher extends ListActivity {
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
-                        contact.put(TAG_QUESTIONS, cards);
+                        contact.put(TAG_QUESTIONS, questions);
  
                         // adding contact to contact list
                         contactList.add(contact);
@@ -334,6 +329,7 @@ public class CramFetcher extends ListActivity {
      			
      			@Override
      			public void onClick(View v){
+     				
      				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
      				startActivity(finished);
      			}

@@ -1,31 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
     
     <TextView android:id="@+id/name" 
-        android:layout_width="wrap_content" 
+        android:layout_width="fill_parent" 
         android:layout_height="wrap_content" 
         android:layout_alignParentLeft="true" 
         android:layout_alignParentTop="true" 
-        android:textColor="#43bd00"
-        android:textSize="16sp"
+        android:layout_toLeftOf="@+id/checkbox" 
+        android:textColor="#43bd00" 
+        android:textSize="16sp" 
         android:textStyle="bold"/>
     <TextView android:id="@+id/questions" 
-        android:layout_width="wrap_content" 
+        android:layout_width="fill_parent" 
         android:layout_height="wrap_content" 
-        android:layout_alignLeft="@+id/name" 
-        android:layout_alignParentBottom="true"
-        android:textColor="#5d5d5d"
-        android:textStyle="bold"/>
+        android:layout_alignParentLeft="true" android:layout_alignRight="@+id/name" android:layout_below="@+id/name" android:textColor="#5d5d5d" android:textStyle="bold"/>
     <CheckBox android:id="@+id/checkbox" 
         android:layout_width="60sp" 
-        android:layout_height="50sp" 
-        android:layout_alignBottom="@+id/questions" 
+        android:layout_height="fill_parent" 
         android:layout_alignParentRight="true" 
-        android:gravity="center"/>
+        android:gravity="center|center_vertical|center_horizontal"/>
+    
 </RelativeLayout>
