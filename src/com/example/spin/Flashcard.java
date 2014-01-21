@@ -67,6 +67,9 @@ public class Flashcard extends Activity {
 		 * sequence number
 		 *  */
 		
+		mRepeatable = false;
+		mFavButton.setImageResource(R.drawable.favourite);
+		
 		String question = mItemBank[mCurrentIndex].getQuestion();
 		mQuestionTextView.setText(question);
 		
@@ -78,11 +81,7 @@ public class Flashcard extends Activity {
 		
 		((View)findViewById(R.id.main_activity_card_face)).setVisibility(View.VISIBLE);
 		((View)findViewById(R.id.main_activity_card_back)).setVisibility(View.GONE);
-		
-		mRepeatable = false;
-		
 	}
-
 
 	private void flipCard() {
 		
@@ -130,7 +129,7 @@ public class Flashcard extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if(mRepeatable){
+				if(!mRepeatable){
 					mFavButton.setImageResource(R.drawable.fav);
 					mRepeatable = !mRepeatable;
 				}else{

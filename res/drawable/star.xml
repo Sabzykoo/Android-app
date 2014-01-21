@@ -2,11 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item 
         android:state_pressed="true" 
-        android:state_checked="false"
         android:drawable="@drawable/fav" /> <!-- enabled -->
 	<item 
 	    android:state_pressed="false"
-	    android:state_checked="true"
 	    android:drawable="@drawable/favourite" /> <!-- disabled --> 
 	<item 
 	    android:drawable="@drawable/favourite" /> <!-- default -->
