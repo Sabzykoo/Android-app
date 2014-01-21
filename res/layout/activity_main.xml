@@ -52,8 +52,8 @@
         
         <EditText 
         	android:id="@+id/minNumber"
-        	android:layout_marginRight="128dp"
-        	android:maxLength="4"
+        	android:layout_marginRight="80dp"
+        	android:maxLength="10"
         	style="?android:listSeparatorTextViewStyle"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
@@ -78,8 +78,8 @@
         
         <EditText 
         	android:id="@+id/maxNumber"
-        	android:layout_marginRight="128dp"
-        	android:maxLength="4"
+        	android:layout_marginRight="80dp"
+        	android:maxLength="10"
         	style="?android:listSeparatorTextViewStyle"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"

@@ -29,12 +29,13 @@ public class MainActivity extends Activity {
 	private Button mStartButton, downloadButton, deleteButton;
 
 	private Database myDatabase;
-	private boolean mChoosenSpin = true;
+	private boolean mChosenSpin = false;
 	ArrayList<String> tables = new ArrayList<String>();
 	
 	private int mStartPoint;
 	private int mEndPoint;
-	
+	String minimum = "Not defined";
+	String maximum = "Not defined";
 	
 	private boolean CheckStartingPoint(Intent intent){
 		if(mMinEditText.getText().toString().equals("")){
@@ -80,7 +81,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 
 		myDatabase = new Database(MainActivity.this);
 		
@@ -110,14 +110,28 @@ public class MainActivity extends Activity {
                 android.R.layout.simple_spinner_item, tables); 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
-		
+		 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 	        
 			@Override
 	        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				parent.getItemAtPosition(pos);
-			/*	myDatabase.defineTable((String)parent.getSelectedItem());
-				myDatabase.createTable(); */
+				@SuppressWarnings("unchecked")
+				Object selected = parent.getItemAtPosition(pos);
+				if(selected.toString().equalsIgnoreCase("Download sets")){
+					mChosenSpin=false;
+					minimum = "Not defined";
+					maximum = "Not defined";
+				}
+				else{
+					mChosenSpin=true;
+					myDatabase.defineTable(selected.toString());
+					int max=myDatabase.countItems()+1;
+					maximum=String.valueOf(max);
+					minimum=String.valueOf(1);
+					
+				}
+				mMinEditText.setHint(minimum);
+				mMaxEditText.setHint(maximum);
 	        }
 
 	        @Override
@@ -126,10 +140,10 @@ public class MainActivity extends Activity {
 	    });
 		
 		mMinEditText = (EditText) findViewById(R.id.minNumber);
-		mMinEditText.setHint("1");
+		mMinEditText.setHint(minimum);
 		
 		mMaxEditText = (EditText) findViewById(R.id.maxNumber);
-		mMaxEditText.setHint("12");
+		mMaxEditText.setHint(maximum);
 		
 		
 		
@@ -148,7 +162,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v){
-				if(mChoosenSpin){
+				if(mChosenSpin){
 					Intent intent = new Intent(MainActivity.this, Flashcard.class);
 					if(CheckEndingPoint(intent) && CheckStartingPoint(intent))
 						startActivity(intent); 

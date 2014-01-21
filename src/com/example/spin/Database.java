@@ -168,6 +168,23 @@ public class Database {
 			return itemList;
 		}
 		
+		
+		public int countItems(){
+			String selectQuery = "SELECT  * FROM " + DATABASE_TABLE;
+
+			SQLiteDatabase db = myDBOpenHelper.getReadableDatabase();
+			Cursor cursor = db.rawQuery(selectQuery, null);
+			int br=0;
+			if (cursor.moveToFirst()) {
+				do {
+					br++;
+				} while (cursor.moveToNext());
+			}
+
+			// return item list
+			return br;
+		}
+		
 		//clear all items
 		public void clearItems() {
 			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();

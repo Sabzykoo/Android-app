@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
