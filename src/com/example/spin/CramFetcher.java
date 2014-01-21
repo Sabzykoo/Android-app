@@ -149,8 +149,7 @@ public class CramFetcher extends ListActivity {
     	Toast.makeText(CramFetcher.this,
           	     "Coudn't access data!",
           	     Toast.LENGTH_LONG).show();
-    	Thread.currentThread();
-		Thread.sleep(1500);
+    	CramFetcher.this.finish();
 		startActivity(new Intent(CramFetcher.this,MainActivity.class));
 	}
 	
@@ -209,6 +208,18 @@ public class CramFetcher extends ListActivity {
                 Log.e("ServiceHandler", "Couldn't get any data from the url");
             }
 			return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(json==null){
+            	try{
+            		noData();
+            	}
+            	catch(InterruptedException e){
+            		Log.e("No data", "Couldn't get any data from the url");
+            	}
+            }
         }
     }
 	
