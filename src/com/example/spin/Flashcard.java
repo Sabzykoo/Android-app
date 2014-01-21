@@ -30,8 +30,11 @@ public class Flashcard extends Activity {
 	public static final String KEY_INDEX = "index";
 	public static final String TAG = "FlashcardActivity";
 	
+	public static final int IMAGE_TAG = 1;
+	
 	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
 	private ImageButton mNextButton, mPrevButton, mFavButton;
+	private boolean mRepeatable = false;
 	
 	/*
 	 * private ViewPager mPager;
@@ -75,6 +78,8 @@ public class Flashcard extends Activity {
 		
 		((View)findViewById(R.id.main_activity_card_face)).setVisibility(View.VISIBLE);
 		((View)findViewById(R.id.main_activity_card_back)).setVisibility(View.GONE);
+		
+		mRepeatable = false;
 		
 	}
 
@@ -120,14 +125,19 @@ public class Flashcard extends Activity {
 		mPageNumTextView = (TextView)findViewById(R.id.pageNumber);
 		
 		mFavButton = (ImageButton)findViewById(R.id.repeatButton);
-	/*	mFavButton.setOnClickListener(new View.OnClickListener() {
+		mFavButton.setImageResource(R.drawable.favourite);
+		mFavButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
-				
+				if(mRepeatable){
+					mFavButton.setImageResource(R.drawable.fav);
+					mRepeatable = !mRepeatable;
+				}else{
+				mFavButton.setImageResource(R.drawable.favourite);
+				mRepeatable = !mRepeatable; }	
 			}
-		}); */
+		});
 		
 		mNextButton = (ImageButton)findViewById(R.id.next_button);
 		mNextButton.setOnClickListener(new View.OnClickListener() {
