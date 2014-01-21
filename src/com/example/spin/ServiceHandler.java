@@ -11,7 +11,6 @@ import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -47,7 +46,7 @@ public class ServiceHandler {
 	 * */
     
 	public String makeServiceCall(String url, int method) {
-	    return this.makeServiceCall(url, method, null);
+	    return this.makeServiceCall(url, method, null, null);
 	}
 	
 	/**
@@ -58,7 +57,7 @@ public class ServiceHandler {
 	 * */
 	
 	public String makeServiceCall(String url, int method,
-	        List<NameValuePair> params) {
+	        List<NameValuePair> params, String token ) {
 	    try {
 	        // http client
 	        HttpClient httpClient = createHttpClient();
@@ -85,6 +84,7 @@ public class ServiceHandler {
 	                url += "?" + paramString;
 	            }
 	            HttpGet httpGet = new HttpGet(url);
+	            httpGet.addHeader("Authorization", "Bearer " + token);
 	            httpResponse = httpClient.execute(httpGet);
 	
 	        }

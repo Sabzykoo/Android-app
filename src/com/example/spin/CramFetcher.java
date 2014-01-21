@@ -24,7 +24,6 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Button;
@@ -39,17 +38,15 @@ public class CramFetcher extends ListActivity {
 	 
     // URL to get contacts JSON
 	private static String tokens = "https://api.cram.com/oauth2/token/";
-    private static String url = "http://api.androidhive.info/contacts/";
+    private static String url = "https://api.Cram.com/v2/search/sets";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
-    private static final String TAG_CONTACTS = "contacts";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
-    private static final String TAG_EMAIL = "email";
     private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
-    JSONArray contacts = null;
+    JSONArray search = null;
  
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
@@ -83,14 +80,13 @@ public class CramFetcher extends ListActivity {
 			startActivity(viewIntent);
 		}
 		else if(token_date<=date.getTime()){
-			//TODO request refresh token
-			String refresh = pref.getString("refresh", null);
-			
+			String refresh_t = pref.getString("refresh", null);
+			refresh(refresh_t);
 		}
 		else{
 			String token = pref.getString("token", null);
 			// Calling async task to get json
-			new GetContacts().execute();
+			new GetContacts().execute(token);
 		}  
 	}
 	 
@@ -117,35 +113,35 @@ public class CramFetcher extends ListActivity {
 				}
 				else{
 					String code = uri.getQueryParameter("code");
-					token(code);
+					try {
+						new GetToken().execute("access",code).get();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+					CramFetcher.this.finish();
+					Intent back = new Intent(CramFetcher.this,CramFetcher.class);
+					startActivity(back);
+					CramFetcher.this.onDestroy();
 				}
 			}
 		}
 		CramFetcher.this.finish();		
 	}
 	
-	private void token(String code){
-		String access_t=null;
+	private void refresh(String token){
 		try {
-			access_t = new GetToken().execute(code).get();
+			new GetToken().execute("refresh",token).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Toast.makeText(CramFetcher.this,
-         	     access_t,
-         	     Toast.LENGTH_LONG).show();
 		CramFetcher.this.finish();
 		Intent back = new Intent(CramFetcher.this,CramFetcher.class);
 		startActivity(back);
 		CramFetcher.this.onDestroy();
-	}
-	
-	private void refresh(String token){
-		
 	}
 	
 	protected void noData() throws InterruptedException{
@@ -153,24 +149,31 @@ public class CramFetcher extends ListActivity {
     	Toast.makeText(CramFetcher.this,
           	     "Coudn't access data!",
           	     Toast.LENGTH_LONG).show();
-    	Thread.currentThread();
-		Thread.sleep(1500);
+    	CramFetcher.this.finish();
 		startActivity(new Intent(CramFetcher.this,MainActivity.class));
 	}
 	
-	private class GetToken extends AsyncTask<String, Void, String> {
+	private class GetToken extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected String doInBackground(String... code) {
+        protected Void doInBackground(String... code) {
             // Creating service handler class instance
         	String access_t=null,refresh_t=null,time_t=null;
         	int expiry_t=0;
             ServiceHandler sh = new ServiceHandler();
-            List<NameValuePair>parametres = new ArrayList<NameValuePair>(2);
-    		parametres.add(new BasicNameValuePair("code",code[0]));
-    		parametres.add(new BasicNameValuePair("grant_type","authorization_code"));
+            List<NameValuePair>parametres = new ArrayList<NameValuePair>();
+            if(code[0].equalsIgnoreCase("access")){
+            	parametres.add(new BasicNameValuePair("code",code[1]));
+            	parametres.add(new BasicNameValuePair("grant_type","authorization_code"));
+            }
+            else if(code[0].equalsIgnoreCase("refresh")){
+            	parametres.add(new BasicNameValuePair("refresh_token",code[1]));
+            	parametres.add(new BasicNameValuePair("grant_type","refresh_token"));
+            	parametres.add(new BasicNameValuePair("scope","read"));
+            }
+            
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(tokens, ServiceHandler.POST,parametres);
+            String jsonStr = sh.makeServiceCall(tokens, ServiceHandler.POST,parametres,null);
             json=jsonStr;
             Log.d("Response: ", "> " + jsonStr);
  
@@ -204,11 +207,23 @@ public class CramFetcher extends ListActivity {
             else {
                 Log.e("ServiceHandler", "Couldn't get any data from the url");
             }
-			return access_t;
+			return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(json==null){
+            	try{
+            		noData();
+            	}
+            	catch(InterruptedException e){
+            		Log.e("No data", "Couldn't get any data from the url");
+            	}
+            }
         }
     }
 	
-	private class GetContacts extends AsyncTask<Void, Void, Void> {
+	private class GetContacts extends AsyncTask<String, Void, Void> {
 
         public void cancelTask(){
              isTaskCancelled = true;
@@ -229,7 +244,6 @@ public class CramFetcher extends ListActivity {
             pDialog.setOnCancelListener(new OnCancelListener(){
 
             	  public void onCancel(DialogInterface dialog) {
-            	   // TODO Auto-generated method stub
             		  cancelTask();
             	   Toast.makeText(CramFetcher.this,
             	     "Download cancelled!",
@@ -238,12 +252,17 @@ public class CramFetcher extends ListActivity {
         }
  
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Void doInBackground(String... arg0) {
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
  
+            List<NameValuePair>parametres = new ArrayList<NameValuePair>(1);
+            parametres.add(new BasicNameValuePair("qstr","war"));
+            parametres.add(new BasicNameValuePair("image_filter","0"));
+            parametres.add(new BasicNameValuePair("limit","50"));
+            parametres.add(new BasicNameValuePair("sortby","best_match"));
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET,parametres,arg0[0]);
             json=jsonStr;
             if (isTaskCancelled()){
                 return null;
@@ -255,15 +274,19 @@ public class CramFetcher extends ListActivity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
                      
                     // Getting JSON Array node
-                    contacts = jsonObj.getJSONArray(TAG_CONTACTS);
+        			if(jsonObj.has("error")){
+        				return null;
+        			}
+                    search = jsonObj.getJSONArray("results");
  
                     // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
-                        JSONObject c = contacts.getJSONObject(i);
+                    for (int i = 0; i < search.length(); i++) {
+                        JSONObject c = search.getJSONObject(i);
                          
-                        String id = c.getString(TAG_ID);
-                        String name = c.getString(TAG_NAME);
-                        String email = c.getString(TAG_EMAIL);
+                        String id = c.getString("set_id");
+                        String name = c.getString("title");
+                        String cards = c.getString("card_count");
+                        String questions= "Number of questions in set: "+cards; 
  
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -271,7 +294,7 @@ public class CramFetcher extends ListActivity {
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
-                        contact.put(TAG_QUESTIONS, email);
+                        contact.put(TAG_QUESTIONS, questions);
  
                         // adding contact to contact list
                         contactList.add(contact);
@@ -298,7 +321,7 @@ public class CramFetcher extends ListActivity {
             		noData();
             	}
             	catch(InterruptedException e){
-            		Log.e("No dara", "Couldn't get any data from the url");
+            		Log.e("No data", "Couldn't get any data from the url");
             	}
             }
             /**
@@ -317,6 +340,7 @@ public class CramFetcher extends ListActivity {
      			
      			@Override
      			public void onClick(View v){
+     				
      				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
      				startActivity(finished);
      			}
