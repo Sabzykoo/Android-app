@@ -26,12 +26,11 @@ public class MainActivity extends Activity {
 	
 	private static final int RESULT_CLOSE_ALL = 0;
 	private EditText mMinEditText, mMaxEditText;
-	private Button mStartButton,downloadButton, deleteButton;
+	private Button mStartButton, downloadButton, deleteButton;
 
 	private Database myDatabase;
 	private boolean mChoosenSpin = true;
 	ArrayList<String> tables = new ArrayList<String>();
-	private int mTableIndex;
 	
 	private int mStartPoint;
 	private int mEndPoint;
@@ -115,16 +114,15 @@ public class MainActivity extends Activity {
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 	        
 			@Override
-	        public void onItemSelected(AdapterView<?> parent, View view, 
-	                int pos, long id) {
+	        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				parent.getItemAtPosition(pos);
+			/*	myDatabase.defineTable((String)parent.getSelectedItem());
+				myDatabase.createTable(); */
 	        }
 
 	        @Override
-	        public void onNothingSelected(AdapterView<?> arg0){
-	        	
+	        public void onNothingSelected(AdapterView<?> arg0){	
 	        }
-
 	    });
 		
 		mMinEditText = (EditText) findViewById(R.id.minNumber);
