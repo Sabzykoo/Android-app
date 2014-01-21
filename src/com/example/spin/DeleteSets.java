@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +30,8 @@ public class DeleteSets extends ListActivity {
 	 * */
 
 	ArrayList<HashMap<String, String>> contactList;
+	ArrayList<String> tables = new ArrayList<String>();
+	HashMap<String, String> list = new HashMap<String, String>();
 	private Database myDatabase;
 	private Button mDelete;
 	
@@ -73,8 +80,6 @@ public class DeleteSets extends ListActivity {
     	   Toast.makeText(DeleteSets.this, "You need to download sets!",
 	          	     Toast.LENGTH_LONG).show();
 			DeleteSets.this.finish();
-			Intent back = new Intent(DeleteSets.this,MainActivity.class);
-			startActivity(back);
 		}
 		
 		ListAdapter adapter = new SimpleAdapter(
@@ -89,8 +94,8 @@ public class DeleteSets extends ListActivity {
 			
 			@Override
 			public void onClick(View v){
-				Intent finished = new Intent(DeleteSets.this, MainActivity.class);
-				startActivity(finished);
+				
+				DeleteSets.this.finish();
 			}
 		});
        
@@ -101,6 +106,24 @@ public class DeleteSets extends ListActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.delete_sets, menu);
 		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		list = (HashMap<String, String>) l.getItemAtPosition(position);
+		String output=list.get("name");
+		CheckBox check = (CheckBox) v.findViewById(R.id.checkbox);
+		if(tables.contains(output)){
+			tables.remove(output);
+			check.setChecked(false);
+		}
+		else{
+			tables.add(output);
+			check.setChecked(true);
+		}
+		super.onListItemClick(l, v, position, id);
 	}
 
 	@Override
