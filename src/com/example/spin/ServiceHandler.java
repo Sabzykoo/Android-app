@@ -3,17 +3,33 @@ package com.example.spin;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
  
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+
+import android.util.Base64;
 
 public class ServiceHandler {
 
@@ -45,7 +61,7 @@ public class ServiceHandler {
 	        List<NameValuePair> params) {
 	    try {
 	        // http client
-	        DefaultHttpClient httpClient = new DefaultHttpClient();
+	        HttpClient httpClient = createHttpClient();
 	        HttpEntity httpEntity = null;
 	        HttpResponse httpResponse = null;
 	         
@@ -56,7 +72,9 @@ public class ServiceHandler {
 	            if (params != null) {
 	                httpPost.setEntity(new UrlEncodedFormEntity(params));
 	            }
-	
+	            String credentials = "297248cf902970966895aa449946fabf:68036b55a3620bb69f3e23086d4e3446";  
+	            String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);  
+	            httpPost.addHeader("Authorization", "Basic " + base64EncodedCredentials);
 	            httpResponse = httpClient.execute(httpPost);
 	
 	        } else if (method == GET) {
@@ -67,7 +85,6 @@ public class ServiceHandler {
 	                url += "?" + paramString;
 	            }
 	            HttpGet httpGet = new HttpGet(url);
-	
 	            httpResponse = httpClient.execute(httpGet);
 	
 	        }
@@ -84,6 +101,20 @@ public class ServiceHandler {
 	     
 	    return response;
 	
+	}
+	private HttpClient createHttpClient()
+	{
+	    HttpParams params = new BasicHttpParams();
+	    HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+	    HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET);
+	    HttpProtocolParams.setUseExpectContinue(params, true);
+
+	    SchemeRegistry schReg = new SchemeRegistry();
+	    schReg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+	    schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+	    ClientConnectionManager conMgr = new ThreadSafeClientConnManager(params, schReg);
+
+	    return new DefaultHttpClient(conMgr, params);
 	}
 		
 }
