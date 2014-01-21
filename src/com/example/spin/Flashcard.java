@@ -31,6 +31,7 @@ public class Flashcard extends Activity {
 	public static final String TAG = "FlashcardActivity";
 	
 	public static final int IMAGE_TAG = 1;
+	private static final int RESULT_CLOSE_ALL = 0;
 	
 	private TextView mQuestionTextView, mAnswerTextView, mPageNumTextView;
 	private ImageButton mNextButton, mPrevButton, mFavButton;
@@ -214,8 +215,8 @@ public class Flashcard extends Activity {
 	        	updateCard();
 	            return true;
 	        case R.id.action_finish:
-	        	startActivity(new Intent(Flashcard.this, MainActivity.class));
-	        	return false;
+	        	Flashcard.this.finish();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -235,6 +236,18 @@ public class Flashcard extends Activity {
 		}
 	
 		return super.onPrepareOptionsMenu(menu);	
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    
+		switch(resultCode)
+	    {
+	    case RESULT_CLOSE_ALL:
+	        setResult(RESULT_CLOSE_ALL);
+	        finish();
+	    }
+	    super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

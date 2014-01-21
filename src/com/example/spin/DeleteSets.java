@@ -31,6 +31,7 @@ public class DeleteSets extends ListActivity {
 	private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_QUESTIONS = "mobile";
+	private static final int RESULT_CLOSE_ALL = 0;
 	
     
 	@Override
@@ -102,4 +103,16 @@ public class DeleteSets extends ListActivity {
 		return true;
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    
+		switch(resultCode)
+	    {
+	    case RESULT_CLOSE_ALL:
+	        setResult(RESULT_CLOSE_ALL);
+	        finish();
+	    }
+	    super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 }
