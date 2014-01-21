@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import java.util.Random;
 
 public class Flashcard extends Activity {
 	
@@ -61,10 +61,45 @@ public class Flashcard extends Activity {
 	};
 	
 	private int mEndingIndex;
-	private boolean[] mRepeatableStar = new boolean[mItemBank.length];
+	
+
+	public static int randPosition(int min, int max) {
+		
+		/**
+		 * Returns a pseudo-random number between min and max, inclusive.
+		 * The difference between min and max can be at most
+		 * <code>Integer.MAX_VALUE - 1</code>.
+		 *
+		 * @param min Minimum value
+		 * @param max Maximum value.  Must be greater than min.
+		 * @return Integer between min and max, inclusive.
+		 * @see java.util.Random#nextInt(int)
+		 */
+
+	    // Usually this can be a field rather than a method variable
+	    Random rand = new Random();
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
 	
 	
-	private void updateCard(){
+	private void insertCard(int first, int position){
+		if(position == mCurrentIndex){
+			updateCard(first);
+		}
+		
+	}
+	
+	private void doIt(int favIndex){
+	if(mItemBank[favIndex].getRepeat() == 1){
+		int pos = randPosition(favIndex, mEndingIndex); //+1
+		insertCard(favIndex, pos);}
+	}
+	
+	private void updateCard(int cardPosition){
 		
 		/**
 		 * Updates a SQL item from a specified Database table and its
@@ -72,18 +107,18 @@ public class Flashcard extends Activity {
 		 *  */
 		
 
-		mRepeatable = false;
-		int repeat=mItemBank[mCurrentIndex].getRepeat();
-		if(repeat==0){
+		mRepeatable = false; //?
+		int repeat = mItemBank[cardPosition].getRepeat();
+		if(repeat == 0){
 			mFavButton.setImageResource(R.drawable.favourite);
 		}
 		else{
 			mFavButton.setImageResource(R.drawable.fav);
 		}
-		String question = mItemBank[mCurrentIndex].getQuestion();
+		String question = mItemBank[cardPosition].getQuestion();
 		mQuestionTextView.setText(question);
 		
-		String answer = mItemBank[mCurrentIndex].getAnswer();
+		String answer = mItemBank[cardPosition].getAnswer();
 		mAnswerTextView.setText(answer);
 		
 		String pageNumber = ((Integer)(mCurrentIndex+1)).toString() + " of " + ((Integer)(mEndingIndex+1)).toString();
@@ -125,9 +160,13 @@ public class Flashcard extends Activity {
 		
 		Intent intent = getIntent();
 		mStartingIndex = intent.getIntExtra(START_NUMBER, 0);
-		mEndingIndex = intent.getIntExtra(END_NUMBER, 0); //mItemBank.length-1
+		mEndingIndex = intent.getIntExtra(END_NUMBER, mItemBank.length-1);
 		
 		mCurrentIndex = mStartingIndex;
+		
+		if(mItemBank[mCurrentIndex].getRepeat() == 1){
+			doIt(mCurrentIndex);
+		}
 		
 		mQuestionTextView = (TextView)findViewById(R.id.textFront);
 		mAnswerTextView = (TextView)findViewById(R.id.textBack);
@@ -163,7 +202,7 @@ public class Flashcard extends Activity {
 				} else {
 					mCurrentIndex++;
 					invalidateOptionsMenu();
-					updateCard(); 
+					updateCard(mCurrentIndex); 
 				}
 			}
 		});
@@ -179,14 +218,14 @@ public class Flashcard extends Activity {
 			}else{
 				mCurrentIndex--;
 				invalidateOptionsMenu();
-				updateCard();}
+				updateCard(mCurrentIndex);}
 			}
 		});
 		
 	/*	if(savedInstanceState != null){
 			mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0); 
 		} */
-		updateCard();
+		updateCard(mCurrentIndex);
 
 	}
 	
@@ -211,12 +250,12 @@ public class Flashcard extends Activity {
 	        case R.id.action_previous:
 	        	mCurrentIndex--;
 	        	invalidateOptionsMenu();
-	        	updateCard();
+	        	updateCard(mCurrentIndex);
 	            return true;
 	        case R.id.action_next:
 	        	mCurrentIndex++;
 	        	invalidateOptionsMenu();
-	        	updateCard();
+	        	updateCard(mCurrentIndex);
 	            return true;
 	        case R.id.action_finish:
 	        	Flashcard.this.finish();
