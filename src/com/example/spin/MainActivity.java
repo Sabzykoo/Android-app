@@ -132,6 +132,7 @@ public class MainActivity extends Activity {
 						Toast.makeText(MainActivity.this, R.string.toast_text, Toast.LENGTH_LONG).show(); }
 				}
 		});
+		
 		deleteButton=(Button)findViewById(R.id.deleteButton);
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			

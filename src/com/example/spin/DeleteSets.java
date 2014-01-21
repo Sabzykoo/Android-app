@@ -20,22 +20,23 @@ public class DeleteSets extends ListActivity {
 
 	ArrayList<HashMap<String, String>> contactList;
 	private Database myDatabase;
-	private Button delete;
+	private Button mDelete;
 	
 	private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_QUESTIONS = "mobile";
 	
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
 		
 		String str_cram= "Delete sets from database";
-		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
+		((TextView)findViewById(R.id.mainCram)).setText(str_cram);
 		
 		str_cram="Delete";
-		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
+		((Button)findViewById(R.id.buttonCram)).setText(str_cram);
 		
 		contactList = new ArrayList<HashMap<String, String>>();
 		
@@ -76,8 +77,8 @@ public class DeleteSets extends ListActivity {
 
        setListAdapter(adapter);
        
-       delete = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
-       delete.setOnClickListener(new View.OnClickListener(){ //creating a listener object
+       mDelete = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
+       mDelete.setOnClickListener(new View.OnClickListener(){ //creating a listener object
 			
 			@Override
 			public void onClick(View v){
