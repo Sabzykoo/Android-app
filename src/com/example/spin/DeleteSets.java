@@ -17,6 +17,12 @@ import android.widget.Toast;
 import android.app.ListActivity;
 
 public class DeleteSets extends ListActivity {
+	
+	/**
+	 * displays all downloaded tables
+	 * deletes selected tables
+	 * and returns to main activity
+	 * */
 
 	ArrayList<HashMap<String, String>> contactList;
 	private Database myDatabase;
@@ -44,33 +50,33 @@ public class DeleteSets extends ListActivity {
 		Cursor c = myDatabase.showAllTables();
 		HashMap<String, String> contact = new HashMap<String, String>();
 		int br=0;
-		if (c.moveToFirst())
-        {
+		if (c.moveToFirst()){
 			c.moveToNext();
-			while(!c.isAfterLast()){
-			String id= String.valueOf(br);
-	           contact.put(TAG_ID, id);
-               contact.put(TAG_NAME, c.getString(0));
-               myDatabase.defineTable(c.getString(0));
-               List<SQLitem> query = myDatabase.getAllItems();
-               String number = String.valueOf(query.size());
-               String questions= "Number of questions in set: "+number; 
-               contact.put(TAG_QUESTIONS, questions);
-               contactList.add(contact);
-               br++;
-               c.moveToNext();
-	        }
-        }
-       if (br == 0)
-        {
-    	   Toast.makeText(DeleteSets.this,
-	          	     "You need to download sets!",
+		
+			while(!c.isAfterLast()) {
+				String id= String.valueOf(br);
+				contact.put(TAG_ID, id);
+				contact.put(TAG_NAME, c.getString(0));
+				myDatabase.defineTable(c.getString(0));
+				List<SQLitem> query = myDatabase.getAllItems();
+				String number = String.valueOf(query.size());
+				String questions= "Number of questions in set: "+number; 
+				contact.put(TAG_QUESTIONS, questions);
+				contactList.add(contact);
+				br++;
+				c.moveToNext();
+			}
+		}
+		
+		if (br == 0) {
+    	   Toast.makeText(DeleteSets.this, "You need to download sets!",
 	          	     Toast.LENGTH_LONG).show();
 			DeleteSets.this.finish();
 			Intent back = new Intent(DeleteSets.this,MainActivity.class);
 			startActivity(back);
-        }
-       ListAdapter adapter = new SimpleAdapter(
+		}
+		
+		ListAdapter adapter = new SimpleAdapter(
                DeleteSets.this, contactList,
                R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
                        }, new int[] { R.id.name , R.id.questions});
