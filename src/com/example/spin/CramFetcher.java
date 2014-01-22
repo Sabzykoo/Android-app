@@ -3,6 +3,7 @@ package com.example.spin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -15,20 +16,29 @@ import org.json.JSONObject;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.LauncherActivity.ListItem;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
+import android.database.Cursor;
 
 public class CramFetcher extends ListActivity {
 	/**
@@ -53,11 +63,13 @@ public class CramFetcher extends ListActivity {
  
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
-	
+    ArrayList<String> tables = new ArrayList<String>();
+    HashMap<String, String> list = new HashMap<String, String>();
     private boolean isTaskCancelled = false;
     private Button download;
-    
+    private Database myDatabase;
     private String json;
+    boolean Allcheckboxes[];
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +295,7 @@ public class CramFetcher extends ListActivity {
                     search = jsonObj.getJSONArray("results");
  
                     // looping through All Contacts
+                    int br=0;
                     for (int i = 0; i < search.length(); i++) {
                         JSONObject c = search.getJSONObject(i);
                          
@@ -298,9 +311,10 @@ public class CramFetcher extends ListActivity {
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
                         contact.put(TAG_QUESTIONS, questions);
- 
+                        Allcheckboxes[br]=false;
                         // adding contact to contact list
                         contactList.add(contact);
+                        br++;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -330,20 +344,36 @@ public class CramFetcher extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-            
-            ListAdapter adapter = new SimpleAdapter(
+            setListAdapter(new ListItemArrayAdapter<ListItem>(this, R.layout.list_item, contactList));
+            /*ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME,
                             TAG_QUESTIONS }, new int[] { R.id.name, R.id.questions });
  
-            setListAdapter(adapter);
+            setListAdapter(adapter);*/
+            
             
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
             download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
      			
      			@Override
      			public void onClick(View v){
-     				
+     				myDatabase = new Database(CramFetcher.this);
+     				Iterator<String> iterate = tables.iterator();
+    				while(iterate.hasNext()){
+    					String table = iterate.next();
+    					String return_value=iterate(table);
+    					if(return_value.equalsIgnoreCase("Not found")){
+    						myDatabase.defineTable(table);
+    						myDatabase.createTable();
+    					}
+    					else{
+    						//table already exists
+    						//do nothing
+    					}
+    					
+    				}
+    				CramFetcher.this.finish();
      				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
      				startActivity(finished);
      			}
@@ -352,6 +382,47 @@ public class CramFetcher extends ListActivity {
  
     }
  
+	private String iterate(String string){
+		Cursor c = myDatabase.showAllTables();
+		if(c == null){
+			return "Not found";
+		}
+		else{
+			if (c.moveToFirst()){
+				c.moveToNext();
+				
+				while(!c.isAfterLast()) {
+					if(c.getString(0).equalsIgnoreCase(string)){
+						return c.getString(0);
+					}
+					c.moveToNext();
+				}
+			}
+		}
+		return "Not found"; 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		list = (HashMap<String, String>) l.getItemAtPosition(position);
+		String output=list.get("name");
+		CheckBox check = (CheckBox) v.findViewById(R.id.checkbox);
+		if(tables.contains(output)){
+			tables.remove(output);
+			check.setChecked(false);
+			Allcheckboxes[position]=false;
+		}
+		else{
+			tables.add(output);
+			check.setChecked(true);
+			Allcheckboxes[position]=true;
+		}
+		super.onListItemClick(l, v, position, id);
+	}
+
+	
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    
@@ -364,4 +435,47 @@ public class CramFetcher extends ListActivity {
 	    super.onActivityResult(requestCode, resultCode, data);
 	}
 	
+}
+class ListItem {
+    String listName;
+    Boolean listStatus;     
+    public ListItem(String name, boolean status) {
+        listName = name;
+        listStatus = status;
+    }
+    @Override
+    public String toString() {
+        return listName;
+    }
+}
+class ListItemArrayAdapter extends ArrayAdapter<ListItem> {
+    int resource;
+    boolean Allcheckboxes[];
+    LayoutInflater vi;
+    private List<ListItem> items;
+
+    public ListItemArrayAdapter(Context context, int _resource, List<ListItem> listitems) {
+        super(context, _resource);
+        vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        resource = _resource;
+        this.items = listitems;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LinearLayout newView;
+
+        if (convertView == null) {
+            newView = new LinearLayout(getContext());
+            vi.inflate(resource, newView);
+        } else {
+            newView = (LinearLayout)convertView;
+        }
+
+        CheckBox checkbox = (CheckBox)newView.findViewById(R.id.checkbox);
+        checkbox.setChecked(Allcheckboxes[position]);
+        return newView;
+    }
+
+    
 }

@@ -2,6 +2,7 @@ package com.example.spin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import android.os.Bundle;
@@ -54,12 +55,13 @@ public class DeleteSets extends ListActivity {
 		
 		myDatabase = new Database(DeleteSets.this);
 		Cursor c = myDatabase.showAllTables();
-		HashMap<String, String> contact = new HashMap<String, String>();
 		int br=0;
 		if (c.moveToFirst()){
 			c.moveToNext();
 		
 			while(!c.isAfterLast()) {
+				// tmp hashmap for single contact
+                HashMap<String, String> contact = new HashMap<String, String>();
 				String id= String.valueOf(br);
 				contact.put(TAG_ID, id);
 				contact.put(TAG_NAME, c.getString(0));
@@ -112,13 +114,44 @@ public class DeleteSets extends ListActivity {
 			
 			@Override
 			public void onClick(View v){
-				
+				Iterator<String> iterate = tables.iterator();
+				while(iterate.hasNext()){
+					String table = iterate.next();
+					table=iterate(table);
+					if(table.equalsIgnoreCase("Not found")){
+						Toast.makeText(DeleteSets.this,
+			            	     "Table "+table+" not found!",
+			            	     Toast.LENGTH_SHORT).show();
+					}
+					else{
+						myDatabase.defineTable(table);
+						myDatabase.clearItems();
+					}
+					
+				}
 				DeleteSets.this.finish();
+				Intent back= new Intent(DeleteSets.this,MainActivity.class);
+				startActivity(back);
 			}
 		});
        
 	}
 
+	private String iterate(String string){
+		Cursor c = myDatabase.showAllTables();
+		if (c.moveToFirst()){
+			c.moveToNext();
+		
+			while(!c.isAfterLast()) {
+				if(c.getString(0).equalsIgnoreCase(string)){
+					return c.getString(0);
+				}
+				c.moveToNext();
+			}
+		}
+		return "Not found"; 
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
