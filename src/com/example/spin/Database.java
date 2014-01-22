@@ -56,9 +56,9 @@ public class Database {
 			 * defines table
 			 * */
 			
-			DATABASE_TABLE = table;
-			DATABASE_CREATE = "create table ["
-					+ DATABASE_TABLE + "] (" + KEY_ID
+			DATABASE_TABLE = "["+table+"]";
+			DATABASE_CREATE = "create table "
+					+ DATABASE_TABLE + " (" + KEY_ID
 					+ " integer primary key autoincrement, " + KEY_QUESTION_COLUMN
 					+ " text not null, " + KEY_ANSWER_COLUMN + " text not null, "
 					+ KEY_REPEAT_COLUMN + " integer);";
@@ -69,7 +69,7 @@ public class Database {
 		}
 		
 		public Cursor showAllTables(){
-			Cursor c = DB.rawQuery("SELECT [name] FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence'", null);
+			Cursor c = DB.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence'", null);
 			return c;
 	    }
 		
@@ -149,7 +149,7 @@ public class Database {
 			List<SQLitem> itemList = new LinkedList<SQLitem>();
 
 			// select all items
-			String selectQuery = "SELECT  * FROM [" + DATABASE_TABLE+"]";
+			String selectQuery = "SELECT  * FROM " + DATABASE_TABLE;
 
 			SQLiteDatabase db = myDBOpenHelper.getReadableDatabase();
 			Cursor cursor = db.rawQuery(selectQuery, null);
@@ -170,7 +170,7 @@ public class Database {
 		
 		
 		public int countItems(){
-			String selectQuery = "SELECT  * FROM [" + DATABASE_TABLE+"]";
+			String selectQuery = "SELECT  * FROM " + DATABASE_TABLE;
 
 			SQLiteDatabase db = myDBOpenHelper.getReadableDatabase();
 			Cursor cursor = db.rawQuery(selectQuery, null);
@@ -213,7 +213,7 @@ public class Database {
 			}
 			public void clear(SQLiteDatabase db) {
 				// drop the old table
-				db.execSQL("DROP TABLE [" + DATABASE_TABLE+"]");
+				db.execSQL("DROP TABLE " + DATABASE_TABLE);
 			}
 			
 		}
