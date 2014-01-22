@@ -92,7 +92,11 @@ public class MainActivity extends Activity {
 		        {
 					c.moveToNext();
 					while(!c.isAfterLast()){
-			           tables.add(c.getString(0));
+						myDatabase.defineTable(c.getString(0));
+						if(myDatabase.countItems()>0){
+							tables.add(c.getString(0));
+						}
+						myDatabase.closeDatabase();
 			           c.moveToNext();
 			        }
 		        }
@@ -124,6 +128,7 @@ public class MainActivity extends Activity {
 					mTable = selected.toString();
 					myDatabase.defineTable(selected.toString());
 					int max=myDatabase.countItems();
+					myDatabase.closeDatabase();
 					maximum=String.valueOf(max);
 					minimum=String.valueOf(1);
 					mEndPoint = max;
