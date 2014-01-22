@@ -49,6 +49,7 @@ public class CramFetcher extends ListActivity {
     // URL to get contacts JSON
 	private static String tokens = "https://api.cram.com/oauth2/token/";
     private static String url = "https://api.Cram.com/v2/search/sets";
+    private static String cards_url="https://api.Cram.com/v2/sets/";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
     private static final String TAG_ID = "id";
@@ -69,7 +70,6 @@ public class CramFetcher extends ListActivity {
     private Button download;
     private Database myDatabase;
     private String json;
-    boolean Allcheckboxes[];
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -295,7 +295,6 @@ public class CramFetcher extends ListActivity {
                     search = jsonObj.getJSONArray("results");
  
                     // looping through All Contacts
-                    int br=0;
                     for (int i = 0; i < search.length(); i++) {
                         JSONObject c = search.getJSONObject(i);
                          
@@ -311,10 +310,8 @@ public class CramFetcher extends ListActivity {
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
                         contact.put(TAG_QUESTIONS, questions);
-                        Allcheckboxes[br]=false;
                         // adding contact to contact list
                         contactList.add(contact);
-                        br++;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -366,6 +363,7 @@ public class CramFetcher extends ListActivity {
     					if(return_value.equalsIgnoreCase("Not found")){
     						myDatabase.defineTable(table);
     						myDatabase.createTable();
+    						pullQuestions(table);
     					}
     					else{
     						//table already exists
@@ -382,6 +380,42 @@ public class CramFetcher extends ListActivity {
  
     }
  
+	private void pullQuestions(String table){
+		String id=null;
+		Iterator<HashMap<String, String>> iterate = contactList.iterator();
+		while(iterate.hasNext()){
+			HashMap<String, String> pair = iterate.next();
+			if(pair.containsValue(table)){
+				id=pair.get("id");
+				break;
+			}
+			else{
+				//do nothing
+			}
+		}
+		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+		Date date = new Date(System.currentTimeMillis());
+		long token_date=pref.getLong("expiry", 0);
+		if(token_date<=date.getTime()){
+			String refresh_t = pref.getString("refresh", null);
+			myDatabase.clearItems();
+			refresh(refresh_t);
+		}
+		else{
+			String token = pref.getString("token", null);
+			// Calling async task to get json
+			try {
+				new GetCards().execute(token,id).get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			finish();
+		}
+        
+	}
+	
 	private String iterate(String string){
 		Cursor c = myDatabase.showAllTables();
 		if(c == null){
@@ -402,6 +436,68 @@ public class CramFetcher extends ListActivity {
 		return "Not found"; 
 	}
 
+	private class GetCards extends AsyncTask<String, Void, Void> {
+		@Override
+        protected Void doInBackground(String... code) {
+            // Creating service handler class instance
+			ServiceHandler sh = new ServiceHandler();
+			 
+			List<NameValuePair>parametres = new ArrayList<NameValuePair>(1);
+			parametres.add(new BasicNameValuePair("",code[1]));
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(cards_url, ServiceHandler.GET,parametres,code[0]);
+            json=jsonStr;
+            Log.d("Response: ", "> " + jsonStr);
+ 
+            if (jsonStr != null) {
+                try {
+                	JSONArray array_str=new JSONArray(jsonStr);
+                	JSONObject taken_obj=array_str.getJSONObject(0);
+                	JSONArray overlook = taken_obj.getJSONArray("cards");
+                    for (int i = 0; i < overlook.length(); i++) {
+                        JSONObject c = overlook.getJSONObject(i);
+                        String front;
+                        String back;
+                         if(c.has("front")){
+                        	 front = c.getString("front");
+                         }
+                         else{
+                        	 front=""; 
+                         }
+                         if(c.has("back")){
+                        	 back = c.getString("back");
+                         }
+                         else{
+                        	 back = "";
+                         }
+                        SQLitem item = new SQLitem(front, back, 0); //here you can see how to define a row
+                		CramFetcher.this.myDatabase.addItem(item);
+                    }
+    				
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } 
+            else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+			return null;
+		}
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(json==null){
+            	try{
+            		noData();
+            	}
+            	catch(InterruptedException e){
+            		Log.e("No data", "Couldn't get any data from the url");
+            	}
+            }
+        
+        }
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -411,12 +507,10 @@ public class CramFetcher extends ListActivity {
 		if(tables.contains(output)){
 			tables.remove(output);
 			check.setChecked(false);
-			Allcheckboxes[position]=false;
 		}
 		else{
 			tables.add(output);
 			check.setChecked(true);
-			Allcheckboxes[position]=true;
 		}
 		super.onListItemClick(l, v, position, id);
 	}

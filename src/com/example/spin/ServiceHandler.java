@@ -79,9 +79,15 @@ public class ServiceHandler {
 	        } else if (method == GET) {
 	            // appending params to url
 	            if (params != null) {
+	            	
 	                String paramString = URLEncodedUtils
 	                        .format(params, "utf-8");
-	                url += "?" + paramString;
+	                if(params.get(0).getName().equalsIgnoreCase("")){
+	            		url+= params.get(0).getValue();
+	            	}
+	                else{
+	                	url += "?" + paramString;
+	                }
 	            }
 	            HttpGet httpGet = new HttpGet(url);
 	            httpGet.addHeader("Authorization", "Bearer " + token);
