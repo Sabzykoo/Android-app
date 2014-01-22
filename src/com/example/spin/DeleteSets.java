@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
@@ -79,12 +80,32 @@ public class DeleteSets extends ListActivity {
 			DeleteSets.this.finish();
 		}
 		
+
+	/*	ListView listview = (ListView) findViewById(android.R.id.list);
+		
 		ListAdapter adapter = new SimpleAdapter(
-               DeleteSets.this, contactList,
+	               DeleteSets.this, contactList,
+	               R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
+	                       }, new int[] { R.id.name , R.id.questions});
+		
+		listview.setAdapter(adapter);
+		
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+				String item = (String) parent.getItemAtPosition(position);
+				}});
+		
+		
+				*/
+		
+		ListAdapter adapter = new SimpleAdapter(DeleteSets.this, contactList,
                R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
                        }, new int[] { R.id.name , R.id.questions});
 
        setListAdapter(adapter);
+       
        
        mDelete = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
        mDelete.setOnClickListener(new View.OnClickListener(){ //creating a listener object

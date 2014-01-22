@@ -32,6 +32,7 @@
     <TextView 
         android:id="@+id/config_text"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/config"/>

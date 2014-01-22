@@ -19,13 +19,16 @@ public class FlipAnimation extends Animation {
 
     private boolean forward = true;
 
-    /**
-     * Creates a 3D flip animation between two views.
-     *
-     * @param fromView First view in the transition.
-     * @param toView Second view in the transition.
-     */
     public FlipAnimation(View fromView, View toView) {
+    	
+    	/**
+         * Creates a 3D flip animation between two views.
+         * sets the duration, and includes an interpolator
+         *
+         * @param fromView First view in the transition.
+         * @param toView Second view in the transition.
+         */
+    	
         this.fromView = fromView;
         this.toView = toView;
 
@@ -35,6 +38,10 @@ public class FlipAnimation extends Animation {
     }
 
     public void reverse() {
+    	/**
+    	 * replaces to views
+    	 * */
+    	
         forward = false;
         View switchView = toView;
         toView = fromView;
