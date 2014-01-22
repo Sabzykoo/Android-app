@@ -16,21 +16,15 @@ import org.json.JSONObject;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.LauncherActivity.ListItem;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -517,6 +511,14 @@ public class CramFetcher extends ListActivity {
 
 	
 	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		CramFetcher.this.finish();
+		super.onDestroy();
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    
@@ -524,6 +526,7 @@ public class CramFetcher extends ListActivity {
 	    {
 	    case RESULT_CLOSE_ALL:
 	        setResult(RESULT_CLOSE_ALL);
+	        onDestroy();
 	        finish();
 	    }
 	    super.onActivityResult(requestCode, resultCode, data);

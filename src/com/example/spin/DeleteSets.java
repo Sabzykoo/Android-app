@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
@@ -177,6 +176,14 @@ public class DeleteSets extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 	}
 
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		DeleteSets.this.finish();
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    
@@ -184,6 +191,7 @@ public class DeleteSets extends ListActivity {
 	    {
 	    case RESULT_CLOSE_ALL:
 	        setResult(RESULT_CLOSE_ALL);
+	        onDestroy();
 	        finish();
 	    }
 	    super.onActivityResult(requestCode, resultCode, data);

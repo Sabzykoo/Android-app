@@ -15,29 +15,22 @@
     <string name="select_text">\.\.\.or select a downloaded set</string>
     <string name="min_numb_hint">first page number</string>
     <string name="max_numb_hint">last page number</string>
-    
     <string name="toast_text">You have to choose a set</string>
     <string name="toast_num_start">Invalid starting point</string>
     <string name="toast_num_end">Invalid ending point</string>
     <string name="toast_both">Invalid starting and ending point</string>
-    
     <string name="title_activity_flashcard">Flashcard</string>
     <string name="title_activity_flashcard_categories">FlashcardCategories</string>
-    
     <string name="mainCram">Download sets from server</string>
     <string name="title_activity_cram">Download Flashcards</string>
     <string name="DDeck">Download set</string>
-    
     <string name="next_button">Next</string>
     <string name="prev_button">Previous</string>
- 
     <string name="title_activity_authorization">Authorization</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_delete_sets">Delete_sets</string>
     <string name="action_poweroff">Power off</string>
-    
     <string name="favourite">Repeat this card</string>
-
+    <string name="title_activity_destroy">DestroyActivity</string>
 
 </resources>

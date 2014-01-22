@@ -2,21 +2,23 @@ package com.example.spin;
 
 
 import com.example.spin.SQLitem;
+import com.example.spin.Database;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-/*import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;*/
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
-public class Flashcard extends Activity {
+public class Flashcard extends Activity{
 	
 	/**
 	 * Creates a Flashcard activity
@@ -26,6 +28,7 @@ public class Flashcard extends Activity {
 	
 	public static final String START_NUMBER = "start";
 	public static final String END_NUMBER = "end";
+	public static final String TABLES = "tables";
 	
 	public static final String KEY_INDEX = "index";
 	public static final String TAG = "FlashcardActivity";
@@ -37,6 +40,8 @@ public class Flashcard extends Activity {
 	private ImageButton mNextButton, mPrevButton, mFavButton;
 	private boolean mRepeatable = false;
 	
+	private String mDeckTable;
+	
 	/*
 	 * private ViewPager mPager;
 	 * private ViewPagerAdapter mPagerAdapter; 
@@ -45,23 +50,12 @@ public class Flashcard extends Activity {
 	private int mCurrentIndex = 0;
 	private int mStartingIndex = 0;
 	
-	private SQLitem[] mItemBank = new SQLitem[] {
-			new SQLitem("QUESTION_1", "ANSWER_1", 0),
-			new SQLitem("QUESTION_2", "ANSWER_2", 0),
-			new SQLitem("QUESTION_3", "ANSWER_3", 0),
-			new SQLitem("QUESTION_4", "ANSWER_4", 0),
-			new SQLitem("QUESTION_5", "ANSWER_5", 0),
-			new SQLitem("QUESTION_6", "ANSWER_6", 0),
-			new SQLitem("QUESTION_7", "ANSWER_7", 0),
-			new SQLitem("QUESTION_8", "ANSWER_8", 0),
-			new SQLitem("QUESTION_9", "ANSWER_9", 0),
-			new SQLitem("QUESTION_10", "ANSWER_10", 0),
-			new SQLitem("QUESTION_11", "ANSWER_11", 0),
-			new SQLitem("QUESTION_12", "ANSWER_12", 0),
-	};
+	private List<SQLitem> table;
+	private SQLitem[] mItemBank;
 	
 	private int mEndingIndex;
-	
+
+	private Database myDatabase;
 
 	public static int randPosition(int min, int max) {
 		
@@ -80,7 +74,7 @@ public class Flashcard extends Activity {
 	    Random rand = new Random();
 	    // nextInt is normally exclusive of the top value,
 	    // so add 1 to make it inclusive
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
+	    int randomNum = rand.nextInt((max - (min+1)) + 1) + min;
 
 	    return randomNum;
 	}
@@ -160,9 +154,35 @@ public class Flashcard extends Activity {
 		
 		Intent intent = getIntent();
 		mStartingIndex = intent.getIntExtra(START_NUMBER, 0);
-		mEndingIndex = intent.getIntExtra(END_NUMBER, mItemBank.length-1);
+		mEndingIndex = intent.getIntExtra(END_NUMBER, 0);
+		mDeckTable = intent.getStringExtra(TABLES);
 		
+		myDatabase = new Database(Flashcard.this);
+		myDatabase.defineTable(mDeckTable);
+		table = myDatabase.getAllItems();
+		
+		mItemBank = new SQLitem[table.size()];
 		mCurrentIndex = mStartingIndex;
+		int br = 0;
+		Iterator<SQLitem> iterate = table.iterator();
+		while(iterate.hasNext()){
+			SQLitem table = iterate.next();
+			mItemBank[br++]=table;
+			}
+		
+	
+	myDatabase.defineTable("favorite");
+	Cursor c = myDatabase.showAllTables();
+	if (c.moveToFirst()) {
+		c.moveToNext();
+		while(!c.isAfterLast()){
+			if(!c.getString(0).equalsIgnoreCase("favorite")){
+				myDatabase.createTable();
+			}
+			c.moveToNext();
+			}
+		}
+		
 		
 		if(mItemBank[mCurrentIndex].getRepeat() == 1){
 			doIt(mCurrentIndex);
@@ -178,17 +198,23 @@ public class Flashcard extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				int repeat=mItemBank[mCurrentIndex].getRepeat();
+				repeat=1-repeat;
+				mItemBank[mCurrentIndex].setRepeat(repeat);
+				myDatabase.defineTable(mDeckTable);
+				myDatabase.updateItem(mItemBank[mCurrentIndex]);
 				if(!mRepeatable){
 					mFavButton.setImageResource(R.drawable.fav);
+					myDatabase.defineTable("favorites");
+					myDatabase.addItem(mItemBank[mCurrentIndex]);
 					mRepeatable = !mRepeatable;
 					
 				}else{
 					mFavButton.setImageResource(R.drawable.favourite);
+					myDatabase.defineTable("favorites");
+					myDatabase.removeItem(mItemBank[mCurrentIndex].getQuestion());
 					mRepeatable = !mRepeatable; 
 				}
-				int repeat=mItemBank[mCurrentIndex].getRepeat();
-				repeat=1-repeat;
-				mItemBank[mCurrentIndex].setRepeat(repeat);
 			}
 		});
 		
@@ -282,85 +308,22 @@ public class Flashcard extends Activity {
 	}
 	
 	@Override
+	protected void onDestroy() {
+		Flashcard.this.finish();
+		super.onDestroy();
+	}
+	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    
 		switch(resultCode)
 	    {
 	    case RESULT_CLOSE_ALL:
 	        setResult(RESULT_CLOSE_ALL);
+	        onDestroy();
 	        finish();
 	    }
 	    super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }
-
-/*
- * package com.bignerdranch.android.geoquiz;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-public class CheatActivity extends Activity {
-	
-	public static final String EXTRA_ANSWER_IS_TRUE = "com.bignerdranch.android.geoquiz.answer_is_true";
-	public static final String EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown";
-	
-	private boolean mAnswerIsTrue;
-	private TextView mAnswerTextView;
-	private Button mShowAnswer;
-	
-	private boolean mCheater;
-	
-	private void setAnswerShownResult(boolean isAnswerShown) {
-		Intent data = new Intent();
-		data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
-		setResult(RESULT_OK, data);
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cheat);
-		
-		setAnswerShownResult(false);
-		
-		mCheater = false;
-		
-		mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
-		
-		mAnswerTextView = (TextView)findViewById(R.id.answerTextView);
-		
-		mShowAnswer = (Button)findViewById(R.id.showAnswerButton);
-		mShowAnswer.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(mAnswerIsTrue == true)
-					mAnswerTextView.setText(R.string.true_button);
-				else
-					mAnswerTextView.setText(R.string.false_button);
-				setAnswerShownResult(true);
-				
-				mCheater = true;
-			}
-		});
-		
-		if(savedInstanceState != null)
-			mCheater = savedInstanceState.getBoolean(EXTRA_ANSWER_SHOWN, false);
-		setAnswerShownResult(mCheater);
-		
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState){
-		super.onSaveInstanceState(savedInstanceState);
-		savedInstanceState.putBoolean(EXTRA_ANSWER_SHOWN, mCheater);
-	}
-	
-}
-*/

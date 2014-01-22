@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.widget.Toast;
@@ -104,6 +105,49 @@ public class Database {
 			db.insert(DATABASE_TABLE, null, newValues);
 		}
 
+		public boolean updateItem(SQLitem item){
+			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
+			int deleted=0;
+			String where = KEY_QUESTION_COLUMN + "=?";
+			String[] where_args = new String[] { "["+String.valueOf(item.getQuestion())+"]" };
+			ContentValues value= new ContentValues();
+			value.put(KEY_QUESTION_COLUMN, item.getQuestion());
+			value.put(KEY_ANSWER_COLUMN, item.getAnswer());
+			value.put(KEY_REPEAT_COLUMN, item.getRepeat());
+			try{
+				deleted=db.update(DATABASE_TABLE, value , where, where_args);
+			}
+			catch(SQLiteException e){
+				e.getStackTrace();
+			}
+			if(deleted>1){
+				return false;
+			}
+			return true;
+		}
+		
+		public boolean removeItem(String id){
+			/**
+			 * deletes a single SQL item
+			 * @param id
+			 * @return boolean 
+			 * 
+			 * */
+			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
+			int deleted=0;
+			String where = KEY_QUESTION_COLUMN + "=?";
+			String[] where_args = new String[] { "["+String.valueOf(id)+"]" };
+			try{
+				deleted=db.delete(DATABASE_TABLE, where, where_args);
+			}
+			catch(SQLiteException e){
+				e.getStackTrace();
+			}
+			if(deleted>1){
+				return false;
+			}
+			return true;
+		}
 		
 		public SQLitem getItem(int id) {
 			/**

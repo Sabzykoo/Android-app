@@ -69,9 +69,11 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_cram=0x7f030000;
-        public static final int activity_flashcard=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int list_item=0x7f030003;
+        public static final int activity_destroy=0x7f030001;
+        public static final int activity_flashcard=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int destroy=0x7f030004;
+        public static final int list_item=0x7f030005;
     }
     public static final class menu {
         public static final int authorization=0x7f080000;
@@ -105,6 +107,7 @@ public final class R {
         public static final int title_activity_authorization=0x7f060019;
         public static final int title_activity_cram=0x7f060015;
         public static final int title_activity_delete_sets=0x7f06001b;
+        public static final int title_activity_destroy=0x7f06001e;
         public static final int title_activity_flashcard=0x7f060012;
         public static final int title_activity_flashcard_categories=0x7f060013;
         public static final int toast_both=0x7f060011;
