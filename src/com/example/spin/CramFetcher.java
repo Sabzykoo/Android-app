@@ -344,13 +344,13 @@ public class CramFetcher extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-            setListAdapter(new ListItemArrayAdapter<ListItem>(this, R.layout.list_item, contactList));
-            /*ListAdapter adapter = new SimpleAdapter(
+         
+            ListAdapter adapter = new SimpleAdapter(
                     CramFetcher.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME,
                             TAG_QUESTIONS }, new int[] { R.id.name, R.id.questions });
  
-            setListAdapter(adapter);*/
+            setListAdapter(adapter);
             
             
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
@@ -435,47 +435,4 @@ public class CramFetcher extends ListActivity {
 	    super.onActivityResult(requestCode, resultCode, data);
 	}
 	
-}
-class ListItem {
-    String listName;
-    Boolean listStatus;     
-    public ListItem(String name, boolean status) {
-        listName = name;
-        listStatus = status;
-    }
-    @Override
-    public String toString() {
-        return listName;
-    }
-}
-class ListItemArrayAdapter extends ArrayAdapter<ListItem> {
-    int resource;
-    boolean Allcheckboxes[];
-    LayoutInflater vi;
-    private List<ListItem> items;
-
-    public ListItemArrayAdapter(Context context, int _resource, List<ListItem> listitems) {
-        super(context, _resource);
-        vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        resource = _resource;
-        this.items = listitems;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout newView;
-
-        if (convertView == null) {
-            newView = new LinearLayout(getContext());
-            vi.inflate(resource, newView);
-        } else {
-            newView = (LinearLayout)convertView;
-        }
-
-        CheckBox checkbox = (CheckBox)newView.findViewById(R.id.checkbox);
-        checkbox.setChecked(Allcheckboxes[position]);
-        return newView;
-    }
-
-    
 }
