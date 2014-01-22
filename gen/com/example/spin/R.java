@@ -36,11 +36,11 @@ public final class R {
     public static final class id {
         public static final int action_finish=0x7f050002;
         public static final int action_next=0x7f050000;
-        public static final int action_poweroff=0x7f05001d;
+        public static final int action_poweroff=0x7f05001f;
         public static final int action_previous=0x7f050001;
-        public static final int action_settings=0x7f05001c;
+        public static final int action_settings=0x7f05001e;
         public static final int buttonCram=0x7f050004;
-        public static final int checkbox=0x7f05001a;
+        public static final int checkbox=0x7f05001c;
         public static final int config_text=0x7f050012;
         public static final int deleteButton=0x7f050017;
         public static final int downloadButton=0x7f05000f;
@@ -53,11 +53,13 @@ public final class R {
         public static final int max_text=0x7f050015;
         public static final int minNumber=0x7f050014;
         public static final int min_text=0x7f050013;
-        public static final int name=0x7f050019;
+        public static final int name=0x7f05001b;
         public static final int next_button=0x7f05000d;
         public static final int pageNumber=0x7f05000e;
         public static final int prev_button=0x7f05000c;
-        public static final int questions=0x7f05001b;
+        public static final int questions=0x7f05001d;
+        public static final int relativeLayout1=0x7f050019;
+        public static final int relativeLayout2=0x7f05001a;
         public static final int repeatButton=0x7f050009;
         public static final int spinnerCategory=0x7f050011;
         public static final int startButton=0x7f050018;
