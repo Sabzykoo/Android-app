@@ -107,14 +107,13 @@ public class Database {
 		public boolean updateItem(SQLitem item){
 			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
 			int deleted=0;
-			String where = KEY_QUESTION_COLUMN + "=?";
-			String[] where_args = new String[] { "'"+String.valueOf(item.getQuestion())+"'" };
+			String where = KEY_QUESTION_COLUMN + "='"+String.valueOf(item.getQuestion())+"'";
 			ContentValues value= new ContentValues();
 			value.put(KEY_QUESTION_COLUMN, item.getQuestion());
 			value.put(KEY_ANSWER_COLUMN, item.getAnswer());
 			value.put(KEY_REPEAT_COLUMN, item.getRepeat());
 			try{
-				deleted=db.update(DATABASE_TABLE, value , where, where_args);
+				deleted=db.update(DATABASE_TABLE, value , where, null);
 			}
 			catch(SQLiteException e){
 				e.getStackTrace();
@@ -134,10 +133,9 @@ public class Database {
 			 * */
 			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
 			int deleted=0;
-			String where = KEY_QUESTION_COLUMN + "=?";
-			String[] where_args = new String[] { "'"+String.valueOf(id)+"'" };
+			String where = KEY_QUESTION_COLUMN + "='"+String.valueOf(id)+"'";
 			try{
-				deleted=db.delete(DATABASE_TABLE, where, where_args);
+				deleted=db.delete(DATABASE_TABLE, where, null);
 			}
 			catch(SQLiteException e){
 				e.getStackTrace();
