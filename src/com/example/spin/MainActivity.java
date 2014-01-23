@@ -7,7 +7,9 @@ import com.example.spin.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,9 +159,12 @@ public class MainActivity extends Activity {
 		
 		mStartButton = (Button)findViewById(R.id.startButton); //setting reference for the "START" button
 		mStartButton.setOnClickListener(new View.OnClickListener(){ //creating a listener object
-			
+
 			@Override
 			public void onClick(View v){
+				
+			            //MediaPlayer mp = MediaPlayer.create(this, R.raw.mamacita_zero);
+			            //mp.start();
 				if(mChosenSpin){
 					Intent intent = new Intent(MainActivity.this, Flashcard.class);
 					if(CheckStartingPoint(intent)){

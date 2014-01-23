@@ -22,11 +22,12 @@
         android:layout_alignParentLeft="true" 
         android:layout_alignRight="@+id/name" 
         android:layout_below="@+id/name" 
-        android:textColor="#5d5d5d" 
+        android:textColor="#5d2d2d" 
         android:textStyle="bold"/>
     
     <CheckBox android:id="@+id/checkbox" 
         android:layout_width="60sp" 
+        android:button="@drawable/selector"
         android:layout_height="fill_parent" 
         android:layout_alignParentRight="true" 
         android:gravity="center|center_vertical|center_horizontal"/>
