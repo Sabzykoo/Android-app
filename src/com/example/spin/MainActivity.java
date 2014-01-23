@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 		else {
 			mStartPoint = Integer.parseInt(mMinEditText.getText().toString()); }
 		
-		if(mStartPoint < 0 || mStartPoint > gringo){
+		if(mStartPoint < 1 || mStartPoint > gringo){
 			Toast.makeText(MainActivity.this, R.string.toast_num_start, Toast.LENGTH_LONG).show(); 
 			return false; }
 		else {

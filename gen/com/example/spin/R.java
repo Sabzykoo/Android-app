@@ -31,7 +31,6 @@ public final class R {
         public static final int power_off=0x7f020005;
         public static final int prev_button=0x7f020006;
         public static final int star=0x7f020007;
-        public static final int start=0x7f020008;
     }
     public static final class id {
         public static final int action_finish=0x7f050002;
