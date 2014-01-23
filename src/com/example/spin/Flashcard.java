@@ -6,6 +6,7 @@ import com.example.spin.Database;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -258,6 +259,18 @@ public class Flashcard extends Activity{
 		}
 	
 		return super.onPrepareOptionsMenu(menu);	
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+
+	    // Checks the orientation of the screen
+	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	        
+	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	       
+	    }
 	}
 	
 }
