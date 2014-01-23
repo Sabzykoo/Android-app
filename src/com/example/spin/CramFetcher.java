@@ -2,7 +2,6 @@ package com.example.spin;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -25,8 +24,6 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -44,16 +41,11 @@ public class CramFetcher extends ListActivity {
     private static String url = "https://api.Cram.com/v2/search/sets";
     private static String cards_url="https://api.Cram.com/v2/sets/";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
-    // JSON Node names
-    //private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_QUESTIONS = "questions";
  
     // contacts JSONArray
     JSONArray search = null;
- 
-    // Hashmap for ListView
-    ArrayList<HashMap<String, String>> contactList;
+    //Array of models that I defined to be a object
+    ArrayAdapter<Model> adapter;
     ArrayList<String> tables = new ArrayList<String>();
     List<Model> list = new ArrayList<Model>();
     private boolean isTaskCancelled = false;
@@ -70,8 +62,6 @@ public class CramFetcher extends ListActivity {
 		
 		str_cram="Download";
 		((Button)findViewById (R.id.buttonCram)).setText (str_cram);
-		
-		contactList = new ArrayList<HashMap<String, String>>();
 		
 		//token
 		SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
@@ -90,16 +80,8 @@ public class CramFetcher extends ListActivity {
 		else{
 			String token = pref.getString("token", null);
 			// Calling async task to get json
-			try {
-				new GetContacts().execute(token).get();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-			ArrayAdapter<Model> adapter = new InteractiveArrayAdapter(this,
-    		        list);
-    		    setListAdapter(adapter);
+
+			new GetContacts().execute(token);
 		}
 	}
 	 
@@ -332,8 +314,10 @@ public class CramFetcher extends ListActivity {
              * Updating parsed JSON data into ListView
              * */
          
-             
-            
+            adapter = new InteractiveArrayAdapter(CramFetcher.this,
+    		        list);
+
+		    setListAdapter(adapter);
             
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
             download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
