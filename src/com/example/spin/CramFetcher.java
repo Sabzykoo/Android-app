@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,11 +53,14 @@ public class CramFetcher extends ListActivity {
     private Button download;
     private Database myDatabase;
     private String json;
+    MediaPlayer mp;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
+		mp = MediaPlayer.create(getBaseContext(),
+				R.raw.button);
 		String str_cram= "Download sets from server";
 		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
 		
@@ -313,17 +317,20 @@ public class CramFetcher extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-         
+            mp = MediaPlayer.create(getBaseContext(),
+    				R.raw.checkbox_sound);
             adapter = new InteractiveArrayAdapter(CramFetcher.this,
-    		        list);
+    		        list,mp);
 
 		    setListAdapter(adapter);
-            
+		    mp = MediaPlayer.create(getBaseContext(),
+					R.raw.button);
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
             download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
      			
      			@Override
      			public void onClick(View v){
+     				mp.start();
      				myDatabase = new Database(CramFetcher.this);
      				Iterator<Model> iterate = list.iterator();
     				while(iterate.hasNext()){

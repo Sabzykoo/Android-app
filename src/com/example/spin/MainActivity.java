@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +35,7 @@ public class MainActivity extends Activity {
 	private int mEndPoint;
 	String minimum = "Not defined";
 	String maximum = "Not defined";
+	MediaPlayer mp;
 	
 	private boolean CheckStartingPoint(Intent intent){
 		int gringo;
@@ -80,6 +80,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		mp = MediaPlayer.create(getBaseContext(),
+				R.raw.button);
+				
 		myDatabase = new Database(MainActivity.this);
 		
 				Cursor c = myDatabase.showAllTables();
@@ -152,6 +155,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				mp.start();
 				Intent intent = new Intent(MainActivity.this, CramFetcher.class);
 				startActivity(intent);
 			}
@@ -162,9 +166,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v){
-				
-			            //MediaPlayer mp = MediaPlayer.create(this, R.raw.mamacita_zero);
-			            //mp.start();
+				mp.start();
 				if(mChosenSpin){
 					Intent intent = new Intent(MainActivity.this, Flashcard.class);
 					if(CheckStartingPoint(intent)){
@@ -182,12 +184,14 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				mp.start();
 				Intent intent = new Intent(MainActivity.this, DeleteSets.class);
 				startActivity(intent);
 			}
 		});
 		
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

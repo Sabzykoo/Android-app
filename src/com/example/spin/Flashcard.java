@@ -7,6 +7,7 @@ import com.example.spin.Database;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +51,7 @@ public class Flashcard extends Activity{
 
 	private Database myDatabase;
 	private String DATA1_KEY;
+	MediaPlayer mp;
 	
 	private void updateCard(int cardPosition){
 		
@@ -57,8 +59,9 @@ public class Flashcard extends Activity{
 		 * Updates a SQL item from a specified Database table and its
 		 * sequence number
 		 *  */
-		
-
+		if(mCurrentIndex!=0){
+			mp.start();
+		}
 		int repeat = mItemBank[cardPosition].getRepeat();
 		if(repeat == 0){
 			mFavButton.setImageResource(R.drawable.favourite);
@@ -110,6 +113,8 @@ public class Flashcard extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flashcard);	
+		mp = MediaPlayer.create(getBaseContext(),
+				R.raw.flip_page);
 		Intent intent = getIntent();
 		mStartingIndex = intent.getIntExtra(START_NUMBER, 0);
 		mEndingIndex = intent.getIntExtra(END_NUMBER, 0);

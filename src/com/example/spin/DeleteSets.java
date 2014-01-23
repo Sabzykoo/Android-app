@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,12 +28,12 @@ public class DeleteSets extends ListActivity {
 	List<Model> list = new ArrayList<Model>();
 	private Database myDatabase;
 	private Button mDelete;
-    
+	MediaPlayer mp;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
-		
 		String str_cram= "Delete sets from database";
 		((TextView)findViewById(R.id.mainCram)).setText(str_cram);
 		
@@ -63,15 +64,19 @@ public class DeleteSets extends ListActivity {
 	          	     Toast.LENGTH_LONG).show();
 			DeleteSets.this.finish();
 		}
+		mp = MediaPlayer.create(getBaseContext(),
+				R.raw.checkbox_sound);
 		ArrayAdapter<Model> adapter = new InteractiveArrayAdapter(this,
-		        list);
+		        list,mp);
 		    setListAdapter(adapter);
-		    
+		    mp = MediaPlayer.create(getBaseContext(),
+					R.raw.button);
        mDelete = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
        mDelete.setOnClickListener(new View.OnClickListener(){ //creating a listener object
 			
 			@Override
 			public void onClick(View v){
+				mp.start();
 				Iterator<Model> iterate =list.iterator();
 				while(iterate.hasNext()){
 					Model next = iterate.next();

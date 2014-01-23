@@ -3,6 +3,7 @@ package com.example.spin;
 import java.util.List;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,14 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Model> {
 
   private final List<Model> list;
   private final Activity context;
-
-  public InteractiveArrayAdapter(Activity context, List<Model> list) {
+  private MediaPlayer mp;
+  
+  public InteractiveArrayAdapter(Activity context, List<Model> list,MediaPlayer mp) {
     super(context, R.layout.list_item, list);
     this.context = context;
     this.list = list;
+    this.mp=mp;
   }
-
   static class ViewHolder {
     protected TextView text;
     protected TextView questions;
@@ -44,6 +46,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Model> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                 boolean isChecked) {
+            	mp.start();
               Model element = (Model) viewHolder.checkbox
                   .getTag();
               element.setSelected(buttonView.isChecked());
