@@ -6,7 +6,6 @@ import com.example.spin.Database;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -50,6 +49,7 @@ public class Flashcard extends Activity{
 	private int mEndingIndex;
 
 	private Database myDatabase;
+	private String DATA1_KEY;
 	
 	private void updateCard(int cardPosition){
 		
@@ -120,7 +120,12 @@ public class Flashcard extends Activity{
 		table = myDatabase.getAllItems();
 		
 		mItemBank = new SQLitem[table.size()];
-		mCurrentIndex = mStartingIndex;
+		
+		if (savedInstanceState == null) {
+			mCurrentIndex = mStartingIndex;
+        } else {
+        	mCurrentIndex = savedInstanceState.getInt(DATA1_KEY);
+        }
 		int br = 0;
 		Iterator<SQLitem> iterate = table.iterator();
 		while(iterate.hasNext()){
@@ -260,17 +265,18 @@ public class Flashcard extends Activity{
 	
 		return super.onPrepareOptionsMenu(menu);	
 	}
-	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
 
-	    // Checks the orientation of the screen
-	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-	        
-	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-	       
-	    }
-	}
+	@Override 
+    protected void onSaveInstanceState (Bundle outState) {
+        outState.putInt(DATA1_KEY, mCurrentIndex);
+    }
+
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState) {
+        
+    }
+
+	
+	
 	
 }

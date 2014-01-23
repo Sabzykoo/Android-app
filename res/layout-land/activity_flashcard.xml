@@ -10,9 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"  >
     
     <RelativeLayout 
-         android:layout_width="wrap_content"
+         android:layout_width="fill_parent"
          android:layout_height="wrap_content"
-         android:layout_centerInParent="true"
+         android:layout_alignParentTop="true"
          android:background="@android:color/transparent"
          android:id="@+id/main_activity_root">
     
@@ -74,16 +74,8 @@
 	</RelativeLayout>
 		 <!--			
 		</android.support.v4.view.ViewPager> -->
-
-
-    <TextView
-        android:id="@+id/pageNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/main_activity_root"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp" />
-    <ImageButton android:id="@+id/prev_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignLeft="@+id/main_activity_root" android:layout_below="@+id/main_activity_root" android:background="@android:color/transparent" android:contentDescription="@string/prev_button" android:src="@drawable/prev_button"/>
     <ImageButton android:id="@+id/next_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignRight="@+id/main_activity_root" android:layout_alignTop="@+id/prev_button" android:background="@android:color/transparent" android:contentDescription="@string/next_button" android:src="@drawable/next_button"/>
+    <ImageButton android:id="@+id/prev_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignLeft="@+id/main_activity_root" android:layout_below="@+id/main_activity_root" android:layout_marginTop="18dp" android:background="@android:color/transparent" android:contentDescription="@string/prev_button" android:src="@drawable/prev_button"/>
+    <TextView android:id="@+id/pageNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:textSize="20sp"/>
 	 
 </RelativeLayout>	
