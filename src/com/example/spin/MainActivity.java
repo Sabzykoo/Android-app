@@ -80,13 +80,6 @@ public class MainActivity extends Activity {
 
 		myDatabase = new Database(MainActivity.this);
 		
-		/*myDatabase.defineTable("Test"); //here you can see how to define table
-		myDatabase.createTable(); //First create table then insert into it
-		SQLitem item = new SQLitem("What is the biggest land by region", "Russia", 1); //here you can see how to define a row
-		MainActivity.this.myDatabase.addItem(item); //here you can see how to insert a row into defined table
-		SQLitem item2 = new SQLitem("What is the biggest land by people", "China", 1); //here you can see how to define a row
-		MainActivity.this.myDatabase.addItem(item2); //here you can see how to insert a row into defined table */
-		
 				Cursor c = myDatabase.showAllTables();
 				if (c.moveToFirst())
 		        {
@@ -203,11 +196,12 @@ public class MainActivity extends Activity {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	    	case R.id.action_poweroff:
-	    		android.os.Process.killProcess(android.os.Process.myPid());
+	    		Intent i = new Intent("end");
+                sendBroadcast(i);
+                moveTaskToBack(true);
+                return true;
 	    	default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	
 }

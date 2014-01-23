@@ -51,10 +51,6 @@
             android:name="com.example.spin.DeleteSets"
             android:label="@string/title_activity_flashcard" >
         </activity>
-        <activity
-            android:name="com.example.spin.DestroyActivity"
-            android:label="@string/title_activity_destroy" >
-        </activity>
     </application>
 
 </manifest>

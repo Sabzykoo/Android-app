@@ -75,7 +75,6 @@ public class Database {
 	    }
 		
 		public void closeDatabase() {
-			myDBOpenHelper.close();
 			DATABASE_TABLE="";
 		}
 		
@@ -109,7 +108,7 @@ public class Database {
 			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
 			int deleted=0;
 			String where = KEY_QUESTION_COLUMN + "=?";
-			String[] where_args = new String[] { "["+String.valueOf(item.getQuestion())+"]" };
+			String[] where_args = new String[] { "'"+String.valueOf(item.getQuestion())+"'" };
 			ContentValues value= new ContentValues();
 			value.put(KEY_QUESTION_COLUMN, item.getQuestion());
 			value.put(KEY_ANSWER_COLUMN, item.getAnswer());
@@ -136,7 +135,7 @@ public class Database {
 			SQLiteDatabase db = myDBOpenHelper.getWritableDatabase();
 			int deleted=0;
 			String where = KEY_QUESTION_COLUMN + "=?";
-			String[] where_args = new String[] { "["+String.valueOf(id)+"]" };
+			String[] where_args = new String[] { "'"+String.valueOf(id)+"'" };
 			try{
 				deleted=db.delete(DATABASE_TABLE, where, where_args);
 			}

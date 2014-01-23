@@ -5,7 +5,10 @@ import com.example.spin.SQLitem;
 import com.example.spin.Database;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,7 +42,7 @@ public class Flashcard extends Activity{
 	private boolean mRepeatable = false;
 	
 	private String mDeckTable;
-	
+	BroadcastReceiver receiver;
 	
 	private int mCurrentIndex;
 	private int mStartingIndex;
@@ -109,7 +112,16 @@ public class Flashcard extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flashcard);	
-		
+		IntentFilter filter = new IntentFilter();
+        filter.addAction("end");
+        receiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				 finish();
+			}
+        };
+        registerReceiver(receiver, filter);
 		Intent intent = getIntent();
 		mStartingIndex = intent.getIntExtra(START_NUMBER, 0);
 		mEndingIndex = intent.getIntExtra(END_NUMBER, 0);
@@ -263,4 +275,9 @@ public class Flashcard extends Activity{
 		return super.onPrepareOptionsMenu(menu);	
 	}
 
+	protected void onDestroy() {
+        super.onDestroy();
+         unregisterReceiver(receiver);
+    }
+	
 }

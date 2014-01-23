@@ -49,9 +49,6 @@ public class CramFetcher extends ListActivity {
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_QUESTIONS = "questions";
-
-	private static final int RESULT_CLOSE_ALL = 0;
-
  
     // contacts JSONArray
     JSONArray search = null;
@@ -69,7 +66,6 @@ public class CramFetcher extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
-		
 		String str_cram= "Download sets from server";
 		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
 		
@@ -96,7 +92,7 @@ public class CramFetcher extends ListActivity {
 			String token = pref.getString("token", null);
 			// Calling async task to get json
 			new GetContacts().execute(token);
-		}  
+		}
 	}
 	 
 	@Override
@@ -365,9 +361,9 @@ public class CramFetcher extends ListActivity {
     					}
     					
     				}
-    				CramFetcher.this.finish();
      				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
      				startActivity(finished);
+     				finish();
      			}
      		});
         }
@@ -507,29 +503,6 @@ public class CramFetcher extends ListActivity {
 			check.setChecked(true);
 		}
 		super.onListItemClick(l, v, position, id);
-	}
-
-	
-	
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		CramFetcher.this.finish();
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    
-		switch(resultCode)
-	    {
-	    case RESULT_CLOSE_ALL:
-	        setResult(RESULT_CLOSE_ALL);
-	        onDestroy();
-	        finish();
-	    }
-	    super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 }

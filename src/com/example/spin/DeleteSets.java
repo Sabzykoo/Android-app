@@ -36,8 +36,6 @@ public class DeleteSets extends ListActivity {
 	private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_QUESTIONS = "mobile";
-	private static final int RESULT_CLOSE_ALL = 0;
-	
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,26 +78,6 @@ public class DeleteSets extends ListActivity {
 	          	     Toast.LENGTH_LONG).show();
 			DeleteSets.this.finish();
 		}
-		
-
-	/*	ListView listview = (ListView) findViewById(android.R.id.list);
-		
-		ListAdapter adapter = new SimpleAdapter(
-	               DeleteSets.this, contactList,
-	               R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
-	                       }, new int[] { R.id.name , R.id.questions});
-		
-		listview.setAdapter(adapter);
-		
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			
-			@Override
-			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				String item = (String) parent.getItemAtPosition(position);
-				}});
-		
-		
-				*/
 		
 		ListAdapter adapter = new SimpleAdapter(DeleteSets.this, contactList,
                R.layout.list_item, new String[] { TAG_NAME, TAG_QUESTIONS
@@ -161,7 +139,6 @@ public class DeleteSets extends ListActivity {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		list = (HashMap<String, String>) l.getItemAtPosition(position);
 		String output=list.get("name");
 		CheckBox check = (CheckBox) v.findViewById(R.id.checkbox);
@@ -176,25 +153,4 @@ public class DeleteSets extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 	}
 
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		DeleteSets.this.finish();
-		super.onDestroy();
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    
-		switch(resultCode)
-	    {
-	    case RESULT_CLOSE_ALL:
-	        setResult(RESULT_CLOSE_ALL);
-	        onDestroy();
-	        finish();
-	    }
-	    super.onActivityResult(requestCode, resultCode, data);
-	}
-	
 }
