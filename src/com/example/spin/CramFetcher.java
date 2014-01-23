@@ -24,9 +24,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Button;
@@ -46,7 +45,7 @@ public class CramFetcher extends ListActivity {
     private static String cards_url="https://api.Cram.com/v2/sets/";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
     // JSON Node names
-    private static final String TAG_ID = "id";
+    //private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_QUESTIONS = "questions";
  
@@ -56,7 +55,7 @@ public class CramFetcher extends ListActivity {
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
     ArrayList<String> tables = new ArrayList<String>();
-    HashMap<String, String> list = new HashMap<String, String>();
+    List<Model> list = new ArrayList<Model>();
     private boolean isTaskCancelled = false;
     private Button download;
     private Database myDatabase;
@@ -91,7 +90,16 @@ public class CramFetcher extends ListActivity {
 		else{
 			String token = pref.getString("token", null);
 			// Calling async task to get json
-			new GetContacts().execute(token);
+			try {
+				new GetContacts().execute(token).get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			ArrayAdapter<Model> adapter = new InteractiveArrayAdapter(this,
+    		        list);
+    		    setListAdapter(adapter);
 		}
 	}
 	 
@@ -293,15 +301,7 @@ public class CramFetcher extends ListActivity {
                         String cards = c.getString("card_count");
                         String questions= "Number of questions in set: "+cards; 
  
-                        // tmp hashmap for single contact
-                        HashMap<String, String> contact = new HashMap<String, String>();
- 
-                        // adding each child node to HashMap key => value
-                        contact.put(TAG_ID, id);
-                        contact.put(TAG_NAME, name);
-                        contact.put(TAG_QUESTIONS, questions);
-                        // adding contact to contact list
-                        contactList.add(contact);
+                        list.add(gets(id,name,questions));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -332,12 +332,7 @@ public class CramFetcher extends ListActivity {
              * Updating parsed JSON data into ListView
              * */
          
-            ListAdapter adapter = new SimpleAdapter(
-                    CramFetcher.this, contactList,
-                    R.layout.list_item, new String[] { TAG_NAME,
-                            TAG_QUESTIONS }, new int[] { R.id.name, R.id.questions });
- 
-            setListAdapter(adapter);
+             
             
             
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
@@ -346,20 +341,22 @@ public class CramFetcher extends ListActivity {
      			@Override
      			public void onClick(View v){
      				myDatabase = new Database(CramFetcher.this);
-     				Iterator<String> iterate = tables.iterator();
+     				Iterator<Model> iterate = list.iterator();
     				while(iterate.hasNext()){
-    					String table = iterate.next();
-    					String return_value=iterate(table);
-    					if(return_value.equalsIgnoreCase("Not found")){
-    						myDatabase.defineTable(table);
-    						myDatabase.createTable();
-    						pullQuestions(table);
+    					Model next= iterate.next();
+    					if(next.isSelected()){
+    						String table = next.getName();
+    						String return_value=iterate(table);
+    						if(return_value.equalsIgnoreCase("Not found")){
+    							myDatabase.defineTable(table);
+    							myDatabase.createTable();
+    							pullQuestions(table);
+    						}
+    						else{
+    							//table already exists
+    							//do nothing
+    						}
     					}
-    					else{
-    						//table already exists
-    						//do nothing
-    					}
-    					
     				}
      				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
      				startActivity(finished);
@@ -369,14 +366,16 @@ public class CramFetcher extends ListActivity {
         }
  
     }
- 
+	private Model gets(String id,String s,String q) {
+        return new Model(id,s,q);
+      }
 	private void pullQuestions(String table){
 		String id=null;
-		Iterator<HashMap<String, String>> iterate = contactList.iterator();
+		Iterator<Model> iterate = list.iterator();
 		while(iterate.hasNext()){
-			HashMap<String, String> pair = iterate.next();
-			if(pair.containsValue(table)){
-				id=pair.get("id");
+			Model pair = iterate.next();
+			if(pair.getName().equalsIgnoreCase(table)){
+				id=pair.getId();
 				break;
 			}
 			else{
@@ -487,22 +486,4 @@ public class CramFetcher extends ListActivity {
         
         }
 	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		list = (HashMap<String, String>) l.getItemAtPosition(position);
-		String output=list.get("name");
-		CheckBox check = (CheckBox) v.findViewById(R.id.checkbox);
-		if(tables.contains(output)){
-			tables.remove(output);
-			check.setChecked(false);
-		}
-		else{
-			tables.add(output);
-			check.setChecked(true);
-		}
-		super.onListItemClick(l, v, position, id);
-	}
-	
 }
