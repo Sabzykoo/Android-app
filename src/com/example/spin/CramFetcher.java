@@ -59,8 +59,6 @@ public class CramFetcher extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cram);
-		mp = MediaPlayer.create(getBaseContext(),
-				R.raw.button);
 		String str_cram= "Download sets from server";
 		((TextView)findViewById (R.id.mainCram)).setText (str_cram);
 		
@@ -306,6 +304,7 @@ public class CramFetcher extends ListActivity {
             if (pDialog.isShowing()){
                 pDialog.dismiss();
             }
+            
             if(json==null){
             	try{
             		noData();
@@ -324,7 +323,7 @@ public class CramFetcher extends ListActivity {
 
 		    setListAdapter(adapter);
 		    mp = MediaPlayer.create(getBaseContext(),
-					R.raw.button);
+					R.raw.waiting);
             download = (Button)findViewById(R.id.buttonCram); //setting reference for the "START" button
             download.setOnClickListener(new View.OnClickListener(){ //creating a listener object
      			
@@ -349,9 +348,11 @@ public class CramFetcher extends ListActivity {
     						}
     					}
     				}
-     				Intent finished = new Intent(CramFetcher.this, MainActivity.class);
-     				startActivity(finished);
-     				finish();
+    				mp.stop();
+    				mp.release();
+    				Intent back= new Intent(CramFetcher.this,MainActivity.class);
+    				startActivity(back);
+    				CramFetcher.this.finish();
      			}
      		});
         }
@@ -391,7 +392,6 @@ public class CramFetcher extends ListActivity {
 			} catch (ExecutionException e) {
 				e.printStackTrace();
 			}
-			finish();
 		}
         
 	}
@@ -417,6 +417,7 @@ public class CramFetcher extends ListActivity {
 	}
 
 	private class GetCards extends AsyncTask<String, Void, Void> {
+		
 		@Override
         protected Void doInBackground(String... code) {
             // Creating service handler class instance
