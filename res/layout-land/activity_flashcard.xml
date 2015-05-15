@@ -14,6 +14,7 @@
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:layout_alignParentTop="true"
+         android:layout_marginTop="20dp"
          android:background="@android:color/transparent"
          android:id="@+id/main_activity_root">
     
@@ -33,13 +34,6 @@
 				android:layout_centerVertical="true"
 				android:clickable="true"
 				android:onClick="onCardClick" >
-				
-		        
-		       <TextView 
-		           android:id="@+id/textFront"
-		           android:layout_width="fill_parent"
-		           android:layout_height="fill_parent"
-		           android:gravity="center" />
 
 		       <ImageButton
 		           android:id="@+id/repeatButton"
@@ -50,7 +44,15 @@
 		           android:clickable="true"
 		           android:background="@android:color/transparent"
 		           android:contentDescription="@string/favourite"
-		           android:src="@drawable/star" /> 
+		           android:src="@drawable/star" />
+
+		       <TextView
+		           android:id="@+id/textFront"
+		           android:layout_width="fill_parent"
+		           android:layout_height="fill_parent"
+		           android:layout_alignParentLeft="true"
+		           android:layout_alignParentTop="true"
+		           android:gravity="center" />
 		       
 			</RelativeLayout>
 		

@@ -43,6 +43,8 @@ public class CramFetcher extends ListActivity {
     private static String cards_url="https://api.Cram.com/v2/sets/";
     private static String authorize = "http://Cram.com/oauth2/authorize/?client_id=297248cf902970966895aa449946fabf&scope=read&state=oAth2spin&redirect_uri=spin://oauthresponse&response_type=code";
  
+    private final String theme="java";
+    
     // contacts JSONArray
     JSONArray search = null;
     //Array of models that I defined to be a object
@@ -254,7 +256,7 @@ public class CramFetcher extends ListActivity {
             ServiceHandler sh = new ServiceHandler();
  
             List<NameValuePair>parametres = new ArrayList<NameValuePair>(1);
-            parametres.add(new BasicNameValuePair("qstr","war"));
+            parametres.add(new BasicNameValuePair("qstr",theme));
             parametres.add(new BasicNameValuePair("image_filter","0"));
             parametres.add(new BasicNameValuePair("limit","50"));
             parametres.add(new BasicNameValuePair("sortby","best_match"));
